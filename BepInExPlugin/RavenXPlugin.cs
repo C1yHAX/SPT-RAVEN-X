@@ -5,7 +5,6 @@ using BepInEx;
 using RavenX;
 using JetBrains.Annotations;
 using UnityEngine.SceneManagement;
-using EFT;
 
 [BepInPlugin(PluginId, "RavenX", "1.0.0")]
 [UsedImplicitly]

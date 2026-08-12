@@ -213,3 +213,4 @@ ModelManifest.xml
 /libs/*.dll
 bin/
 obj/
+installer-out/
