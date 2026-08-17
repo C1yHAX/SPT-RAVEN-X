@@ -42,6 +42,12 @@ internal class LootItems : PointOfInterests
 	public int MinimumPrice { get; set; } = 0;
 
 	[ConfigurationProperty]
+	public int MaximumPrice { get; set; } = 0;
+
+	[ConfigurationProperty]
+	public ELootRarity MinimumRarity { get; set; } = ELootRarity.Not_exist;
+
+	[ConfigurationProperty]
 	public bool TrackWishlist { get; set; } = false;
 
 	[ConfigurationProperty]
@@ -227,7 +233,7 @@ internal class LootItems : PointOfInterests
 		var templateId = template._id;
 		var color = Color;
 
-		if (MinimumPrice > 0 && template.CreditsPrice < MinimumPrice)
+		if (!PassesFilters(template))
 			return;
 
 		if (!Wishlist.Contains(templateId))
@@ -251,6 +257,31 @@ internal class LootItems : PointOfInterests
 
 		records.Add(poi);
 	}
+
+	// A price of zero on either end means that end is open, so leaving both at zero
+	// keeps every item exactly as before.
+	private bool PassesFilters(ItemTemplate template)
+	{
+		var price = template.CreditsPrice;
+
+		if (MinimumPrice > 0 && price < MinimumPrice)
+			return false;
+
+		if (MaximumPrice > 0 && price > MaximumPrice)
+			return false;
+
+		return RarityRank(template.GetEstimatedRarity()) >= RarityRank(MinimumRarity);
+	}
+
+	// Ranked here rather than compared as an enum, so the order stays intentional
+	// even if the game renumbers the values.
+	public static int RarityRank(ELootRarity rarity) => rarity switch
+	{
+		ELootRarity.Superrare => 3,
+		ELootRarity.Rare => 2,
+		ELootRarity.Common => 1,
+		_ => 0
+	};
 
 	private TrackedItem? TryFindTrackedItem(string itemName, string templateId, ELootRarity rarity)
 	{
