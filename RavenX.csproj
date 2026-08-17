@@ -106,6 +106,9 @@
     <Reference Include="UnityEngine.AIModule">
       <HintPath>$(EFTManagedPath)\UnityEngine.AIModule.dll</HintPath>
     </Reference>
+    <Reference Include="UnityEngine.UI">
+      <HintPath>$(EFTManagedPath)\UnityEngine.UI.dll</HintPath>
+    </Reference>
     <!-- Optional -->
     <Reference Include="0Harmony">
       <HintPath>installer\Resources\0Harmony.dll</HintPath>
