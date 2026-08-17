@@ -19,6 +19,7 @@ public class RavenMenu
 
 	private readonly List<IRavenTab> _tabs = [];
 	private Rect _window = new(90, 60, 980, 660);
+	private static string? _tabError;
 	private Vector2 _scroll;
 	private int _index;
 	private bool _dragging;
@@ -202,6 +203,9 @@ public class RavenMenu
 		GUILayout.BeginArea(content);
 		_scroll = GUILayout.BeginScrollView(_scroll, false, true);
 
+		if (_tabError != null)
+			GUILayout.Label(_tabError, RavenTheme.MutedLabel);
+
 		if (_index >= 0 && _index < _tabs.Count)
 			DrawTab(_tabs[_index]);
 
@@ -222,11 +226,14 @@ public class RavenMenu
 		try
 		{
 			tab.Draw();
+			_tabError = null;
 		}
 		catch (System.Exception ex)
 		{
-			if (Event.current.type == EventType.Repaint)
-				GUILayout.Label($"{tab.Title} could not be drawn: {ex.Message}", RavenTheme.MutedLabel);
+			// Drawing anything here would add a control the layout pass never counted,
+			// which unbalances IMGUI just as badly as the original failure. Record it
+			// and let the next frame render the message from the start.
+			_tabError = $"{tab.Title} could not be drawn: {ex.Message}";
 		}
 	}
 

@@ -204,8 +204,10 @@ internal partial class Compiler
 			memory.CopyTo(resource);
 			resource.Position = 0;
 
-			var resourceName = file
-				.Replace(@"Properties\Strings", "RavenX.Properties.Strings")
+			// Built from the file name rather than its path, so the folder the sources
+			// happen to live in cannot leak into the resource name. Strings.Designer.cs
+			// looks the resource up under a fixed name and throws if it does not match.
+			var resourceName = "RavenX.Properties." + Path.GetFileName(file)
 				.Replace($".{context.Language}.", ".", StringComparison.OrdinalIgnoreCase)
 				.Replace(".resx", ".resources");
 

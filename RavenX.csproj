@@ -295,20 +295,24 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="src\Properties\Strings.fr.resx">
+      <LogicalName>RavenX.Properties.Strings.fr.resources</LogicalName>
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Strings.fr.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="src\Properties\Strings.resx">
+      <LogicalName>RavenX.Properties.Strings.resources</LogicalName>
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Strings.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="src\Properties\Strings.zh-cn.resx">
+      <LogicalName>RavenX.Properties.Strings.zh-cn.resources</LogicalName>
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Strings.zh-cn.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="src\Properties\Strings.jp.resx">
+      <LogicalName>RavenX.Properties.Strings.jp.resources</LogicalName>
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Strings.jp.Designer.cs</LastGenOutput>
     </EmbeddedResource>
