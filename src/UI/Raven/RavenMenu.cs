@@ -203,7 +203,7 @@ public class RavenMenu
 		_scroll = GUILayout.BeginScrollView(_scroll, false, true);
 
 		if (_index >= 0 && _index < _tabs.Count)
-			_tabs[_index].Draw();
+			DrawTab(_tabs[_index]);
 
 		GUILayout.EndScrollView();
 		GUILayout.EndArea();
@@ -212,6 +212,22 @@ public class RavenMenu
 		RavenWidgets.StatusDot(new Rect(footer.x + 96f, footer.y, 6f, footer.height), RavenTheme.Online);
 		GUI.Label(footer, $"RAVEN-X {Version}  |", RavenTheme.Subtitle);
 		GUI.Label(new Rect(footer.x + 108f, footer.y, 200f, footer.height), "EFT | ONLINE", RavenTheme.Subtitle);
+	}
+
+	// A tab that throws mid-layout leaves the IMGUI layout stack unbalanced, which
+	// takes the whole window down with it — including the tab bar, so the menu can
+	// no longer be closed or switched away from. Keep the damage inside one tab.
+	private static void DrawTab(IRavenTab tab)
+	{
+		try
+		{
+			tab.Draw();
+		}
+		catch (System.Exception ex)
+		{
+			if (Event.current.type == EventType.Repaint)
+				GUILayout.Label($"{tab.Title} could not be drawn: {ex.Message}", RavenTheme.MutedLabel);
+		}
 	}
 
 	internal static float ContentWidth { get; private set; } = 900f;

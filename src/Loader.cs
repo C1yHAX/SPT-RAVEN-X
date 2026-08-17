@@ -25,5 +25,6 @@ public class Loader
 	public static void Load()
 	{
 		FeatureFactory.RegisterAllFeatures(HookObject);
+		Context.ResetFeatureCache();
 	}
 }
