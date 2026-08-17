@@ -1,0 +1,317 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{F4EB56B6-F914-11E9-AAD5-362B9E155667}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>RavenX</RootNamespace>
+    <AssemblyName>RavenX</AssemblyName>
+    <TargetFrameworkVersion>v4.7.1</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
+    <LangVersion>latest</LangVersion>
+    <Nullable>enable</Nullable>
+    <EFTBasePath Condition=" '$(EFTBasePath)' == '' ">E:\Games\SPT</EFTBasePath>
+    <EFTDataPath>$(EFTBasePath)\EscapeFromTarkov_Data</EFTDataPath>
+    <EFTManagedPath>$(EFTDataPath)\Managed</EFTManagedPath>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>TRACE;DEBUG</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'DebugPerformance|AnyCPU'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\DebugPerformance\</OutputPath>
+    <DefineConstants>TRACE;DEBUG;DEBUG_PERFORMANCE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+  </PropertyGroup>
+  <ItemGroup>
+    <!-- Framework -->
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="netstandard">
+      <HintPath>$(EFTManagedPath)\netstandard.dll</HintPath>
+    </Reference>
+    <!-- Game assemblies -->
+    <Reference Include="Assembly-CSharp">
+      <HintPath>$(EFTManagedPath)\Assembly-CSharp.dll</HintPath>
+    </Reference>
+    <Reference Include="bsg.console.core">
+      <HintPath>$(EFTManagedPath)\bsg.console.core.dll</HintPath>
+    </Reference>
+    <Reference Include="Comfort">
+      <HintPath>$(EFTManagedPath)\Comfort.dll</HintPath>
+    </Reference>
+    <Reference Include="Comfort.Unity">
+      <HintPath>$(EFTManagedPath)\Comfort.Unity.dll</HintPath>
+    </Reference>
+    <Reference Include="ItemComponent.Types">
+      <HintPath>$(EFTManagedPath)\ItemComponent.Types.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>$(EFTManagedPath)\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="ItemTemplate.Types">
+      <HintPath>$(EFTManagedPath)\ItemTemplate.Types.dll</HintPath>
+    </Reference>
+    <Reference Include="DissonanceVoip">
+      <HintPath>$(EFTManagedPath)\DissonanceVoip.dll</HintPath>
+    </Reference>
+    <Reference Include="Sirenix.Serialization">
+      <HintPath>$(EFTManagedPath)\Sirenix.Serialization.dll</HintPath>
+    </Reference>
+    <Reference Include="CommonExtensions">
+      <HintPath>$(EFTManagedPath)\CommonExtensions.dll</HintPath>
+    </Reference>
+    <!-- Unity -->
+    <Reference Include="UnityEngine.AssetBundleModule">
+      <HintPath>$(EFTManagedPath)\UnityEngine.AssetBundleModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.CoreModule">
+      <HintPath>$(EFTManagedPath)\UnityEngine.CoreModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.ImageConversionModule">
+      <HintPath>$(EFTManagedPath)\UnityEngine.ImageConversionModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.IMGUIModule">
+      <HintPath>$(EFTManagedPath)\UnityEngine.IMGUIModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.PhysicsModule">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>$(EFTManagedPath)\UnityEngine.PhysicsModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.TextRenderingModule">
+      <HintPath>$(EFTManagedPath)\UnityEngine.TextRenderingModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.AIModule">
+      <HintPath>$(EFTManagedPath)\UnityEngine.AIModule.dll</HintPath>
+    </Reference>
+    <!-- Optional -->
+    <Reference Include="0Harmony">
+      <HintPath>installer\Resources\0Harmony.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <!-- Only to work with legacy installer regex parsing -->
+  <ItemGroup Condition="Exists('$(EFTManagedPath)\UnityEngine.InputLegacyModule.dll')">
+    <Reference Include="UnityEngine.InputLegacyModule">
+      <HintPath>$(EFTManagedPath)\UnityEngine.InputLegacyModule.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="src\Configuration\ColorConverter.cs" />
+    <Compile Include="src\Configuration\ConfigurationManager.cs" />
+    <Compile Include="src\Configuration\ConfigurationPropertyAttribute.cs" />
+    <Compile Include="src\Configuration\EnumConverter.cs" />
+    <Compile Include="src\Configuration\KeyCodeConverter.cs" />
+    <Compile Include="src\Configuration\OrderedProperty.cs" />
+    <Compile Include="src\Configuration\TrackedItemConverter.cs" />
+    <Compile Include="src\ConsoleCommands\BaseListCommand.cs" />
+    <Compile Include="src\ConsoleCommands\BaseTemplateCommand.cs" />
+    <Compile Include="src\ConsoleCommands\BaseTrackCommand.cs" />
+    <Compile Include="src\ConsoleCommands\BaseTrackListCommand.cs" />
+    <Compile Include="src\ConsoleCommands\BuiltInCommand.cs" />
+    <Compile Include="src\ConsoleCommands\ConsoleCommand.cs" />
+    <Compile Include="src\ConsoleCommands\ConsoleCommandWithoutArgument.cs" />
+    <Compile Include="src\ConsoleCommands\ConsoleCommandWithArgument.cs" />
+    <Compile Include="src\ConsoleCommands\Dump.cs" />
+    <Compile Include="src\ConsoleCommands\List.cs" />
+    <Compile Include="src\ConsoleCommands\ListRare.cs" />
+    <Compile Include="src\ConsoleCommands\ListSuperRare.cs" />
+    <Compile Include="src\ConsoleCommands\LoadTrackList.cs" />
+    <Compile Include="src\ConsoleCommands\SaveTrackList.cs" />
+    <Compile Include="src\ConsoleCommands\SpawnHideoutItems.cs" />
+    <Compile Include="src\ConsoleCommands\SpawnQuestItems.cs" />
+    <Compile Include="src\ConsoleCommands\SpawnBot.cs" />
+    <Compile Include="src\ConsoleCommands\Spawn.cs" />
+    <Compile Include="src\ConsoleCommands\Status.cs" />
+    <Compile Include="src\ConsoleCommands\Template.cs" />
+    <Compile Include="src\ConsoleCommands\ToggleFeatureCommand.cs" />
+    <Compile Include="src\ConsoleCommands\Track.cs" />
+    <Compile Include="src\ConsoleCommands\TrackList.cs" />
+    <Compile Include="src\ConsoleCommands\TrackRare.cs" />
+    <Compile Include="src\ConsoleCommands\TrackSuperRare.cs" />
+    <Compile Include="src\ConsoleCommands\UnTrack.cs" />
+    <Compile Include="src\Context.cs" />
+    <Compile Include="src\Extensions\CameraExtensions.cs" />
+    <Compile Include="src\Extensions\ELootRarityExtensions.cs" />
+    <Compile Include="src\Extensions\ExfiltrationPointExtensions.cs" />
+    <Compile Include="src\Extensions\HostileType.cs" />
+    <Compile Include="src\Extensions\ItemTemplateExtensions.cs" />
+    <Compile Include="src\Extensions\ItemExtensions.cs" />
+    <Compile Include="src\Extensions\LootItemExtensions.cs" />
+    <Compile Include="src\Extensions\NotNullWhenAttribute.cs" />
+    <Compile Include="src\Extensions\PlayerExtensions.cs" />
+    <Compile Include="src\Extensions\StringExtensions.cs" />
+    <Compile Include="src\Extensions\ThrowableExtensions.cs" />
+    <Compile Include="src\Extensions\WorldInteractiveObjectExtensions.cs" />
+    <Compile Include="src\Features\Aimbot.cs" />
+    <Compile Include="src\Features\Ammunition.cs" />
+    <Compile Include="src\Features\BaseMapToggleFeature.cs" />
+    <Compile Include="src\Features\FovChanger.cs" />
+    <Compile Include="src\Features\Durability.cs" />
+    <Compile Include="src\Features\Interact.cs" />
+    <Compile Include="src\Features\AirDrop.cs" />
+    <Compile Include="src\Features\NoMalfunctions.cs" />
+    <Compile Include="src\Features\AutomaticGun.cs" />
+    <Compile Include="src\Features\Bones.cs" />
+    <Compile Include="src\Features\CachableFeature.cs" />
+    <Compile Include="src\Features\Chams.cs" />
+    <Compile Include="src\Features\CharacterTuning.cs" />
+    <Compile Include="src\Features\Commands.cs" />
+    <Compile Include="src\Features\CrossHair.cs" />
+    <Compile Include="src\Features\ExfiltrationPoints.cs" />
+    <Compile Include="src\Features\Feature.cs" />
+    <Compile Include="src\Features\FeatureFactory.cs" />
+    <Compile Include="src\Features\GameState.cs" />
+    <Compile Include="src\Features\Grenades.cs" />
+    <Compile Include="src\Features\FreeCamera.cs" />
+    <Compile Include="src\Features\Examine.cs" />
+    <Compile Include="src\Features\HandbookCatalog.cs" />
+    <Compile Include="src\Features\Hits.cs" />
+    <Compile Include="src\Features\HoldFeature.cs" />
+    <Compile Include="src\Features\Hud.cs" />
+    <Compile Include="src\Features\LootItems.cs" />
+    <Compile Include="src\Features\LootableContainers.cs" />
+    <Compile Include="src\Features\NightVision.cs" />
+    <Compile Include="src\Features\NoCollision.cs" />
+    <Compile Include="src\Features\NoInertia.cs" />
+    <Compile Include="src\Features\NoFallDamage.cs" />
+    <Compile Include="src\Features\Fly.cs" />
+    <Compile Include="src\Features\WeaponTuning.cs" />
+    <Compile Include="src\Features\BotSpawning.cs" />
+    <Compile Include="src\Features\SilentMovement.cs" />
+    <Compile Include="src\Features\NoSway.cs" />
+    <Compile Include="src\Features\NoRecoil.cs" />
+    <Compile Include="src\Features\NoFlash.cs" />
+    <Compile Include="src\Features\NoGrass.cs" />
+    <Compile Include="src\Features\NoVisor.cs" />
+    <Compile Include="src\Features\Players.cs" />
+    <Compile Include="src\Features\PointOfInterest.cs" />
+    <Compile Include="src\Features\PointOfInterests.cs" />
+    <Compile Include="src\Features\Quests.cs" />
+    <Compile Include="src\Features\Map.cs" />
+    <Compile Include="src\Features\Radar.cs" />
+    <Compile Include="src\Features\RoleCatalog.cs" />
+    <Compile Include="src\Features\RoleSetting.cs" />
+    <Compile Include="src\Features\SceneDumper.cs" />
+    <Compile Include="src\Features\ShaderCache.cs" />
+    <Compile Include="src\Features\ShaderProperties.cs" />
+    <Compile Include="src\Features\Speed.cs" />
+    <Compile Include="src\Features\Health.cs" />
+    <Compile Include="src\Features\Stamina.cs" />
+    <Compile Include="src\Features\TemplateHelper.cs" />
+    <Compile Include="src\Features\ThermalVision.cs" />
+    <Compile Include="src\Features\ToggleFeature.cs" />
+    <Compile Include="src\Features\TrackedItem.cs" />
+    <Compile Include="src\Features\Mortar.cs" />
+    <Compile Include="src\Features\TriggerFeature.cs" />
+    <Compile Include="src\Features\Ghost.cs" />
+    <Compile Include="src\Features\WallShoot.cs" />
+    <Compile Include="src\Features\Skills.cs" />
+    <Compile Include="src\Features\SelfHeal.cs" />
+    <Compile Include="src\Features\InstantKill.cs" />
+    <Compile Include="src\Features\InstantResearch.cs" />
+    <Compile Include="src\Features\Hotspots.cs" />
+    <Compile Include="src\Features\GatherBots.cs" />
+    <Compile Include="src\Features\KillAllBots.cs" />
+    <Compile Include="src\Features\FreezeBots.cs" />
+    <Compile Include="src\Features\FriendlyBots.cs" />
+    <Compile Include="src\Features\Train.cs" />
+    <Compile Include="src\Features\Weather.cs" />
+    <Compile Include="src\Features\QuickThrow.cs" />
+    <Compile Include="src\Features\WorldInteractiveObjects.cs" />
+    <Compile Include="src\Properties\AssemblyInfo.cs" />
+    <Compile Include="src\Properties\Strings.fr.Designer.cs">
+      <DependentUpon>Strings.fr.resx</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="src\Properties\Strings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Strings.resx</DependentUpon>
+    </Compile>
+    <Compile Include="src\Properties\Strings.zh-cn.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Strings.zh-cn.resx</DependentUpon>
+    </Compile>
+    <Compile Include="src\Properties\Strings.jp.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Strings.jp.resx</DependentUpon>
+    </Compile>
+    <Compile Include="src\Features\RavenUI.cs" />
+    <Compile Include="src\UI\Raven\Tabs\RavenTabHelper.cs" />
+    <Compile Include="src\UI\Raven\Tabs\VisualsTab.cs" />
+    <Compile Include="src\UI\Raven\Tabs\AimbotTab.cs" />
+    <Compile Include="src\UI\Raven\Tabs\PlayerTab.cs" />
+    <Compile Include="src\UI\Raven\Tabs\WeaponTab.cs" />
+    <Compile Include="src\UI\Raven\Tabs\WorldTab.cs" />
+    <Compile Include="src\UI\Raven\Tabs\ItemsTab.cs" />
+    <Compile Include="src\UI\Raven\Tabs\BotsTab.cs" />
+    <Compile Include="src\UI\Raven\Tabs\ExfilsTab.cs" />
+    <Compile Include="src\UI\Raven\Tabs\HotspotsTab.cs" />
+    <Compile Include="src\UI\Raven\Tabs\MiscTab.cs" />
+    <Compile Include="src\UI\Raven\Tabs\ConfigTab.cs" />
+    <Compile Include="src\UI\Raven\RavenLogo.cs" />
+    <Compile Include="src\UI\Raven\RavenTheme.cs" />
+    <Compile Include="src\UI\Raven\RavenWidgets.cs" />
+    <Compile Include="src\UI\Raven\RavenMenu.cs" />
+    <Compile Include="src\UI\Picker.cs" />
+    <Compile Include="src\UI\EnumPicker.cs" />
+    <Compile Include="src\UI\ColorPicker.cs" />
+    <Compile Include="src\UI\ColorUtil.cs" />
+    <Compile Include="src\UI\Render.cs" />
+    <Compile Include="src\KnownTemplateIds.cs" />
+    <Compile Include="src\Loader.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Microsoft.CodeAnalysis.Analyzers" Version="4.14.0" PrivateAssets="all" />
+    <PackageReference Include="Microsoft.Unity.Analyzers" Version="1.25.0" PrivateAssets="all" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="src\Properties\Strings.fr.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Strings.fr.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="src\Properties\Strings.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Strings.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="src\Properties\Strings.zh-cn.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Strings.zh-cn.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="src\Properties\Strings.jp.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Strings.jp.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>copy /Y "$(TargetPath)" "$(EFTManagedPath)"</PostBuildEvent>
+  </PropertyGroup>
+</Project>
