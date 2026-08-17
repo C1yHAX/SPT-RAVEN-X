@@ -72,9 +72,6 @@ internal class ItemsTab : IRavenTab
 				RavenTabHelper.BeginColumn(420f);
 				DrawTrackedCard();
 				RavenTabHelper.EndColumn();
-				RavenTabHelper.BeginColumn(320f);
-				DrawFiltersCard();
-				RavenTabHelper.EndColumn();
 				RavenTabHelper.EndColumns();
 				break;
 		}
@@ -164,58 +161,6 @@ internal class ItemsTab : IRavenTab
 			GUILayout.EndScrollView();
 		}
 	}
-
-	private static void DrawFiltersCard()
-	{
-		using (RavenMenu.Card("Filters"))
-		{
-			var loot = FeatureFactory.GetFeature<LootItems>();
-			if (loot == null)
-			{
-				GUILayout.Label("Loot items feature unavailable.", RavenTheme.MutedLabel);
-				return;
-			}
-
-			GUILayout.Label("Applies on top of what you track. Zero means no limit.", RavenTheme.MutedLabel);
-			RavenWidgets.Spacer(8f);
-
-			var min = RavenWidgets.Slider("Price from", loot.MinimumPrice, 0f, 200000f,
-				loot.MinimumPrice > 0 ? $"{loot.MinimumPrice}" : "any");
-			loot.MinimumPrice = Mathf.RoundToInt(min / 500f) * 500;
-
-			RavenWidgets.Spacer(6f);
-
-			var max = RavenWidgets.Slider("Price to", loot.MaximumPrice, 0f, 200000f,
-				loot.MaximumPrice > 0 ? $"{loot.MaximumPrice}" : "no limit");
-			loot.MaximumPrice = Mathf.RoundToInt(max / 500f) * 500;
-
-			// An upper bound below the lower one would hide everything without saying why.
-			if (loot.MaximumPrice > 0 && loot.MaximumPrice < loot.MinimumPrice)
-				GUILayout.Label("Upper limit is below the lower one — nothing will show.", RavenTheme.MutedLabel);
-
-			RavenWidgets.Spacer(6f);
-
-			var rarities = new[] { "any", "common and up", "rare and up", "superrare only" };
-			var rank = LootItems.RarityRank(loot.MinimumRarity);
-			var picked = RavenWidgets.Dropdown("Rarity", rank, rarities, loot);
-			if (picked != rank)
-				loot.MinimumRarity = RarityFromRank(picked);
-
-			RavenWidgets.Spacer(6f);
-
-			var distance = RavenWidgets.Slider("Maximum distance", loot.MaximumDistance, 0f, 500f,
-				loot.MaximumDistance > 0 ? $"{loot.MaximumDistance:0} m" : "off");
-			loot.MaximumDistance = Mathf.Round(distance / 10f) * 10f;
-		}
-	}
-
-	private static ELootRarity RarityFromRank(int rank) => rank switch
-	{
-		3 => ELootRarity.Superrare,
-		2 => ELootRarity.Rare,
-		1 => ELootRarity.Common,
-		_ => ELootRarity.Not_exist
-	};
 
 	private void DrawTrackedCard()
 	{

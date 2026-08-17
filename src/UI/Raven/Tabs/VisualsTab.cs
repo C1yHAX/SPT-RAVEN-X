@@ -1,6 +1,7 @@
 using RavenX.Features;
 using UnityEngine;
 using EFT;
+using JsonType;
 
 #nullable enable
 
@@ -217,6 +218,43 @@ internal class VisualsTab : IRavenTab
 		}
 	}
 
+	// Every control here is drawn unconditionally, including the warning line, which
+	// carries empty text when there is nothing to warn about. A control that appears
+	// only sometimes would change the count between the layout and repaint passes.
+	private static void DrawLootFilters(LootItems loot)
+	{
+		var from = RavenWidgets.Slider("Price from", loot.MinimumPrice, 0f, 200000f,
+			loot.MinimumPrice > 0 ? $"{loot.MinimumPrice}" : "any");
+		loot.MinimumPrice = Mathf.RoundToInt(from / 500f) * 500;
+
+		var to = RavenWidgets.Slider("Price to", loot.MaximumPrice, 0f, 200000f,
+			loot.MaximumPrice > 0 ? $"{loot.MaximumPrice}" : "no limit");
+		loot.MaximumPrice = Mathf.RoundToInt(to / 500f) * 500;
+
+		var conflicting = loot.MaximumPrice > 0 && loot.MaximumPrice < loot.MinimumPrice;
+		GUILayout.Label(conflicting ? "Upper limit is below the lower one — nothing will show." : string.Empty,
+			RavenTheme.MutedLabel);
+
+		var rank = LootItems.RarityRank(loot.MinimumRarity);
+		var picked = RavenWidgets.Dropdown("Rarity", rank, RarityOptions, loot);
+		if (picked != rank)
+			loot.MinimumRarity = RarityFromRank(picked);
+
+		var distance = RavenWidgets.Slider("Maximum distance", loot.MaximumDistance, 0f, 500f,
+			loot.MaximumDistance > 0 ? $"{loot.MaximumDistance:0} m" : "off");
+		loot.MaximumDistance = Mathf.Round(distance / 10f) * 10f;
+	}
+
+	private static readonly string[] RarityOptions = ["any", "common and up", "rare and up", "superrare only"];
+
+	private static ELootRarity RarityFromRank(int rank) => rank switch
+	{
+		3 => ELootRarity.Superrare,
+		2 => ELootRarity.Rare,
+		1 => ELootRarity.Common,
+		_ => ELootRarity.Not_exist
+	};
+
 	private static void DrawWorldCard()
 	{
 		using (RavenMenu.Card("Loot & World ESP"))
@@ -236,6 +274,10 @@ internal class VisualsTab : IRavenTab
 				loot.SearchInsideContainers = RavenWidgets.Checkbox(loot.SearchInsideContainers, "Containers");
 				loot.SearchInsideCorpses = RavenWidgets.Checkbox(loot.SearchInsideCorpses, "Bodies");
 				loot.SearchInsideLivingAI = RavenWidgets.Checkbox(loot.SearchInsideLivingAI, "Living AI");
+
+				RavenWidgets.Spacer(6f);
+				RavenWidgets.Section("Only show");
+				DrawLootFilters(loot);
 				RavenWidgets.Spacer(8f);
 			}
 
