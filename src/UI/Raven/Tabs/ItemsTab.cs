@@ -71,6 +71,9 @@ internal class ItemsTab : IRavenTab
 				RavenTabHelper.BeginColumn(420f);
 				DrawTrackedCard();
 				RavenTabHelper.EndColumn();
+				RavenTabHelper.BeginColumn(320f);
+				DrawFiltersCard();
+				RavenTabHelper.EndColumn();
 				RavenTabHelper.EndColumns();
 				break;
 		}
@@ -158,6 +161,32 @@ internal class ItemsTab : IRavenTab
 			}
 
 			GUILayout.EndScrollView();
+		}
+	}
+
+	private static void DrawFiltersCard()
+	{
+		using (RavenMenu.Card("Filters"))
+		{
+			var loot = FeatureFactory.GetFeature<LootItems>();
+			if (loot == null)
+			{
+				GUILayout.Label("Loot items feature unavailable.", RavenTheme.MutedLabel);
+				return;
+			}
+
+			GUILayout.Label("Applies on top of what you track. Zero means no limit.", RavenTheme.MutedLabel);
+			RavenWidgets.Spacer(8f);
+
+			var price = RavenWidgets.Slider("Minimum price", loot.MinimumPrice, 0f, 100000f,
+				loot.MinimumPrice > 0 ? $"{loot.MinimumPrice}" : "off");
+			loot.MinimumPrice = Mathf.RoundToInt(price / 500f) * 500;
+
+			RavenWidgets.Spacer(6f);
+
+			var distance = RavenWidgets.Slider("Maximum distance", loot.MaximumDistance, 0f, 500f,
+				loot.MaximumDistance > 0 ? $"{loot.MaximumDistance:0} m" : "off");
+			loot.MaximumDistance = Mathf.Round(distance / 10f) * 10f;
 		}
 	}
 

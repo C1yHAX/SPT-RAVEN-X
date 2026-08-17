@@ -39,6 +39,9 @@ internal class LootItems : PointOfInterests
 	public bool ShowPrices { get; set; } = true;
 
 	[ConfigurationProperty]
+	public int MinimumPrice { get; set; } = 0;
+
+	[ConfigurationProperty]
 	public bool TrackWishlist { get; set; } = false;
 
 	[ConfigurationProperty]
@@ -223,6 +226,9 @@ internal class LootItems : PointOfInterests
 		var template = item.Template;
 		var templateId = template._id;
 		var color = Color;
+
+		if (MinimumPrice > 0 && template.CreditsPrice < MinimumPrice)
+			return;
 
 		if (!Wishlist.Contains(templateId))
 		{

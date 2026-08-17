@@ -15,6 +15,9 @@ namespace RavenX.Configuration;
 
 internal static class ConfigurationManager
 {
+	private const string NamespacePrefix = "RavenX.";
+	private const string LegacyPrefix = "EFT.Trainer.";
+
 	public static JsonConverter[] Converters => [new TrackedItemConverter(), new ColorConverter(), new KeyCodeConverter()];
 
 	private static void AddConsoleLog(string log)
@@ -47,11 +50,22 @@ internal static class ConfigurationManager
 					var key = $"{featureType.FullName}.{op.Property.Name}=";
 					try
 					{
+						var matched = key;
 						var line = lines.FirstOrDefault(l => l.StartsWith(key));
+
+						// Settings files written before the rename carry the old namespace.
+						// Read those too, so an existing configuration survives the upgrade
+						// instead of silently falling back to defaults.
+						if (line == null)
+						{
+							matched = LegacyPrefix + key.Substring(NamespacePrefix.Length);
+							line = lines.FirstOrDefault(l => l.StartsWith(matched));
+						}
+
 						if (line == null)
 							continue;
 
-						var value = JsonConvert.DeserializeObject(line.Substring(key.Length), op.Property.PropertyType, Converters);
+						var value = JsonConvert.DeserializeObject(line.Substring(matched.Length), op.Property.PropertyType, Converters);
 						op.Property.SetValue(feature, value);
 					}
 					catch (JsonException)
