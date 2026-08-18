@@ -50,9 +50,22 @@ public class RavenMenu
 		RavenTheme.EnsureBuilt();
 		RavenWidgets.BeginFrame();
 
+		// The new size is taken here and nowhere else. Writing it while the mouse drags
+		// would leave the repaint pass laying out against a different width than the
+		// layout pass used, and the column wrap would then open a row in one pass and
+		// not the other.
+		if (Event.current.type == EventType.Layout && _hasPendingSize)
+		{
+			_window.width = _pendingSize.x;
+			_window.height = _pendingSize.y;
+			_hasPendingSize = false;
+		}
+
 		HandleDrag();
 
 		GUI.Box(_window, GUIContent.none, RavenTheme.Window);
+
+		HandleResize();
 
 		DrawHeader();
 		DrawTabs();
@@ -66,15 +79,22 @@ public class RavenMenu
 		RavenWidgets.CloseDropdowns();
 		RavenWidgets.CancelKeyCapture();
 		_dragging = false;
+		_resizing = false;
 	}
 
 	private bool _resizing;
 	private Vector2 _resizeStart;
 	private Vector2 _sizeStart;
+	private Vector2 _pendingSize;
+	private bool _hasPendingSize;
 
 	private const float MinWidth = 520f;
 	private const float MinHeight = 320f;
+	private const float MinContentHeight = 90f;
 	private const float GripSize = 18f;
+
+	// Every extra tab row pushes the content down, so the floor has to move with it.
+	private float MinimumHeight => MinHeight + (_tabsHeight - RavenTheme.TabHeight);
 
 	private void HandleResize()
 	{
@@ -92,8 +112,10 @@ public class RavenMenu
 
 			case EventType.MouseDrag when _resizing:
 				var delta = e.mousePosition - _resizeStart;
-				_window.width = Mathf.Max(MinWidth, _sizeStart.x + delta.x);
-				_window.height = Mathf.Max(MinHeight, _sizeStart.y + delta.y);
+				_pendingSize = new Vector2(
+					Mathf.Clamp(_sizeStart.x + delta.x, MinWidth, Screen.width - _window.x - 8f),
+					Mathf.Clamp(_sizeStart.y + delta.y, MinimumHeight, Screen.height - _window.y - 8f));
+				_hasPendingSize = true;
 				e.Use();
 				break;
 
@@ -190,13 +212,21 @@ public class RavenMenu
 			return;
 
 		_index = Mathf.Clamp(_index, 0, titles.Length - 1);
-		_index = RavenWidgets.TabBar(area, titles, _index);
+		_index = RavenWidgets.TabBar(area, titles, _index, out var rows);
+
+		_tabsHeight = RavenTheme.TabHeight * Mathf.Max(1, rows);
 	}
+
+	private float _tabsHeight = RavenTheme.TabHeight;
 
 	private void DrawContent()
 	{
-		var top = _window.y + RavenTheme.HeaderHeight + RavenTheme.TabHeight;
-		var content = new Rect(_window.x + 18f, top + 12f, _window.width - 36f, _window.height - (top - _window.y) - 42f);
+		var top = _window.y + RavenTheme.HeaderHeight + _tabsHeight;
+
+		// Floored: a tab bar wrapped onto several rows eats into the height, and a
+		// negative area would take the scroll view with it.
+		var height = Mathf.Max(MinContentHeight, _window.height - (top - _window.y) - 42f);
+		var content = new Rect(_window.x + 18f, top + 12f, _window.width - 36f, height);
 
 		ContentWidth = content.width - 20f;
 		RavenWidgets.LayoutOrigin = new Vector2(content.x - _scroll.x, content.y - _scroll.y);

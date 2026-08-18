@@ -96,10 +96,15 @@ internal static class RavenTabHelper
 		if (columns < 1)
 			return;
 
-		// EndColumn spaces after every column, not between them, so the budget is one
-		// gap per column. Counting one fewer overflows the row by a whole gap.
-		var usable = RavenMenu.ContentWidth - ColumnGap * columns;
-		_autoWidth = Mathf.Max(MinColumnWidth, Mathf.Floor(usable / columns) - 1f);
+		// Drop to as many columns as the window can actually hold, so a narrow window
+		// gets fewer but full width cards instead of thin ones with dead space beside
+		// them. EndColumn spaces after every column, not between them, so the budget is
+		// one gap per column; counting one fewer overruns the row by a whole gap.
+		var fits = Mathf.Max(1, Mathf.FloorToInt(RavenMenu.ContentWidth / (MinColumnWidth + ColumnGap)));
+		var count = Mathf.Min(columns, fits);
+
+		var usable = RavenMenu.ContentWidth - ColumnGap * count;
+		_autoWidth = Mathf.Max(MinColumnWidth, Mathf.Floor(usable / count) - 1f);
 	}
 
 	public static void BeginColumn()
@@ -145,6 +150,10 @@ internal static class RavenTabHelper
 	public static void BeginColumn(float width)
 	{
 		var available = RavenMenu.ContentWidth;
+
+		// Tabs that ask for a fixed width would otherwise run off the edge once the
+		// window is dragged narrower than that width.
+		width = Mathf.Min(width, available - ColumnGap);
 
 		if (_rowOpen && _rowUsed + width > available)
 			CloseRow();

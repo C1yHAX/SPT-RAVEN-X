@@ -406,9 +406,16 @@ public static class RavenWidgets
 		return index;
 	}
 
-	public static int TabBar(Rect area, string[] tabs, int index)
+	// Wraps onto further rows once the window is too narrow to hold every tab side by
+	// side, and reports how many rows it used so the content below can start under
+	// them. Without the wrap the right hand tabs simply left the window and could no
+	// longer be reached.
+	public static int TabBar(Rect area, string[] tabs, int index, out int rows)
 	{
 		var x = area.x;
+		var y = area.y;
+
+		rows = 1;
 
 		var previous = GUI.contentColor;
 
@@ -417,7 +424,15 @@ public static class RavenWidgets
 			var content = new GUIContent(tabs[i]);
 
 			var width = Mathf.Ceil(RavenTheme.Tab.CalcSize(content).x) + 2f;
-			var rect = new Rect(x, area.y, width, area.height);
+
+			if (x > area.x && x + width > area.xMax)
+			{
+				x = area.x;
+				y += area.height;
+				rows++;
+			}
+
+			var rect = new Rect(x, y, width, area.height);
 
 			if (Clicked(rect))
 				index = i;
@@ -429,14 +444,14 @@ public static class RavenWidgets
 			GUI.Label(rect, content, RavenTheme.Tab);
 
 			if (i == index)
-				Fill(new Rect(rect.x + 6f, area.yMax - 2f, rect.width - 12f, 2f), RavenTheme.Accent);
+				Fill(new Rect(rect.x + 6f, rect.yMax - 2f, rect.width - 12f, 2f), RavenTheme.Accent);
 
 			x += width;
 		}
 
 		GUI.contentColor = previous;
 
-		Fill(new Rect(area.x, area.yMax - 1f, area.width, 1f), RavenTheme.PanelBorder);
+		Fill(new Rect(area.x, y + area.height - 1f, area.width, 1f), RavenTheme.PanelBorder);
 		return index;
 	}
 
