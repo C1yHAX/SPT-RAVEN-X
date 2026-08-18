@@ -215,8 +215,9 @@ internal class VisualsTab : IRavenTab
 	// only sometimes would change the count between the layout and repaint passes.
 	private static string LootHint(LootItems loot)
 	{
+		// Kept to one line: the label has a fixed height, so a wrapping message is cut off.
 		if (loot.MaximumPrice > 0 && loot.MaximumPrice < loot.MinimumPrice)
-			return "Upper limit is below the lower one, nothing will show.";
+			return "Upper limit is below the lower one.";
 
 		if (loot.TrackedNames.Count > 0)
 			return $"Limited to the {loot.TrackedNames.Count} tracked items.";
