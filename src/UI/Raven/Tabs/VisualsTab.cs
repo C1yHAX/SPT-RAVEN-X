@@ -234,9 +234,10 @@ internal class VisualsTab : IRavenTab
 			loot.MaximumPrice > 0 ? $"{loot.MaximumPrice}" : "no limit");
 		loot.MaximumPrice = Mathf.RoundToInt(to / 500f) * 500;
 
-		// Always drawn, empty when there is nothing to say, so the control count stays
-		// the same between the layout and the repaint pass.
-		GUILayout.Label(LootHint(loot), RavenTheme.MutedLabel);
+		// Always drawn and always the same height: the sliders above write their values
+		// during the drag, so sizing this from the text would leave the layout pass and
+		// the repaint pass of that frame disagreeing about how tall it is.
+		GUILayout.Label(LootHint(loot), RavenTheme.MutedLabel, GUILayout.Height(RavenTheme.RowHeight));
 
 		var rank = LootItems.RarityRank(loot.MinimumRarity);
 		var picked = RavenWidgets.Dropdown("Rarity", rank, RarityOptions, loot);

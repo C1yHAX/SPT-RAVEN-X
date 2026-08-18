@@ -16,6 +16,7 @@ internal class BotsTab : IRavenTab
 	public string Title => "Bots";
 
 	private string _filter = string.Empty;
+	private string _filterApplied = string.Empty;
 	private int _sub;
 	private string _liveFilter = string.Empty;
 
@@ -69,7 +70,13 @@ internal class BotsTab : IRavenTab
 			}
 
 			var names = SpawnBot.GetBotNames();
-			var needle = _filter.Trim();
+
+			// Taken from the layout pass, not from the live text, so typing cannot change
+			// how many rows this card draws partway through a frame.
+			if (Event.current.type == EventType.Layout)
+				_filterApplied = _filter.Trim();
+
+			var needle = _filterApplied;
 
 			if (needle.Length > 0)
 				names = [.. names.Where(n => n.IndexOf(needle, StringComparison.OrdinalIgnoreCase) >= 0)];

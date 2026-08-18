@@ -12,6 +12,10 @@ public static class RavenWidgets
 
 	private static readonly List<Action> _deferred = [];
 	private static readonly Dictionary<object, int> _dropdownPicks = [];
+	private static Rect _armedClick;
+	private static Rect _activeClick;
+	private static bool _hasArmedClick;
+	private static bool _hasActiveClick;
 	private static GUIStyle? _scratch;
 	private static object? _openDropdown;
 	private static GUIStyle? _rowStyle;
@@ -30,6 +34,17 @@ public static class RavenWidgets
 	public static void BeginFrame()
 	{
 		_deferred.Clear();
+
+		// A click is held back until the next layout pass and then acts for that whole
+		// frame. Acting on the mouse event itself changed state halfway through a pass,
+		// so a card drew a different number of controls than the layout pass had
+		// counted, which is what took the window down when a checkbox was ticked.
+		if (Event.current.type != EventType.Layout)
+			return;
+
+		_activeClick = _armedClick;
+		_hasActiveClick = _hasArmedClick;
+		_hasArmedClick = false;
 	}
 
 	public static void EndFrame()
@@ -72,11 +87,26 @@ public static class RavenWidgets
 	private static bool Clicked(Rect rect)
 	{
 		var e = Event.current;
-		if (e.type != EventType.MouseDown || e.button != 0 || !rect.Contains(e.mousePosition))
-			return false;
 
-		e.Use();
-		return true;
+		if (e.type == EventType.MouseDown && e.button == 0 && rect.Contains(e.mousePosition))
+		{
+			_armedClick = rect;
+			_hasArmedClick = true;
+			e.Use();
+			return false;
+		}
+
+		// Only on layout, so a button fires exactly once per frame and a toggle has
+		// already settled before the repaint pass reads it back.
+		return e.type == EventType.Layout && _hasActiveClick && SameRect(_activeClick, rect);
+	}
+
+	private static bool SameRect(Rect a, Rect b)
+	{
+		return Mathf.Abs(a.x - b.x) < 0.5f
+			   && Mathf.Abs(a.y - b.y) < 0.5f
+			   && Mathf.Abs(a.width - b.width) < 0.5f
+			   && Mathf.Abs(a.height - b.height) < 0.5f;
 	}
 
 	private static bool Hovered(Rect rect)
@@ -211,7 +241,10 @@ public static class RavenWidgets
 		var rect = GUILayoutUtility.GetRect(140f, 26f, GUILayout.Width(140f), GUILayout.Height(26f));
 		GUILayout.EndHorizontal();
 
-		if (_dropdownPicks.TryGetValue(key, out var picked))
+		// Taken on layout only. Consuming it on whatever pass came next meant the repaint
+		// pass saw a different selection than the layout pass, so a list whose length
+		// depends on the choice emitted a different number of controls.
+		if (Event.current.type == EventType.Layout && _dropdownPicks.TryGetValue(key, out var picked))
 		{
 			_dropdownPicks.Remove(key);
 			index = picked;
