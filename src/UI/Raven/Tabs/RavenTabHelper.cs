@@ -68,15 +68,37 @@ internal static class RavenTabHelper
 	}
 
 	private const float ColumnGap = 12f;
+	private const float MinColumnWidth = 240f;
 
 	private static float _rowUsed;
 	private static bool _rowOpen;
+	private static float _autoWidth;
 
 	public static void BeginColumns()
 	{
 		_rowUsed = 0f;
 		_rowOpen = false;
+		_autoWidth = 0f;
 		GUILayout.BeginVertical();
+	}
+
+	// Fixed widths only line up at one window size. A tab that asks for three columns
+	// of 290 needs 906 pixels and gets 900, so the third card wraps onto a row of its
+	// own that starts below the tallest card above it.
+	public static void BeginColumns(int columns)
+	{
+		BeginColumns();
+
+		if (columns < 1)
+			return;
+
+		var usable = RavenMenu.ContentWidth - ColumnGap * (columns - 1);
+		_autoWidth = Mathf.Max(MinColumnWidth, Mathf.Floor(usable / columns) - 1f);
+	}
+
+	public static void BeginColumn()
+	{
+		BeginColumn(_autoWidth > 0f ? _autoWidth : MinColumnWidth);
 	}
 
 	public static void EndColumns()

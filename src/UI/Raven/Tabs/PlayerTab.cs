@@ -14,22 +14,20 @@ internal class PlayerTab : IRavenTab
 {
 	public string Title => "Player";
 
-	private const float ColumnWidth = 290f;
-
 	public void Draw()
 	{
-		RavenTabHelper.BeginColumns();
+		RavenTabHelper.BeginColumns(3);
 
-		RavenTabHelper.BeginColumn(ColumnWidth);
+		RavenTabHelper.BeginColumn();
 		DrawSurvivalCard();
 		DrawActionsCard();
 		RavenTabHelper.EndColumn();
 
-		RavenTabHelper.BeginColumn(ColumnWidth);
+		RavenTabHelper.BeginColumn();
 		DrawMovementCard();
 		RavenTabHelper.EndColumn();
 
-		RavenTabHelper.BeginColumn(ColumnWidth);
+		RavenTabHelper.BeginColumn();
 		DrawCameraCard();
 		RavenTabHelper.EndColumn();
 

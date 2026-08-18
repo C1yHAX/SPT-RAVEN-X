@@ -28,29 +28,27 @@ internal class BotsTab : IRavenTab
 	{
 		_sub = RavenWidgets.SubTabBar(["Live Entities", "Spawn"], _sub);
 
-		RavenTabHelper.BeginColumns();
+		RavenTabHelper.BeginColumns(3);
 
 		if (_sub == 0)
 		{
-			RavenTabHelper.BeginColumn(ColumnWidth);
+			RavenTabHelper.BeginColumn();
 			DrawLiveCard();
 			RavenTabHelper.EndColumn();
 
-			RavenTabHelper.BeginColumn(ColumnWidth);
+			RavenTabHelper.BeginColumn();
 			DrawActionsCard();
 			RavenTabHelper.EndColumn();
 		}
 		else
 		{
-			RavenTabHelper.BeginColumn(ColumnWidth);
+			RavenTabHelper.BeginColumn();
 			DrawSpawnCard();
 			RavenTabHelper.EndColumn();
 		}
 
 		RavenTabHelper.EndColumns();
 	}
-
-	private const float ColumnWidth = 340f;
 
 	private Vector2 _spawnScroll;
 	private Vector2 _liveScroll;

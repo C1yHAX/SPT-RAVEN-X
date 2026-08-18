@@ -15,36 +15,28 @@ internal class VisualsTab : IRavenTab
 {
 	public string Title => "Visuals";
 
-	private const float ColumnWidth = 252f;
-
 	public void Draw()
 	{
 		var players = FeatureFactory.GetFeature<Players>();
 
-		RavenTabHelper.BeginColumns();
+		// Three columns that each stack several cards, rather than six that wrap onto
+		// a second row. A wrapped row starts below the tallest card of the row above
+		// it, which is what left the large empty blocks.
+		RavenTabHelper.BeginColumns(3);
 
-		RavenTabHelper.BeginColumn(ColumnWidth);
+		RavenTabHelper.BeginColumn();
 		DrawPlayersCard(players);
-		RavenTabHelper.EndColumn();
-
-		RavenTabHelper.BeginColumn(ColumnWidth);
-		DrawChamsCard();
-		RavenTabHelper.EndColumn();
-
-		RavenTabHelper.BeginColumn(ColumnWidth);
-		DrawWorldCard();
-		RavenTabHelper.EndColumn();
-
-		RavenTabHelper.BeginColumn(ColumnWidth);
 		DrawOtherCard();
 		RavenTabHelper.EndColumn();
 
-		RavenTabHelper.BeginColumn(ColumnWidth);
+		RavenTabHelper.BeginColumn();
+		DrawChamsCard();
 		DrawRolesCard(players);
 		DrawFiltersCard(players);
 		RavenTabHelper.EndColumn();
 
-		RavenTabHelper.BeginColumn(ColumnWidth);
+		RavenTabHelper.BeginColumn();
+		DrawWorldCard();
 		DrawRenderCard(players);
 		RavenTabHelper.EndColumn();
 
@@ -221,8 +213,21 @@ internal class VisualsTab : IRavenTab
 	// Every control here is drawn unconditionally, including the warning line, which
 	// carries empty text when there is nothing to warn about. A control that appears
 	// only sometimes would change the count between the layout and repaint passes.
+	private static string LootHint(LootItems loot)
+	{
+		if (loot.MaximumPrice > 0 && loot.MaximumPrice < loot.MinimumPrice)
+			return "Upper limit is below the lower one, nothing will show.";
+
+		if (!loot.ShowUntracked && loot.TrackedNames.Count == 0 && !loot.TrackWishlist && !loot.TrackAutoWishlist)
+			return "Only tracked items are shown and nothing is tracked yet.";
+
+		return string.Empty;
+	}
+
 	private static void DrawLootFilters(LootItems loot)
 	{
+		loot.ShowUntracked = RavenWidgets.Checkbox(loot.ShowUntracked, "Everything, not just tracked");
+
 		var from = RavenWidgets.Slider("Price from", loot.MinimumPrice, 0f, 200000f,
 			loot.MinimumPrice > 0 ? $"{loot.MinimumPrice}" : "any");
 		loot.MinimumPrice = Mathf.RoundToInt(from / 500f) * 500;
@@ -231,9 +236,9 @@ internal class VisualsTab : IRavenTab
 			loot.MaximumPrice > 0 ? $"{loot.MaximumPrice}" : "no limit");
 		loot.MaximumPrice = Mathf.RoundToInt(to / 500f) * 500;
 
-		var conflicting = loot.MaximumPrice > 0 && loot.MaximumPrice < loot.MinimumPrice;
-		GUILayout.Label(conflicting ? "Upper limit is below the lower one — nothing will show." : string.Empty,
-			RavenTheme.MutedLabel);
+		// Always drawn, empty when there is nothing to say, so the control count stays
+		// the same between the layout and the repaint pass.
+		GUILayout.Label(LootHint(loot), RavenTheme.MutedLabel);
 
 		var rank = LootItems.RarityRank(loot.MinimumRarity);
 		var picked = RavenWidgets.Dropdown("Rarity", rank, RarityOptions, loot);

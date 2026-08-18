@@ -39,6 +39,9 @@ internal class LootItems : PointOfInterests
 	public bool ShowPrices { get; set; } = true;
 
 	[ConfigurationProperty]
+	public bool ShowUntracked { get; set; } = true;
+
+	[ConfigurationProperty]
 	public int MinimumPrice { get; set; } = 0;
 
 	[ConfigurationProperty]
@@ -110,7 +113,7 @@ internal class LootItems : PointOfInterests
 		Wishlist.Clear();
 		Wishlist = RefreshWishlist();
 
-		if (TrackedNames.Count == 0 && Wishlist.Count == 0)
+		if (!ShowUntracked && TrackedNames.Count == 0 && Wishlist.Count == 0)
 			return;
 
 		var world = Singleton<GameWorld>.Instance;
@@ -228,6 +231,9 @@ internal class LootItems : PointOfInterests
 
 	private void TryAddRecordIfTracked(Item item, List<PointOfInterest> records, Vector3 position, string? owner = null)
 	{
+		if (IsOutOfRange(position))
+			return;
+
 		var itemName = item.ShortName.Localized();
 		var template = item.Template;
 		var templateId = template._id;
@@ -240,10 +246,15 @@ internal class LootItems : PointOfInterests
 		{
 			var rarity = template.GetEstimatedRarity();
 			var trackedItem = TryFindTrackedItem(itemName, templateId, rarity);
-			if (trackedItem == null)
+
+			// Without this the feature is a pure allow-list: nothing at all is drawn
+			// until you name an item, which makes the price and rarity settings look
+			// broken because they are filtering an empty set.
+			if (trackedItem == null && !ShowUntracked)
 				return;
 
-			color = trackedItem.Color ?? color;
+			if (trackedItem != null)
+				color = trackedItem.Color ?? color;
 		}
 
 		if (owner != null && owner == KnownTemplateIds.DefaultInventoryLocalizedShortName)
@@ -256,6 +267,22 @@ internal class LootItems : PointOfInterests
 		poi.Color = color;
 
 		records.Add(poi);
+	}
+
+	// The renderer already drops distant points, but doing it here as well keeps the
+	// list itself small when untracked loot is shown, which is otherwise every item
+	// on the map on every refresh.
+	private bool IsOutOfRange(Vector3 position)
+	{
+		if (MaximumDistance <= 0)
+			return false;
+
+		var camera = GameState.Current?.Camera;
+		if (camera == null)
+			return false;
+
+		var limit = MaximumDistance;
+		return (position - camera.transform.position).sqrMagnitude > limit * limit;
 	}
 
 	// A price of zero on either end means that end is open, so leaving both at zero

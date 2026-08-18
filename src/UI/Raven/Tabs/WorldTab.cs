@@ -12,21 +12,19 @@ internal class WorldTab : IRavenTab
 {
 	public string Title => "World";
 
-	private const float ColumnWidth = 300f;
-
 	public void Draw()
 	{
-		RavenTabHelper.BeginColumns();
+		RavenTabHelper.BeginColumns(3);
 
-		RavenTabHelper.BeginColumn(ColumnWidth);
+		RavenTabHelper.BeginColumn();
 		DrawEventsCard();
 		RavenTabHelper.EndColumn();
 
-		RavenTabHelper.BeginColumn(ColumnWidth);
+		RavenTabHelper.BeginColumn();
 		DrawInteractionCard();
 		RavenTabHelper.EndColumn();
 
-		RavenTabHelper.BeginColumn(ColumnWidth);
+		RavenTabHelper.BeginColumn();
 		DrawSkyCard();
 		RavenTabHelper.EndColumn();
 

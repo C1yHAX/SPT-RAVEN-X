@@ -10,23 +10,21 @@ internal class AimbotTab : IRavenTab
 {
 	public string Title => "Aimbot";
 
-	private const float ColumnWidth = 290f;
-
 	public void Draw()
 	{
 		var aimbot = FeatureFactory.GetFeature<Aimbot>();
 
-		RavenTabHelper.BeginColumns();
+		RavenTabHelper.BeginColumns(3);
 
-		RavenTabHelper.BeginColumn(ColumnWidth);
+		RavenTabHelper.BeginColumn();
 		DrawAimCard(aimbot);
 		RavenTabHelper.EndColumn();
 
-		RavenTabHelper.BeginColumn(ColumnWidth);
+		RavenTabHelper.BeginColumn();
 		DrawSilentCard(aimbot);
 		RavenTabHelper.EndColumn();
 
-		RavenTabHelper.BeginColumn(ColumnWidth);
+		RavenTabHelper.BeginColumn();
 		DrawFovCard(aimbot);
 		DrawPenetrationCard();
 		RavenTabHelper.EndColumn();

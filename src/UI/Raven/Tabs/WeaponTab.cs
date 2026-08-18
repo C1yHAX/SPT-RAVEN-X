@@ -10,21 +10,19 @@ internal class WeaponTab : IRavenTab
 {
 	public string Title => "Weapon";
 
-	private const float ColumnWidth = 290f;
-
 	public void Draw()
 	{
-		RavenTabHelper.BeginColumns();
+		RavenTabHelper.BeginColumns(3);
 
-		RavenTabHelper.BeginColumn(ColumnWidth);
+		RavenTabHelper.BeginColumn();
 		DrawFiringCard();
 		RavenTabHelper.EndColumn();
 
-		RavenTabHelper.BeginColumn(ColumnWidth);
+		RavenTabHelper.BeginColumn();
 		DrawHandlingCard();
 		RavenTabHelper.EndColumn();
 
-		RavenTabHelper.BeginColumn(ColumnWidth);
+		RavenTabHelper.BeginColumn();
 		DrawGearCard();
 		DrawThrowablesCard();
 		RavenTabHelper.EndColumn();
