@@ -6,6 +6,7 @@ using System.Text;
 using RavenX.Features;
 using RavenX.Properties;
 using EFT.UI;
+using JsonType;
 using Newtonsoft.Json;
 using EFT;
 
@@ -18,7 +19,7 @@ internal static class ConfigurationManager
 	private const string NamespacePrefix = "RavenX.";
 	private const string LegacyPrefix = "EFT.Trainer.";
 
-	public static JsonConverter[] Converters => [new TrackedItemConverter(), new ColorConverter(), new KeyCodeConverter()];
+	public static JsonConverter[] Converters => [new TrackedItemConverter(), new ColorConverter(), new KeyCodeConverter(), new EnumConverter<ELootRarity>()];
 
 	private static void AddConsoleLog(string log)
 	{
@@ -68,7 +69,10 @@ internal static class ConfigurationManager
 						var value = JsonConvert.DeserializeObject(line.Substring(matched.Length), op.Property.PropertyType, Converters);
 						op.Property.SetValue(feature, value);
 					}
-					catch (JsonException)
+					// Enum.Parse raises ArgumentException, not a JsonException, so catching
+					// only the latter let a single mistyped key name abort the whole file
+					// and reset every setting that had not been read yet.
+					catch (Exception)
 					{
 						AddConsoleLog(string.Format(Strings.ErrorCorruptedPropertyFormat, key, filename).Red());
 					}

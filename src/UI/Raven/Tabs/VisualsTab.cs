@@ -218,16 +218,14 @@ internal class VisualsTab : IRavenTab
 		if (loot.MaximumPrice > 0 && loot.MaximumPrice < loot.MinimumPrice)
 			return "Upper limit is below the lower one, nothing will show.";
 
-		if (!loot.ShowUntracked && loot.TrackedNames.Count == 0 && !loot.TrackWishlist && !loot.TrackAutoWishlist)
-			return "Only tracked items are shown and nothing is tracked yet.";
+		if (loot.TrackedNames.Count > 0)
+			return $"Limited to the {loot.TrackedNames.Count} tracked items.";
 
 		return string.Empty;
 	}
 
 	private static void DrawLootFilters(LootItems loot)
 	{
-		loot.ShowUntracked = RavenWidgets.Checkbox(loot.ShowUntracked, "Everything, not just tracked");
-
 		var from = RavenWidgets.Slider("Price from", loot.MinimumPrice, 0f, 200000f,
 			loot.MinimumPrice > 0 ? $"{loot.MinimumPrice}" : "any");
 		loot.MinimumPrice = Mathf.RoundToInt(from / 500f) * 500;
@@ -246,7 +244,7 @@ internal class VisualsTab : IRavenTab
 			loot.MinimumRarity = RarityFromRank(picked);
 
 		var distance = RavenWidgets.Slider("Maximum distance", loot.MaximumDistance, 0f, 500f,
-			loot.MaximumDistance > 0 ? $"{loot.MaximumDistance:0} m" : "off");
+			loot.MaximumDistance > 0 ? $"{loot.MaximumDistance:0} m" : "unlimited");
 		loot.MaximumDistance = Mathf.Round(distance / 10f) * 10f;
 	}
 

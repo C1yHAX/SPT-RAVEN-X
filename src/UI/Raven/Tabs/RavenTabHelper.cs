@@ -72,13 +72,17 @@ internal static class RavenTabHelper
 
 	private static float _rowUsed;
 	private static bool _rowOpen;
+	private static bool _columnOpen;
+	private static bool _columnsOpen;
 	private static float _autoWidth;
 
 	public static void BeginColumns()
 	{
 		_rowUsed = 0f;
 		_rowOpen = false;
+		_columnOpen = false;
 		_autoWidth = 0f;
+		_columnsOpen = true;
 		GUILayout.BeginVertical();
 	}
 
@@ -92,7 +96,9 @@ internal static class RavenTabHelper
 		if (columns < 1)
 			return;
 
-		var usable = RavenMenu.ContentWidth - ColumnGap * (columns - 1);
+		// EndColumn spaces after every column, not between them, so the budget is one
+		// gap per column. Counting one fewer overflows the row by a whole gap.
+		var usable = RavenMenu.ContentWidth - ColumnGap * columns;
 		_autoWidth = Mathf.Max(MinColumnWidth, Mathf.Floor(usable / columns) - 1f);
 	}
 
@@ -105,6 +111,35 @@ internal static class RavenTabHelper
 	{
 		CloseRow();
 		GUILayout.EndVertical();
+		_columnsOpen = false;
+	}
+
+	// A tab that throws between BeginColumns and EndColumns leaves its groups on the
+	// IMGUI stack. The scroll view and the area closed afterwards then pop the wrong
+	// entries, and a missed EndArea leaves a GUIClip pushed for good, which breaks
+	// every OnGUI in the game rather than just this window.
+	public static void ForceClose()
+	{
+		if (_columnOpen)
+		{
+			GUILayout.EndVertical();
+			_columnOpen = false;
+		}
+
+		if (_rowOpen)
+		{
+			GUILayout.EndHorizontal();
+			_rowOpen = false;
+		}
+
+		if (_columnsOpen)
+		{
+			GUILayout.EndVertical();
+			_columnsOpen = false;
+		}
+
+		_rowUsed = 0f;
+		_autoWidth = 0f;
 	}
 
 	public static void BeginColumn(float width)
@@ -123,11 +158,13 @@ internal static class RavenTabHelper
 
 		_rowUsed += width + ColumnGap;
 		GUILayout.BeginVertical(GUILayout.Width(width));
+		_columnOpen = true;
 	}
 
 	public static void EndColumn()
 	{
 		GUILayout.EndVertical();
+		_columnOpen = false;
 		GUILayout.Space(ColumnGap);
 	}
 

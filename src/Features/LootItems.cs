@@ -39,9 +39,6 @@ internal class LootItems : PointOfInterests
 	public bool ShowPrices { get; set; } = true;
 
 	[ConfigurationProperty]
-	public bool ShowUntracked { get; set; } = true;
-
-	[ConfigurationProperty]
 	public int MinimumPrice { get; set; } = 0;
 
 	[ConfigurationProperty]
@@ -112,9 +109,6 @@ internal class LootItems : PointOfInterests
 	{
 		Wishlist.Clear();
 		Wishlist = RefreshWishlist();
-
-		if (!ShowUntracked && TrackedNames.Count == 0 && Wishlist.Count == 0)
-			return;
 
 		var world = Singleton<GameWorld>.Instance;
 		if (world == null)
@@ -239,22 +233,22 @@ internal class LootItems : PointOfInterests
 		var templateId = template._id;
 		var color = Color;
 
-		if (!PassesFilters(template))
-			return;
+		var rarity = template.GetEstimatedRarity();
+		var trackedItem = TryFindTrackedItem(itemName, templateId, rarity);
 
+		if (trackedItem?.Color != null)
+			color = trackedItem.Color.Value;
+
+		// The wishlist only ever adds. Letting it restrict would mean switching a
+		// tracking option on quietly hides everything else, and an empty profile
+		// wishlist would then behave the opposite way to a filled one.
 		if (!Wishlist.Contains(templateId))
 		{
-			var rarity = template.GetEstimatedRarity();
-			var trackedItem = TryFindTrackedItem(itemName, templateId, rarity);
-
-			// Without this the feature is a pure allow-list: nothing at all is drawn
-			// until you name an item, which makes the price and rarity settings look
-			// broken because they are filtering an empty set.
-			if (trackedItem == null && !ShowUntracked)
+			if (!PassesFilters(template, rarity))
 				return;
 
-			if (trackedItem != null)
-				color = trackedItem.Color ?? color;
+			if (trackedItem == null && TrackedNames.Count > 0)
+				return;
 		}
 
 		if (owner != null && owner == KnownTemplateIds.DefaultInventoryLocalizedShortName)
@@ -269,15 +263,21 @@ internal class LootItems : PointOfInterests
 		records.Add(poi);
 	}
 
-	// The renderer already drops distant points, but doing it here as well keeps the
-	// list itself small when untracked loot is shown, which is otherwise every item
-	// on the map on every refresh.
+	// The renderer drops distant points as well, but doing it while collecting keeps
+	// the list itself small. At zero there is no limit and everything is kept.
 	private bool IsOutOfRange(Vector3 position)
 	{
 		if (MaximumDistance <= 0)
 			return false;
 
-		var camera = GameState.Current?.Camera;
+		var snapshot = GameState.Current;
+
+		// The map measures from its own camera against a flattened height, so culling
+		// here with the world camera would shrink the map to a bubble around the player.
+		if (snapshot == null || snapshot.MapMode)
+			return false;
+
+		var camera = snapshot.Camera;
 		if (camera == null)
 			return false;
 
@@ -287,7 +287,7 @@ internal class LootItems : PointOfInterests
 
 	// A price of zero on either end means that end is open, so leaving both at zero
 	// keeps every item exactly as before.
-	private bool PassesFilters(ItemTemplate template)
+	private bool PassesFilters(ItemTemplate template, ELootRarity rarity)
 	{
 		var price = template.CreditsPrice;
 
@@ -297,7 +297,7 @@ internal class LootItems : PointOfInterests
 		if (MaximumPrice > 0 && price > MaximumPrice)
 			return false;
 
-		return RarityRank(template.GetEstimatedRarity()) >= RarityRank(MinimumRarity);
+		return RarityRank(rarity) >= RarityRank(MinimumRarity);
 	}
 
 	// Ranked here rather than compared as an enum, so the order stays intentional

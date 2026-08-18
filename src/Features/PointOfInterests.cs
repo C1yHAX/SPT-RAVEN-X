@@ -45,6 +45,12 @@ internal abstract class PointOfInterests : CachableFeature<PointOfInterest>
 
 	public override void ProcessDataOnGUI(IReadOnlyList<PointOfInterest> data)
 	{
+		// Everything below draws through GUI.Label with explicit rects, which paints on
+		// repaint only. Without this the grouping and the projection ran again for every
+		// mouse move and key press, at the size of the whole list, for nothing.
+		if (Event.current.type != EventType.Repaint)
+			return;
+
 		var snapshot = GameState.Current;
 		if (snapshot == null)
 			return;

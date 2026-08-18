@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using RavenX.UI.Raven.Tabs;
 using UnityEngine;
 using EFT;
 
@@ -203,14 +204,24 @@ public class RavenMenu
 		GUILayout.BeginArea(content);
 		_scroll = GUILayout.BeginScrollView(_scroll, false, true);
 
-		if (_tabError != null)
-			GUILayout.Label(_tabError, RavenTheme.MutedLabel);
+		try
+		{
+			if (_tabError != null)
+				GUILayout.Label(_tabError, RavenTheme.MutedLabel);
 
-		if (_index >= 0 && _index < _tabs.Count)
-			DrawTab(_tabs[_index]);
+			if (_index >= 0 && _index < _tabs.Count)
+				DrawTab(_tabs[_index]);
 
-		GUILayout.EndScrollView();
-		GUILayout.EndArea();
+			GUILayout.EndScrollView();
+		}
+		catch (System.Exception)
+		{
+			// Never leave the area open: the clip would stay pushed for every later frame.
+		}
+		finally
+		{
+			GUILayout.EndArea();
+		}
 
 		var footer = new Rect(_window.x + 22f, _window.yMax - 26f, _window.width - 44f, 16f);
 		RavenWidgets.StatusDot(new Rect(footer.x + 96f, footer.y, 6f, footer.height), RavenTheme.Online);
@@ -234,6 +245,7 @@ public class RavenMenu
 			// which unbalances IMGUI just as badly as the original failure. Record it
 			// and let the next frame render the message from the start.
 			_tabError = $"{tab.Title} could not be drawn: {ex.Message}";
+			RavenTabHelper.ForceClose();
 		}
 	}
 
