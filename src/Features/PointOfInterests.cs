@@ -43,6 +43,21 @@ internal abstract class PointOfInterests : CachableFeature<PointOfInterest>
 			Pool.Return(poi);
 	}
 
+	// Read at draw time rather than at collection time, so a marker on a bot stays on
+	// the bot instead of on the spot where it stood at the last refresh.
+	private static Vector3 LivePosition(PointOfInterest poi)
+	{
+		var follow = poi.Follow;
+
+		// Plain reference check first. Comparing a Unity object against null asks the
+		// engine whether it has been destroyed, and almost every entry here is a fixed
+		// position that would pay for that question needlessly.
+		if ((object?)follow == null)
+			return poi.Position;
+
+		return follow != null ? follow.position : poi.Position;
+	}
+
 	public override void ProcessDataOnGUI(IReadOnlyList<PointOfInterest> data)
 	{
 		// Everything below draws through GUI.Label with explicit rects, which paints on
@@ -63,7 +78,7 @@ internal abstract class PointOfInterests : CachableFeature<PointOfInterest>
 			return;
 
 		var cameraPosition = camera.transform.position;
-		var poiPerPosition = data.ToLookup(poi => poi.Position);
+		var poiPerPosition = data.ToLookup(LivePosition);
 		foreach (var positionGroup in poiPerPosition)
 		{
 			var position = positionGroup.Key;

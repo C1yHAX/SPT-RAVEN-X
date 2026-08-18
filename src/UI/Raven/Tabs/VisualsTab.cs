@@ -219,6 +219,9 @@ internal class VisualsTab : IRavenTab
 		if (loot.MaximumPrice > 0 && loot.MaximumPrice < loot.MinimumPrice)
 			return "Upper limit is below the lower one.";
 
+		if ((loot.MinimumPrice > 0 || loot.MaximumPrice > 0) && !HandbookCatalog.Ready)
+			return "Prices are not read yet, so they are ignored.";
+
 		if (loot.TrackedNames.Count > 0)
 			return $"Limited to the {loot.TrackedNames.Count} tracked items.";
 

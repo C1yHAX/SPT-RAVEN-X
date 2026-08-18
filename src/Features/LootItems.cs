@@ -110,6 +110,10 @@ internal class LootItems : PointOfInterests
 		Wishlist.Clear();
 		Wishlist = RefreshWishlist();
 
+		// Cheap after the first success: it returns straight away once the handbook it
+		// already read is still the current one.
+		HandbookCatalog.Refresh();
+
 		var world = Singleton<GameWorld>.Instance;
 		if (world == null)
 			return;
@@ -152,7 +156,7 @@ internal class LootItems : PointOfInterests
 		}
 	}
 
-	private void FindItemsInRootItem(List<PointOfInterest> records, Item? rootItem, Vector3 position, string? ownerOverride = null)
+	private void FindItemsInRootItem(List<PointOfInterest> records, Item? rootItem, Vector3 position, string? ownerOverride = null, Transform? follow = null)
 	{
 		var items = rootItem?
 			.GetAllItems()?
@@ -166,7 +170,7 @@ internal class LootItems : PointOfInterests
 			if (!item.IsValid() || item.IsFiltered())
 				continue;
 
-			TryAddRecordIfTracked(item, records, position, ownerOverride ?? item.Owner?.RootItem?.TemplateId.LocalizedShortName());
+			TryAddRecordIfTracked(item, records, position, ownerOverride ?? item.Owner?.RootItem?.TemplateId.LocalizedShortName(), follow);
 		}
 	}
 
@@ -186,7 +190,7 @@ internal class LootItems : PointOfInterests
 				continue;
 
 			var owner = hostile.Profile?.Info?.Settings?.Role.ToString() ?? hostile.GetHostileType().ToString();
-			FindItemsInRootItem(records, equipment, hostile.Transform.position, owner);
+			FindItemsInRootItem(records, equipment, hostile.Transform.position, owner, hostile.gameObject.transform);
 		}
 	}
 
@@ -214,16 +218,32 @@ internal class LootItems : PointOfInterests
 		}
 	}
 
-	private string FormatName(string itemName, Item item)
+	// The template's own CreditsPrice is zero for most of the game's items; what the
+	// handbook holds is the figure the trader screens show.
+	internal static int PriceOf(ItemTemplate template)
 	{
-		var price = item.Template.CreditsPrice;
-		if (!ShowPrices || price < 1000)
-			return itemName;
+		var handbook = HandbookCatalog.PriceOf(template._id);
+		if (handbook > 0f)
+			return Mathf.RoundToInt(handbook);
 
-		return $"{itemName} {price / 1000}K";
+		return template.CreditsPrice;
 	}
 
-	private void TryAddRecordIfTracked(Item item, List<PointOfInterest> records, Vector3 position, string? owner = null)
+	private string FormatName(string itemName, Item item)
+	{
+		if (!ShowPrices)
+			return itemName;
+
+		var price = PriceOf(item.Template);
+		if (price <= 0)
+			return itemName;
+
+		return price >= 1000
+			? $"{itemName} {price / 1000f:0.#}K"
+			: $"{itemName} {price}";
+	}
+
+	private void TryAddRecordIfTracked(Item item, List<PointOfInterest> records, Vector3 position, string? owner = null, Transform? follow = null)
 	{
 		if (IsOutOfRange(position))
 			return;
@@ -260,6 +280,10 @@ internal class LootItems : PointOfInterests
 		poi.Position = position;
 		poi.Color = color;
 
+		// Assigned even when null: the pool hands back used entries, which would
+		// otherwise still carry the transform of whoever held the last item.
+		poi.Follow = follow;
+
 		records.Add(poi);
 	}
 
@@ -289,13 +313,18 @@ internal class LootItems : PointOfInterests
 	// keeps every item exactly as before.
 	private bool PassesFilters(ItemTemplate template, ELootRarity rarity)
 	{
-		var price = template.CreditsPrice;
+		var price = PriceOf(template);
 
-		if (MinimumPrice > 0 && price < MinimumPrice)
-			return false;
+		// A price of zero means it is not known yet, not that the item is worthless.
+		// Filtering on it would empty the display instead of thinning it out.
+		if (price > 0)
+		{
+			if (MinimumPrice > 0 && price < MinimumPrice)
+				return false;
 
-		if (MaximumPrice > 0 && price > MaximumPrice)
-			return false;
+			if (MaximumPrice > 0 && price > MaximumPrice)
+				return false;
+		}
 
 		return RarityRank(rarity) >= RarityRank(MinimumRarity);
 	}
