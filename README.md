@@ -124,3 +124,4 @@ MIT. See [LICENSE](LICENSE).
 ## Credit
 
 RavenX is maintained by **C1yHAX** — the SPT 4.1.2 port, the Raven interface and everything under that name.
+The project was also built using code from sailro https://github.com/sailro/EscapeFromTarkov-Trainer.
