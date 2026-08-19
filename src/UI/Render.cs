@@ -41,10 +41,36 @@ public static class Render
 
 	public static Rect MenuArea { get; set; }
 
+	private static int _inventoryFrame = -1;
+	private static bool _inventoryOpen;
+
+	// Asked once a frame and remembered. Every label and every box passes through here,
+	// so reaching into the player on each of them would be thousands of lookups.
+	private static bool InventoryOpen
+	{
+		get
+		{
+			if (_inventoryFrame == Time.frameCount)
+				return _inventoryOpen;
+
+			_inventoryFrame = Time.frameCount;
+
+			var player = Features.GameState.Current?.LocalPlayer;
+			_inventoryOpen = player != null && player.IsInventoryOpened;
+
+			return _inventoryOpen;
+		}
+	}
+
 	private static bool Behind(Rect rect)
 	{
 		if (DrawingMenu)
 			return false;
+
+		// The looting screen covers the picture, and a corpse you are standing over
+		// projects to the middle of it, so its contents were listed across the panels.
+		if (InventoryOpen)
+			return true;
 
 		var area = MenuArea;
 		return area.width > 0f && area.Overlaps(rect);
