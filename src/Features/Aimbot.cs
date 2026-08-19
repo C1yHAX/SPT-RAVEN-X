@@ -236,8 +236,6 @@ internal class Aimbot : HoldFeature
 		if (!TryGetNearestTarget(out var player, out _, out var nearestTarget))
 			return;
 
-		// Must match what CreateShotPrefix actually applies, or the aim point is solved
-		// for a speed the round never travels at.
 		var speedFactor = SilentAim
 			? SilentAimSpeedFactor
 			: MagicBullets && MagicBulletBoostSpeed

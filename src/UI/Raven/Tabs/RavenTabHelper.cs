@@ -86,9 +86,6 @@ internal static class RavenTabHelper
 		GUILayout.BeginVertical();
 	}
 
-	// Fixed widths only line up at one window size. A tab that asks for three columns
-	// of 290 needs 906 pixels and gets 900, so the third card wraps onto a row of its
-	// own that starts below the tallest card above it.
 	public static void BeginColumns(int columns)
 	{
 		BeginColumns();
@@ -96,10 +93,6 @@ internal static class RavenTabHelper
 		if (columns < 1)
 			return;
 
-		// Drop to as many columns as the window can actually hold, so a narrow window
-		// gets fewer but full width cards instead of thin ones with dead space beside
-		// them. EndColumn spaces after every column, not between them, so the budget is
-		// one gap per column; counting one fewer overruns the row by a whole gap.
 		var fits = Mathf.Max(1, Mathf.FloorToInt(RavenMenu.ContentWidth / (MinColumnWidth + ColumnGap)));
 		var count = Mathf.Min(columns, fits);
 
@@ -119,10 +112,6 @@ internal static class RavenTabHelper
 		_columnsOpen = false;
 	}
 
-	// A tab that throws between BeginColumns and EndColumns leaves its groups on the
-	// IMGUI stack. The scroll view and the area closed afterwards then pop the wrong
-	// entries, and a missed EndArea leaves a GUIClip pushed for good, which breaks
-	// every OnGUI in the game rather than just this window.
 	public static void ForceClose()
 	{
 		if (_columnOpen)
@@ -151,8 +140,6 @@ internal static class RavenTabHelper
 	{
 		var available = RavenMenu.ContentWidth;
 
-		// Tabs that ask for a fixed width would otherwise run off the edge once the
-		// window is dragged narrower than that width.
 		width = Mathf.Min(width, available - ColumnGap);
 
 		if (_rowOpen && _rowUsed + width > available)

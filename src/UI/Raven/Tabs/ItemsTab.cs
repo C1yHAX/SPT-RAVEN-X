@@ -222,9 +222,6 @@ internal class ItemsTab : IRavenTab
 	{
 		_searchInput = RavenWidgets.TextField(_searchInput, "filter by name — empty shows everything");
 
-		// The text field returns the new text on the keystroke itself, so refreshing here
-		// on every pass would change the number of result rows halfway through a frame.
-		// The list settles one frame later, which is not visible.
 		if (Event.current.type == EventType.Layout)
 			RefreshResults();
 		RavenWidgets.Spacer(10f);

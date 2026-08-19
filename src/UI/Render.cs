@@ -33,10 +33,6 @@ public static class Render
 
 	public static Vector2 ScreenCenter => new(Screen.width / 2f, Screen.height / 2f);
 
-	// The menu draws from its own OnGUI, and the order between separate behaviours is
-	// not ours to choose, so overlays would otherwise land on top of the window. The
-	// menu raises this flag around its own drawing and everything else is held back
-	// where the window sits.
 	public static bool DrawingMenu { get; set; }
 
 	public static Rect MenuArea { get; set; }
@@ -44,8 +40,6 @@ public static class Render
 	private static int _inventoryFrame = -1;
 	private static bool _inventoryOpen;
 
-	// Asked once a frame and remembered. Every label and every box passes through here,
-	// so reaching into the player on each of them would be thousands of lookups.
 	private static bool InventoryOpen
 	{
 		get
@@ -67,8 +61,6 @@ public static class Render
 		if (DrawingMenu)
 			return false;
 
-		// The looting screen covers the picture, and a corpse you are standing over
-		// projects to the middle of it, so its contents were listed across the panels.
 		if (InventoryOpen)
 			return true;
 
@@ -100,8 +92,6 @@ public static class Render
 		var upperLeft = centered ? position - size / 2f : position;
 		var rect = new Rect(upperLeft, size);
 
-		// The size still goes back to the caller so the rows below it keep their
-		// spacing, only the drawing is dropped.
 		if (Behind(rect))
 			return size;
 

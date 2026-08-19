@@ -19,9 +19,6 @@ internal class VisualsTab : IRavenTab
 	{
 		var players = FeatureFactory.GetFeature<Players>();
 
-		// Three columns that each stack several cards, rather than six that wrap onto
-		// a second row. A wrapped row starts below the tallest card of the row above
-		// it, which is what left the large empty blocks.
 		RavenTabHelper.BeginColumns(3);
 
 		RavenTabHelper.BeginColumn();
@@ -210,12 +207,8 @@ internal class VisualsTab : IRavenTab
 		}
 	}
 
-	// Every control here is drawn unconditionally, including the warning line, which
-	// carries empty text when there is nothing to warn about. A control that appears
-	// only sometimes would change the count between the layout and repaint passes.
 	private static string LootHint(LootItems loot)
 	{
-		// Kept to one line: the label has a fixed height, so a wrapping message is cut off.
 		if (loot.MaximumPrice > 0 && loot.MaximumPrice < loot.MinimumPrice)
 			return "Upper limit is below the lower one.";
 
@@ -238,9 +231,6 @@ internal class VisualsTab : IRavenTab
 			loot.MaximumPrice > 0 ? $"{loot.MaximumPrice}" : "no limit");
 		loot.MaximumPrice = Mathf.RoundToInt(to / 500f) * 500;
 
-		// Always drawn and always the same height: the sliders above write their values
-		// during the drag, so sizing this from the text would leave the layout pass and
-		// the repaint pass of that frame disagreeing about how tall it is.
 		GUILayout.Label(LootHint(loot), RavenTheme.MutedLabel, GUILayout.Height(RavenTheme.RowHeight));
 
 		var rank = LootItems.RarityRank(loot.MinimumRarity);

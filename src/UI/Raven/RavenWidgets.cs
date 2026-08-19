@@ -211,9 +211,6 @@ public static class RavenWidgets
 		var rect = GUILayoutUtility.GetRect(140f, 26f, GUILayout.Width(140f), GUILayout.Height(26f));
 		GUILayout.EndHorizontal();
 
-		// Taken on layout only. Consuming it on whatever pass came next meant the repaint
-		// pass saw a different selection than the layout pass, so a list whose length
-		// depends on the choice emitted a different number of controls.
 		if (Event.current.type == EventType.Layout && _dropdownPicks.TryGetValue(key, out var picked))
 		{
 			_dropdownPicks.Remove(key);
@@ -406,10 +403,6 @@ public static class RavenWidgets
 		return index;
 	}
 
-	// Wraps onto further rows once the window is too narrow to hold every tab side by
-	// side, and reports how many rows it used so the content below can start under
-	// them. Without the wrap the right hand tabs simply left the window and could no
-	// longer be reached.
 	public static int TabBar(Rect area, string[] tabs, int index, out int rows)
 	{
 		var x = area.x;

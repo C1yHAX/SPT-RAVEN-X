@@ -110,8 +110,6 @@ internal class LootItems : PointOfInterests
 		Wishlist.Clear();
 		Wishlist = RefreshWishlist();
 
-		// Cheap after the first success: it returns straight away once the handbook it
-		// already read is still the current one.
 		HandbookCatalog.Refresh();
 
 		var world = Singleton<GameWorld>.Instance;
@@ -218,8 +216,6 @@ internal class LootItems : PointOfInterests
 		}
 	}
 
-	// The template's own CreditsPrice is zero for most of the game's items; what the
-	// handbook holds is the figure the trader screens show.
 	internal static int PriceOf(ItemTemplate template)
 	{
 		var handbook = HandbookCatalog.PriceOf(template._id);
@@ -259,9 +255,6 @@ internal class LootItems : PointOfInterests
 		if (trackedItem?.Color != null)
 			color = trackedItem.Color.Value;
 
-		// The wishlist only ever adds. Letting it restrict would mean switching a
-		// tracking option on quietly hides everything else, and an empty profile
-		// wishlist would then behave the opposite way to a filled one.
 		if (!Wishlist.Contains(templateId))
 		{
 			if (!PassesFilters(template, rarity))
@@ -280,15 +273,11 @@ internal class LootItems : PointOfInterests
 		poi.Position = position;
 		poi.Color = color;
 
-		// Assigned even when null: the pool hands back used entries, which would
-		// otherwise still carry the transform of whoever held the last item.
 		poi.Follow = follow;
 
 		records.Add(poi);
 	}
 
-	// The renderer drops distant points as well, but doing it while collecting keeps
-	// the list itself small. At zero there is no limit and everything is kept.
 	private bool IsOutOfRange(Vector3 position)
 	{
 		if (MaximumDistance <= 0)
@@ -296,8 +285,6 @@ internal class LootItems : PointOfInterests
 
 		var snapshot = GameState.Current;
 
-		// The map measures from its own camera against a flattened height, so culling
-		// here with the world camera would shrink the map to a bubble around the player.
 		if (snapshot == null || snapshot.MapMode)
 			return false;
 
@@ -309,14 +296,10 @@ internal class LootItems : PointOfInterests
 		return (position - camera.transform.position).sqrMagnitude > limit * limit;
 	}
 
-	// A price of zero on either end means that end is open, so leaving both at zero
-	// keeps every item exactly as before.
 	private bool PassesFilters(ItemTemplate template, ELootRarity rarity)
 	{
 		var price = PriceOf(template);
 
-		// A price of zero means it is not known yet, not that the item is worthless.
-		// Filtering on it would empty the display instead of thinning it out.
 		if (price > 0)
 		{
 			if (MinimumPrice > 0 && price < MinimumPrice)
@@ -329,8 +312,6 @@ internal class LootItems : PointOfInterests
 		return RarityRank(rarity) >= RarityRank(MinimumRarity);
 	}
 
-	// Ranked here rather than compared as an enum, so the order stays intentional
-	// even if the game renumbers the values.
 	public static int RarityRank(ELootRarity rarity) => rarity switch
 	{
 		ELootRarity.Superrare => 3,

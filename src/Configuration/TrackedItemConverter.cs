@@ -30,10 +30,6 @@ public class TrackedItemConverter : JsonConverter
 			string name => new TrackedItem(name),
 			JObject jobject => jobject.ToObject<TrackedItem>()!,
 
-			// Returning a placeholder entry here used to be harmless because the list was
-			// only ever an addition. It now decides whether the overlay is restricted, so
-			// one unreadable entry would silently hide every item instead of being read
-			// as the empty list it effectively is.
 			_ => throw new JsonSerializationException(string.Format(Strings.ErrorCorruptedFileFormat, "ravenx.ini"))
 		};
 	}

@@ -12,7 +12,5 @@ internal struct PointOfInterest
 	public Vector3 Position { get; set; }
 	public Color Color { get; set; }
 
-	// Set for things carried by someone who walks away. Positions are only collected
-	// every few seconds, so without this the marker trails well behind a moving bot.
 	public Transform? Follow { get; set; }
 }

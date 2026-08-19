@@ -53,8 +53,6 @@ internal class GameState : CachableFeature<GameStateSnapshot>
 		var snapshot = new GameStateSnapshot();
 		var world = Singleton<GameWorld>.Instance;
 
-		// Leaving the snapshot in place once the raid is over means every overlay
-		// keeps drawing the positions it last saw, over the hideout and the menus.
 		if (world == null)
 		{
 			Current = null;

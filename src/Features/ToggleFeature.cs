@@ -33,7 +33,6 @@ internal abstract class ToggleFeature : Feature
 		if (!Enabled)
 			return;
 
-		// Behind the menu, which claims depth zero. Lower values sit in front.
 		GUI.depth = 10;
 		OnGUIWhenEnabled();
 	}

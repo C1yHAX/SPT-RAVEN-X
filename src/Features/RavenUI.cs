@@ -64,25 +64,17 @@ internal class RavenUI : ToggleFeature
 
 	protected override void UpdateWhenEnabled()
 	{
-		// Registering here rather than only while drawing means the node is in the
-		// tree before the first frame is rendered, so the look axes are already
-		// blocked as the menu appears instead of one frame later.
 		SetupInputNode();
 		SuspendGameUi();
 	}
 
 	protected override void UpdateWhenDisabled()
 	{
-		// Hand the screen back, or the overlays would stay hidden where the closed
-		// window used to be.
 		UI.Render.MenuArea = Rect.zero;
 
 		RestoreGameUi();
 	}
 
-	// The game's own screens are driven by Unity's event system, which never passes
-	// through the input tree. Without this a click meant for the menu also lands on
-	// whatever sits behind it.
 	private void SuspendGameUi()
 	{
 		if (_suspendedEventSystem != null)
@@ -120,8 +112,6 @@ internal class RavenUI : ToggleFeature
 #endif
 	override ETranslateResult TranslateCommand(ECommand command)
 	{
-		// Everything is held back while the menu is up, not just shooting. The key
-		// that closes it is read straight from Input, so this cannot lock you in.
 		return Enabled ? ETranslateResult.BlockAll : ETranslateResult.Ignore;
 	}
 

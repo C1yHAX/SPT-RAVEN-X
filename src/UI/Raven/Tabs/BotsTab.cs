@@ -71,8 +71,6 @@ internal class BotsTab : IRavenTab
 
 			var names = SpawnBot.GetBotNames();
 
-			// Taken from the layout pass, not from the live text, so typing cannot change
-			// how many rows this card draws partway through a frame.
 			if (Event.current.type == EventType.Layout)
 				_filterApplied = _filter.Trim();
 

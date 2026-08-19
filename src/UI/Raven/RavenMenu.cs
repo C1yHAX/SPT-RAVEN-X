@@ -16,7 +16,7 @@ public interface IRavenTab
 
 public class RavenMenu
 {
-	public const string Version = "v1.0.0";
+	public const string Version = "v1.1.0";
 
 	private readonly List<IRavenTab> _tabs = [];
 	private Rect _window = new(90, 60, 980, 660);
@@ -50,16 +50,10 @@ public class RavenMenu
 		RavenTheme.EnsureBuilt();
 		RavenWidgets.BeginFrame();
 
-		// Claim the area for this frame and mark ourselves exempt, so the overlays skip
-		// whatever would land on the window while our own grip still draws.
 		Render.MenuArea = _window;
 		Render.DrawingMenu = true;
 		GUI.depth = 0;
 
-		// The new size is taken here and nowhere else. Writing it while the mouse drags
-		// would leave the repaint pass laying out against a different width than the
-		// layout pass used, and the column wrap would then open a row in one pass and
-		// not the other.
 		if (Event.current.type == EventType.Layout && _hasPendingSize)
 		{
 			_window.width = _pendingSize.x;
@@ -101,7 +95,6 @@ public class RavenMenu
 	private const float MinContentHeight = 90f;
 	private const float GripSize = 18f;
 
-	// Every extra tab row pushes the content down, so the floor has to move with it.
 	private float MinimumHeight => MinHeight + (_tabsHeight - RavenTheme.TabHeight);
 
 	private void HandleResize()
@@ -231,8 +224,6 @@ public class RavenMenu
 	{
 		var top = _window.y + RavenTheme.HeaderHeight + _tabsHeight;
 
-		// Floored: a tab bar wrapped onto several rows eats into the height, and a
-		// negative area would take the scroll view with it.
 		var height = Mathf.Max(MinContentHeight, _window.height - (top - _window.y) - 42f);
 		var content = new Rect(_window.x + 18f, top + 12f, _window.width - 36f, height);
 
@@ -254,7 +245,6 @@ public class RavenMenu
 		}
 		catch (System.Exception)
 		{
-			// Never leave the area open: the clip would stay pushed for every later frame.
 		}
 		finally
 		{
@@ -267,9 +257,6 @@ public class RavenMenu
 		GUI.Label(new Rect(footer.x + 108f, footer.y, 200f, footer.height), "EFT | ONLINE", RavenTheme.Subtitle);
 	}
 
-	// A tab that throws mid-layout leaves the IMGUI layout stack unbalanced, which
-	// takes the whole window down with it — including the tab bar, so the menu can
-	// no longer be closed or switched away from. Keep the damage inside one tab.
 	private static void DrawTab(IRavenTab tab)
 	{
 		try
@@ -279,9 +266,6 @@ public class RavenMenu
 		}
 		catch (System.Exception ex)
 		{
-			// Drawing anything here would add a control the layout pass never counted,
-			// which unbalances IMGUI just as badly as the original failure. Record it
-			// and let the next frame render the message from the start.
 			_tabError = $"{tab.Title} could not be drawn: {ex.Message}";
 			RavenTabHelper.ForceClose();
 		}
