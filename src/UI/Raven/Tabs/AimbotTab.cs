@@ -48,7 +48,8 @@ internal class AimbotTab : IRavenTab
 			GUILayout.EndHorizontal();
 
 			RavenWidgets.Spacer(4f);
-			aimbot.MaximumDistance = RavenWidgets.Slider("Max Distance", aimbot.MaximumDistance, 10f, 1000f, $"{aimbot.MaximumDistance:0}m");
+			aimbot.MaximumDistance = RavenWidgets.Slider("Max Distance", aimbot.MaximumDistance, 10f, 1500f, $"{aimbot.MaximumDistance:0}m");
+			GUILayout.Label("Nothing past this is touched at all,\nnot even by Magic Bullets.", RavenTheme.MutedLabel);
 			RavenWidgets.Spacer(6f);
 			aimbot.Smoothness = RavenWidgets.Slider("Smoothness", aimbot.Smoothness, 0f, 1f, $"{aimbot.Smoothness:0.###}");
 			RavenWidgets.Spacer(6f);
@@ -78,9 +79,11 @@ internal class AimbotTab : IRavenTab
 			aimbot.MagicBullets = RavenWidgets.Checkbox(aimbot.MagicBullets, "Bend Own Shots");
 			GUILayout.Label("Redirects the rounds you fire.\nNever pulls the trigger for you.", RavenTheme.MutedLabel);
 			RavenWidgets.Spacer(6f);
+			aimbot.MagicBulletExtendFlight = RavenWidgets.Checkbox(aimbot.MagicBulletExtendFlight, "Extend Flight Time");
 			aimbot.MagicBulletFlightTime = RavenWidgets.Slider("Flight Time", aimbot.MagicBulletFlightTime, 1f, 30f, $"{aimbot.MagicBulletFlightTime:0}s");
 			GUILayout.Label("Keeps the round alive past the\nammo's own expiry. Raises range.", RavenTheme.MutedLabel);
 			RavenWidgets.Spacer(6f);
+			aimbot.MagicBulletBoostSpeed = RavenWidgets.Checkbox(aimbot.MagicBulletBoostSpeed, "Boost Muzzle Speed");
 			aimbot.MagicBulletSpeedFactor = RavenWidgets.Slider("Muzzle Boost", aimbot.MagicBulletSpeedFactor, 1f, 100f, $"{aimbot.MagicBulletSpeedFactor:0}x");
 			GUILayout.Label("Leave at 1x. Higher speeds bleed\noff to drag and cut range.", RavenTheme.MutedLabel);
 			RavenWidgets.Spacer(6f);

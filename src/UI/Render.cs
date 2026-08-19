@@ -33,6 +33,23 @@ public static class Render
 
 	public static Vector2 ScreenCenter => new(Screen.width / 2f, Screen.height / 2f);
 
+	// The menu draws from its own OnGUI, and the order between separate behaviours is
+	// not ours to choose, so overlays would otherwise land on top of the window. The
+	// menu raises this flag around its own drawing and everything else is held back
+	// where the window sits.
+	public static bool DrawingMenu { get; set; }
+
+	public static Rect MenuArea { get; set; }
+
+	private static bool Behind(Rect rect)
+	{
+		if (DrawingMenu)
+			return false;
+
+		var area = MenuArea;
+		return area.width > 0f && area.Overlaps(rect);
+	}
+
 	public static Color Color
 	{
 		get { return GUI.color; }
@@ -56,6 +73,11 @@ public static class Render
 		GetContentAndSize(label, out var content, out var size);
 		var upperLeft = centered ? position - size / 2f : position;
 		var rect = new Rect(upperLeft, size);
+
+		// The size still goes back to the caller so the rows below it keep their
+		// spacing, only the drawing is dropped.
+		if (Behind(rect))
+			return size;
 
 		if (OutlineThickness > 0f)
 		{
@@ -94,6 +116,9 @@ public static class Render
 
 	public static void DrawBox(float x, float y, float w, float h, float thickness, Color color)
 	{
+		if (Behind(new Rect(x, y, w + thickness, h + thickness)))
+			return;
+
 		Color = color;
 		var texture = Texture2D.whiteTexture;
 		GUI.DrawTexture(new Rect(x, y, w + thickness, thickness), texture);
@@ -104,6 +129,11 @@ public static class Render
 
 	public static void DrawLine(Vector2 lineStart, Vector2 lineEnd, float thickness, Color color)
 	{
+		if (Behind(Rect.MinMaxRect(
+				Mathf.Min(lineStart.x, lineEnd.x), Mathf.Min(lineStart.y, lineEnd.y),
+				Mathf.Max(lineStart.x, lineEnd.x), Mathf.Max(lineStart.y, lineEnd.y))))
+			return;
+
 		Color = color;
 
 		var vector = lineEnd - lineStart;

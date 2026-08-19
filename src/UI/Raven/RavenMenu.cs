@@ -50,6 +50,12 @@ public class RavenMenu
 		RavenTheme.EnsureBuilt();
 		RavenWidgets.BeginFrame();
 
+		// Claim the area for this frame and mark ourselves exempt, so the overlays skip
+		// whatever would land on the window while our own grip still draws.
+		Render.MenuArea = _window;
+		Render.DrawingMenu = true;
+		GUI.depth = 0;
+
 		// The new size is taken here and nowhere else. Writing it while the mouse drags
 		// would leave the repaint pass laying out against a different width than the
 		// layout pass used, and the column wrap would then open a row in one pass and
@@ -72,6 +78,8 @@ public class RavenMenu
 		DrawContent();
 
 		RavenWidgets.EndFrame();
+
+		Render.DrawingMenu = false;
 	}
 
 	public void OnClosed()

@@ -73,6 +73,10 @@ internal class RavenUI : ToggleFeature
 
 	protected override void UpdateWhenDisabled()
 	{
+		// Hand the screen back, or the overlays would stay hidden where the closed
+		// window used to be.
+		UI.Render.MenuArea = Rect.zero;
+
 		RestoreGameUi();
 	}
 

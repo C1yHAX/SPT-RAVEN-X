@@ -58,8 +58,14 @@ internal class Aimbot : HoldFeature
 	[ConfigurationProperty(Order = 41)]
 	public float MagicBulletSpeedFactor { get; set; } = 1f;
 
+	[ConfigurationProperty(Order = 46)]
+	public bool MagicBulletBoostSpeed { get; set; } = true;
+
 	[ConfigurationProperty(Order = 45)]
 	public float MagicBulletFlightTime { get; set; } = 12f;
+
+	[ConfigurationProperty(Order = 47)]
+	public bool MagicBulletExtendFlight { get; set; } = true;
 
 	[ConfigurationProperty(Order = 42)]
 	public bool CompensateDrop { get; set; } = true;
@@ -91,7 +97,7 @@ internal class Aimbot : HoldFeature
 
 		if (feature.SilentAim)
 			speedFactor = feature.SilentAimSpeedFactor;
-		else if (feature.MagicBullets)
+		else if (feature.MagicBullets && feature.MagicBulletBoostSpeed)
 			speedFactor = Mathf.Max(1f, feature.MagicBulletSpeedFactor);
 
 		direction = (feature.ResolveAimPoint(feature._silentAimTarget.position, origin, speedFactor) - origin).normalized;
@@ -122,6 +128,9 @@ internal class Aimbot : HoldFeature
 
 		var feature = FeatureFactory.GetFeature<Aimbot>();
 		if (feature == null || (!feature.SilentAim && !feature.MagicBullets))
+			return;
+
+		if (!feature.MagicBulletExtendFlight)
 			return;
 
 		if (__instance.Player?.iPlayer is not { IsYourPlayer: true })
@@ -227,9 +236,11 @@ internal class Aimbot : HoldFeature
 		if (!TryGetNearestTarget(out var player, out _, out var nearestTarget))
 			return;
 
+		// Must match what CreateShotPrefix actually applies, or the aim point is solved
+		// for a speed the round never travels at.
 		var speedFactor = SilentAim
 			? SilentAimSpeedFactor
-			: MagicBullets
+			: MagicBullets && MagicBulletBoostSpeed
 				? MagicBulletSpeedFactor
 				: 1f;
 

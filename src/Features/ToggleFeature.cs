@@ -30,8 +30,12 @@ internal abstract class ToggleFeature : Feature
 	[UsedImplicitly]
 	private void OnGUI()
 	{
-		if (Enabled)
-			OnGUIWhenEnabled();
+		if (!Enabled)
+			return;
+
+		// Behind the menu, which claims depth zero. Lower values sit in front.
+		GUI.depth = 10;
+		OnGUIWhenEnabled();
 	}
 
 	protected virtual void UpdateWhenEnabled() { }
