@@ -106,6 +106,21 @@ internal static class RoleCatalog
 
 	public static Color OccludedFrom(Color visible) => new(visible.r * 0.35f, visible.g * 0.35f, visible.b * 0.35f, 0.8f);
 
+	private static Dictionary<string, string>? _labels;
+
+	public static string LabelOf(string key)
+	{
+		if (_labels == null)
+		{
+			_labels = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
+
+			foreach (var definition in _definitions)
+				_labels[definition.Key] = definition.Label;
+		}
+
+		return _labels.TryGetValue(key, out var label) ? label : key;
+	}
+
 	public static RoleSetting Resolve(List<RoleSetting> settings, ref Dictionary<string, RoleSetting>? index, string key)
 	{
 		if (index == null || index.Count != settings.Count)

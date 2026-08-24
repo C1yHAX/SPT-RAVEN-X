@@ -1,5 +1,23 @@
 # Changelog
 
+## 1.2.0
+
+### Changed
+
+- **Chams live in one place now.** Players ESP carried its own outline based version
+  alongside the Chams feature, so the same thing was configured twice. *Show Charms*
+  and *X-Ray Vision* are gone from Players ESP; the Chams card does all of it.
+- **The info readout names the faction.** A new *Faction* switch under *Readout*
+  prints BEAR, USEC, marksman, bossBully and the rest above the box.
+
+### Fixed
+
+- **Chams could not be switched off, and weapons kept glowing** in the inventory
+  and in hand. Painting a corpse or a loot item captured the cham materials that
+  were still on it as the originals, so restoring put them back rather than
+  removing them. Anything already caught by this stays lit until the game is
+  restarted; nothing in the code can undo materials that were overwritten.
+
 ## 1.1.0
 
 ### Added

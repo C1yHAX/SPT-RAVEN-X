@@ -9,7 +9,6 @@ using RavenX.Properties;
 using RavenX.UI;
 using JetBrains.Annotations;
 using UnityEngine;
-using UnityEngine.Rendering;
 using EFT;
 
 #nullable enable
@@ -80,14 +79,11 @@ internal class Players : ToggleFeature
 	[ConfigurationProperty(Order = 21)]
 	public float BoxThickness { get; set; } = 2f;
 
-	[ConfigurationProperty(Order = 30)]
-	public bool ShowCharms { get; set; } = true;
-
-	[ConfigurationProperty(Order = 31)]
-	public bool XRayVision { get; set; } = true;
-
 	[ConfigurationProperty(Order = 40)]
 	public bool ShowInfos { get; set; } = true;
+
+	[ConfigurationProperty(Order = 41)]
+	public bool ShowRole { get; set; } = true;
 
 	[ConfigurationProperty(Order = 89)]
 	public bool ShowNames { get; set; } = false;
@@ -152,9 +148,6 @@ internal class Players : ToggleFeature
 	[ConfigurationProperty(Order = 98)]
 	public float TextOutline { get; set; } = 0f;
 
-	private static bool _lastXRayVision = true;
-	private static bool _lastShowCharms = true;
-
 	private static Camera? _opticCamera;
 	private static (Vector2 center, float radius) _scopeParameters;
 
@@ -181,19 +174,8 @@ internal class Players : ToggleFeature
 		if (camera == null)
 			return;
 
-		var cacheComponent = player.GetOrAddComponent<ShaderCache>();
-		var cache = cacheComponent.Cache;
-
-		if (!Enabled || XRayVision != _lastXRayVision || ShowCharms != _lastShowCharms)
-		{
-			_lastXRayVision = XRayVision;
-			_lastShowCharms = ShowCharms;
-
-			if (cache.Count > 0)
-				ResetShaders(cache);
-
+		if (!Enabled)
 			return;
-		}
 
 		var isAiming = AimingCheck(camera, player);
 
@@ -209,9 +191,6 @@ internal class Players : ToggleFeature
 			var defaults = GetPlayerColors(ennemy);
 			var playerColors = new PlayerColor(role.Visible, defaults.BorderColor, role.Visible);
 			var borderColor = playerColors.BorderColor;
-
-			if (ShowCharms)
-				SetShaders(ennemy, GameState.OutlineShader, playerColors.Color, borderColor, cache);
 
 			var position = ennemy.Transform.position;
 			var screenPosition = isAiming ? ScopePointToScreenPoint(camera, position) : camera.WorldPointToVisibleScreenPoint(position);
@@ -314,6 +293,16 @@ internal class Players : ToggleFeature
 				: JoinParts(weaponText, ShowHealthText ? $"{Mathf.Round(healthFraction * 100f)}%" : string.Empty, distanceText);
 
 			var textY = boxPositionY - 20f;
+
+			if (ShowRole)
+			{
+				var label = RoleCatalog.LabelOf(RoleCatalog.KeyOf(ennemy));
+				if (label.Length > 0)
+				{
+					Render.DrawString(new Vector2(boxPositionX, textY), label, playerColors.InfoColor, false);
+					textY -= 16f;
+				}
+			}
 
 			if (ShowNames)
 			{
@@ -460,72 +449,6 @@ internal class Players : ToggleFeature
 			HostileType.RogueUsec => RogueUsecColors,
 			_ => ScavColors,
 		};
-	}
-
-	private void SetShaders(Player player, Shader? shader, Color color, Color borderColor, Dictionary<Renderer, Shader?> cache)
-	{
-		var playerBody = player.PlayerBody;
-		if (playerBody == null)
-			return;
-
-		var skins = playerBody.BodySkins;
-		if (skins == null)
-			return;
-
-		foreach (var skin in skins.Values)
-		{
-			if (skin == null)
-				continue;
-
-			foreach (var renderer in skin.GetRenderers())
-			{
-				if (renderer == null)
-					continue;
-
-				var material = renderer.material;
-				if (material == null)
-					continue;
-
-				if (material.shader != null && material.shader == shader)
-					continue;
-
-				renderer.allowOcclusionWhenDynamic = false;
-				renderer.forceRenderingOff = false;
-				renderer.enabled = true;
-
-				cache[renderer] = material.shader;
-				material.shader = shader;
-
-				material.SetColor(ShaderProperties.FirstOutlineColor, borderColor);
-				material.SetFloat(ShaderProperties.FirstOutlineWidth, 0.02f);
-				material.SetColor(ShaderProperties.SecondOutlineColor, color);
-				material.SetFloat(ShaderProperties.SecondOutlineWidth, 0.0025f);
-				material.SetFloat(ShaderProperties.ZTest, (float)(XRayVision ? CompareFunction.Always : CompareFunction.Less));
-			}
-		}
-	}
-
-	private static void ResetShaders(Dictionary<Renderer, Shader?> cache)
-	{
-		var hits = 0;
-		foreach (var renderer in cache.Keys)
-		{
-			if (renderer == null)
-				continue;
-
-			if (renderer.material == null)
-				continue;
-
-			var shader = cache[renderer];
-			if (renderer.material.shader == shader)
-				continue;
-
-			renderer.material.shader = shader;
-			hits++;
-		}
-
-		if (hits == 0 && cache.Count > 0)
-			cache.Clear();
 	}
 
 	public static Vector2 ScopePointToScreenPoint(Camera camera, Vector3 worldPoint, bool clamp = false)

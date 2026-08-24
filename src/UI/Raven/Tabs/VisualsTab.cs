@@ -56,8 +56,6 @@ internal class VisualsTab : IRavenTab
 			players.ShowBoxes = RavenWidgets.Checkbox(players.ShowBoxes, "Show Boxes");
 			players.ShowInfos = RavenWidgets.Checkbox(players.ShowInfos, "Show Info");
 			players.ShowSkeletons = RavenWidgets.Checkbox(players.ShowSkeletons, "Show Skeleton");
-			players.ShowCharms = RavenWidgets.Checkbox(players.ShowCharms, "Show Charms");
-			players.XRayVision = RavenWidgets.Checkbox(players.XRayVision, "X-Ray Vision");
 			players.ShowShootable = RavenWidgets.Checkbox(players.ShowShootable, "Show Shootable", players.ShootableColors.Color);
 			players.ShowNotShootable = RavenWidgets.Checkbox(players.ShowNotShootable, "Show Blocked", players.NotShootableColors.Color);
 
@@ -74,6 +72,7 @@ internal class VisualsTab : IRavenTab
 			RavenWidgets.Section("Readout");
 
 			players.ShowNames = RavenWidgets.Checkbox(players.ShowNames, "Names");
+			players.ShowRole = RavenWidgets.Checkbox(players.ShowRole, "Faction");
 			players.ShowWeapons = RavenWidgets.Checkbox(players.ShowWeapons, "Weapon");
 			players.ShowDistance = RavenWidgets.Checkbox(players.ShowDistance, "Distance");
 			players.ShowHealthBar = RavenWidgets.Checkbox(players.ShowHealthBar, "HP Bar");

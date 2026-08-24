@@ -217,7 +217,6 @@
     <Compile Include="src\Features\RoleCatalog.cs" />
     <Compile Include="src\Features\RoleSetting.cs" />
     <Compile Include="src\Features\SceneDumper.cs" />
-    <Compile Include="src\Features\ShaderCache.cs" />
     <Compile Include="src\Features\ShaderProperties.cs" />
     <Compile Include="src\Features\Speed.cs" />
     <Compile Include="src\Features\Health.cs" />

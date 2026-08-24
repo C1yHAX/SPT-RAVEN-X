@@ -16,7 +16,7 @@ public interface IRavenTab
 
 public class RavenMenu
 {
-	public const string Version = "v1.1.0";
+	public const string Version = "v1.2.0";
 
 	private readonly List<IRavenTab> _tabs = [];
 	private Rect _window = new(90, 60, 980, 660);

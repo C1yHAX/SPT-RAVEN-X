@@ -106,7 +106,7 @@ internal class Chams : ToggleFeature
 
 	private sealed class Painted
 	{
-		public Renderer[] Renderers = [];
+		public Renderer?[] Renderers = [];
 		public Material[][] Original = [];
 	}
 
@@ -235,8 +235,32 @@ internal class Chams : ToggleFeature
 
 			painted.Original = new Material[painted.Renderers.Length][];
 
+			var owned = false;
+
 			for (var i = 0; i < painted.Renderers.Length; i++)
-				painted.Original[i] = painted.Renderers[i]?.sharedMaterials ?? [];
+			{
+				var renderer = painted.Renderers[i];
+				if (renderer == null)
+				{
+					painted.Original[i] = [];
+					continue;
+				}
+
+				var materials = renderer.sharedMaterials;
+
+				if (AlreadyPainted(materials))
+				{
+					painted.Renderers[i] = null;
+					painted.Original[i] = [];
+					continue;
+				}
+
+				painted.Original[i] = materials;
+				owned = true;
+			}
+
+			if (!owned)
+				return;
 
 			_painted[key] = painted;
 		}
@@ -283,6 +307,17 @@ internal class Chams : ToggleFeature
 
 		source.GetComponentsInChildren(true, _rendererBuffer);
 		return _rendererBuffer.Count > 0;
+	}
+
+	private bool AlreadyPainted(Material[] materials)
+	{
+		foreach (var material in materials)
+		{
+			if (ReferenceEquals(material, _visibleMaterial) || ReferenceEquals(material, _occludedMaterial))
+				return true;
+		}
+
+		return false;
 	}
 
 	private void Restore(int key)
