@@ -1,4 +1,5 @@
-﻿using System;
+using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -16,7 +17,9 @@ namespace RavenX.Configuration;
 
 internal static class ConfigurationManager
 {
-	public static JsonConverter[] Converters => [new TrackedItemConverter(), new ColorConverter(), new KeyCodeConverter(), new EnumConverter<ELootRarity>()];
+	private static readonly JsonConverter[] _converters = [new TrackedItemConverter(), new ColorConverter(), new KeyCodeConverter(), new EnumConverter<ELootRarity>(), new EnumConverter<BotDifficulty>()];
+
+	public static JsonConverter[] Converters => _converters;
 
 	private static void AddConsoleLog(string log)
 	{
@@ -24,19 +27,21 @@ internal static class ConfigurationManager
 			ConsoleScreen.Log(log);
 	}
 
-	public static void Load(string filename, Feature[] features, bool warnIfNotExists = true)
+	public static bool Load(string filename, Feature[] features, bool warnIfNotExists = true)
 	{
 		try
 		{
 			if (!File.Exists(filename))
 			{
 				if (warnIfNotExists)
-					AddConsoleLog(string.Format(Strings.ErrorFileNotFoundFormat, filename));
+					AddConsoleLog(string.Format(Strings.ErrorFileNotFoundFormat, filename).Red());
 
-				return;
+				return false;
 			}
 
-			var lines = File.ReadAllLines(filename);
+			var values = ReadValues(filename);
+			var loaded = true;
+			var pending = new List<(Feature Feature, PropertyInfo Property, object Value)>();
 
 			foreach (var feature in features)
 			{
@@ -45,66 +50,76 @@ internal static class ConfigurationManager
 
 				foreach (var op in properties)
 				{
-					var key = $"{featureType.FullName}.{op.Property.Name}=";
+					var key = $"{featureType.FullName}.{op.Property.Name}";
 					try
 					{
-						var line = lines.FirstOrDefault(l => l.StartsWith(key));
-
-						if (line == null)
+						if (!values.TryGetValue(key, out var serialized))
 							continue;
 
-						var value = JsonConvert.DeserializeObject(line.Substring(key.Length), op.Property.PropertyType, Converters);
-						op.Property.SetValue(feature, value);
+						var value = Deserialize(serialized, op.Property.PropertyType);
+						pending.Add((feature, op.Property, value));
 					}
 					catch (Exception)
 					{
+						loaded = false;
 						AddConsoleLog(string.Format(Strings.ErrorCorruptedPropertyFormat, key, filename).Red());
 					}
 				}
 			}
 
+			if (!loaded)
+				return false;
+
+			foreach (var entry in pending)
+				entry.Property.SetValue(entry.Feature, entry.Value);
+
 			AddConsoleLog(string.Format(Strings.CommandLoadSuccessFormat, filename));
+			return true;
 		}
-		catch (Exception ioe)
+		catch (Exception exception)
 		{
-			AddConsoleLog(string.Format(Strings.ErrorCannotLoadFormat, filename, ioe.Message).Red());
+			AddConsoleLog(string.Format(Strings.ErrorCannotLoadFormat, filename, exception.Message).Red());
+			return false;
 		}
 	}
 
-	public static void LoadPropertyValue(string filename, Feature feature, string propertyName)
+	public static bool LoadPropertyValue(string filename, Feature feature, string propertyName)
 	{
 		try
 		{
 			if (!File.Exists(filename))
 			{
 				AddConsoleLog(string.Format(Strings.ErrorFileNotFoundFormat, filename).Red());
-				return;
+				return false;
 			}
 
 			var text = File.ReadAllText(filename);
-
-			var tlProperty = GetOrderedProperties(feature.GetType())
-				.First(p => p.Property.Name == propertyName);
+			var property = GetOrderedProperties(feature.GetType())
+				.First(p => p.Property.Name == propertyName)
+				.Property;
 
 			try
 			{
-				var value = JsonConvert.DeserializeObject(text, tlProperty.Property.PropertyType, Converters);
-				tlProperty.Property.SetValue(feature, value);
+				var value = Deserialize(text, property.PropertyType);
+				property.SetValue(feature, value);
 			}
-			catch (JsonException)
+			catch (Exception)
 			{
 				AddConsoleLog(string.Format(Strings.ErrorCorruptedFileFormat, filename).Red());
+				return false;
 			}
 
 			AddConsoleLog(string.Format(Strings.CommandLoadSuccessFormat, filename));
+			return true;
 		}
-		catch (Exception ioe)
+		catch (Exception exception)
 		{
-			AddConsoleLog(string.Format(Strings.ErrorCannotLoadFormat, filename, ioe.Message).Red());
+			AddConsoleLog(string.Format(Strings.ErrorCannotLoadFormat, filename, exception.Message).Red());
+			return false;
 		}
 	}
 
-	public static void Save(string filename, Feature[] features)
+	public static bool Save(string filename, Feature[] features)
 	{
 		try
 		{
@@ -129,16 +144,18 @@ internal static class ConfigurationManager
 					content.AppendLine($"{key}={value}");
 				}
 
-				if (properties.Any())
+				if (properties.Length > 0)
 					content.AppendLine();
 			}
 
-			File.WriteAllText(filename, content.ToString());
+			WriteAtomic(filename, content.ToString());
 			AddConsoleLog(string.Format(Strings.CommandSaveSuccessFormat, filename));
+			return true;
 		}
-		catch (Exception ioe)
+		catch (Exception exception)
 		{
-			AddConsoleLog(string.Format(Strings.ErrorCannotSaveFormat, filename, ioe.Message).Red());
+			AddConsoleLog(string.Format(Strings.ErrorCannotSaveFormat, filename, exception.Message).Red());
+			return false;
 		}
 	}
 
@@ -148,26 +165,83 @@ internal static class ConfigurationManager
 			return string.Empty;
 
 		const string commentToken = "; ";
-
 		const string resxNewLine = "\n";
 		return commentToken + value!.Replace(resxNewLine, resxNewLine + commentToken);
 	}
 
-	public static void SavePropertyValue(string filename, Feature feature, string propertyName)
+	public static bool SavePropertyValue(string filename, Feature feature, string propertyName)
 	{
 		try
 		{
-			var tlProperty = GetOrderedProperties(feature.GetType())
-				.First(p => p.Property.Name == propertyName);
+			var property = GetOrderedProperties(feature.GetType())
+				.First(p => p.Property.Name == propertyName)
+				.Property;
 
-			var content = JsonConvert.SerializeObject(tlProperty.Property.GetValue(feature), Formatting.Indented, Converters);
-			File.WriteAllText(filename, content);
+			var content = JsonConvert.SerializeObject(property.GetValue(feature), Formatting.Indented, Converters);
+			WriteAtomic(filename, content);
 
 			AddConsoleLog(string.Format(Strings.CommandSaveSuccessFormat, filename));
+			return true;
 		}
-		catch (Exception ioe)
+		catch (Exception exception)
 		{
-			AddConsoleLog(string.Format(Strings.ErrorCannotSaveFormat, filename, ioe.Message).Red());
+			AddConsoleLog(string.Format(Strings.ErrorCannotSaveFormat, filename, exception.Message).Red());
+			return false;
+		}
+	}
+
+	private static object Deserialize(string value, Type propertyType)
+	{
+		var result = JsonConvert.DeserializeObject(value, propertyType, Converters);
+		if (result == null)
+			throw new JsonSerializationException();
+
+		return result;
+	}
+
+	private static Dictionary<string, string> ReadValues(string filename)
+	{
+		var values = new Dictionary<string, string>(StringComparer.Ordinal);
+
+		foreach (var line in File.ReadAllLines(filename))
+		{
+			var separator = line.IndexOf('=');
+			if (separator <= 0)
+				continue;
+
+			var key = line.Substring(0, separator).Trim();
+			if (key.Length == 0 || key[0] == ';')
+				continue;
+
+			values[key] = line.Substring(separator + 1);
+		}
+
+		return values;
+	}
+
+	internal static void WriteAtomic(string filename, string content)
+	{
+		var target = Path.GetFullPath(filename);
+		var directory = Path.GetDirectoryName(target);
+		if (string.IsNullOrEmpty(directory))
+			throw new IOException();
+
+		Directory.CreateDirectory(directory);
+		var temporary = Path.Combine(directory, $".{Path.GetFileName(target)}.{Guid.NewGuid():N}.tmp");
+
+		try
+		{
+			File.WriteAllText(temporary, content, new UTF8Encoding(false));
+
+			if (File.Exists(target))
+				File.Replace(temporary, target, null);
+			else
+				File.Move(temporary, target);
+		}
+		finally
+		{
+			if (File.Exists(temporary))
+				File.Delete(temporary);
 		}
 	}
 
@@ -191,10 +265,11 @@ internal static class ConfigurationManager
 		var properties = featureType.GetProperties(BindingFlags.Instance | BindingFlags.Public | BindingFlags.FlattenHierarchy);
 
 		return
-		[.. properties
+		[
+			.. properties
 			.Select(p => new { property = p, attribute = p.GetCustomAttribute<ConfigurationPropertyAttribute>(true) })
-			.Where(p => p.attribute is { Skip: false })
-			.Select(op => new OrderedProperty(op.attribute, op.property))
+			.Where(p => p.attribute is { Skip: false } && p.property.CanRead && p.property.CanWrite)
+			.Select(op => new OrderedProperty(op.attribute!, op.property))
 			.OrderBy(op => op.Attribute.Order)
 			.ThenBy(op => op.Property.Name)
 		];

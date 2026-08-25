@@ -13,9 +13,11 @@ internal enum ExitCode
 	CreateOutlineFailed = 11,
 	CreateHarmonyDllFailed = 12,
 	CreatePluginDllFailed = 13,
+	CreateConfigurationFailed = 14,
 
 	RemoveDllFailed = 20,
 	RemoveOutlineFailed = 21,
 	RemoveHarmonyDllFailed = 22,
 	RemovePluginDllFailed = 23,
+	RemoveConfigurationFailed = 24,
 }

@@ -19,10 +19,13 @@ internal class Examine : ToggleFeature
 
 	[UsedImplicitly]
 	[SuppressMessage("ReSharper", "InconsistentNaming")]
-	protected static bool ExaminedPrefix(ref bool __result)
+	protected static bool ExaminedPrefix(Profile __instance, ref bool __result)
 	{
 		var feature = FeatureFactory.GetFeature<Examine>();
 		if (feature == null || !feature.Enabled)
+			return true;
+
+		if (!ReferenceEquals(GameState.Current?.LocalPlayer?.Profile, __instance))
 			return true;
 
 		__result = true;
@@ -35,6 +38,9 @@ internal class Examine : ToggleFeature
 	{
 		var feature = FeatureFactory.GetFeature<Examine>();
 		if (feature == null || !feature.Enabled)
+			return true;
+
+		if (!player.IsYourPlayer)
 			return true;
 
 		examined = true;

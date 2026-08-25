@@ -33,6 +33,7 @@ internal class Quests : PointOfInterests
 	private readonly ConcurrentDictionary<string, ExperienceTrigger[]> _experienceTriggerCache = [];
 	private readonly ConcurrentDictionary<string, PlaceItemTrigger[]> _placeItemTriggerCache = [];
 	private static bool _refreshLookupTables = true;
+	private int _sceneHandle = -1;
 
 	[UsedImplicitly]
 	protected static void OnConditionChangedHandlerPostfix()
@@ -50,10 +51,6 @@ internal class Quests : PointOfInterests
 		if (!player.IsValid())
 			return;
 
-		var camera = GameState.Current?.Camera;
-		if (camera == null)
-			return;
-
 		var profile = player.Profile;
 		if (profile == null)
 			return;
@@ -66,15 +63,16 @@ internal class Quests : PointOfInterests
 			.Where(q => q.Status is EQuestStatus.Started && q.Template != null)
 			.ToArray();
 
-		if (!startedQuests.Any())
+		if (startedQuests.Length == 0)
 			return;
 
-		if (_refreshLookupTables)
+		if (_refreshLookupTables || _sceneHandle != scene.handle)
 		{
 			_experienceTriggerCache.Clear();
 			_placeItemTriggerCache.Clear();
 
 			_refreshLookupTables = false;
+			_sceneHandle = scene.handle;
 		}
 
 		RefreshPlaceOrRepairItemLocations(scene, startedQuests, profile, data);
@@ -93,7 +91,10 @@ internal class Quests : PointOfInterests
 
 		foreach (var quest in startedQuests)
 		{
-			var conditions = quest.Template!.Conditions[EQuestStatus.AvailableForFinish].OfType<ConditionCounterCreator>().ToArray();
+			if (!quest.Template!.Conditions.TryGetValue(EQuestStatus.AvailableForFinish, out var finishConditions))
+				continue;
+
+			var conditions = finishConditions.OfType<ConditionCounterCreator>().ToArray();
 			foreach (var condition in conditions)
 			{
 				if (quest.CompletedConditions.Contains(condition.id))
@@ -132,7 +133,10 @@ internal class Quests : PointOfInterests
 
 			foreach (var quest in startedQuests)
 			{
-				foreach (var condition in quest.Template!.Conditions[EQuestStatus.AvailableForFinish].OfType<ConditionFindItem>())
+				if (!quest.Template!.Conditions.TryGetValue(EQuestStatus.AvailableForFinish, out var finishConditions))
+					continue;
+
+				foreach (var condition in finishConditions.OfType<ConditionFindItem>())
 				{
 					if (!condition.target.Contains(lootItem.Item.TemplateId.ToString()) || quest.CompletedConditions.Contains(condition.id))
 						continue;
@@ -160,7 +164,10 @@ internal class Quests : PointOfInterests
 
 		foreach (var quest in startedQuests)
 		{
-			var conditions = quest.Template!.Conditions[EQuestStatus.AvailableForFinish].OfType<ConditionZone>().ToArray();
+			if (!quest.Template!.Conditions.TryGetValue(EQuestStatus.AvailableForFinish, out var finishConditions))
+				continue;
+
+			var conditions = finishConditions.OfType<ConditionZone>().ToArray();
 			foreach (var condition in conditions)
 			{
 				if (quest.CompletedConditions.Contains(condition.id))

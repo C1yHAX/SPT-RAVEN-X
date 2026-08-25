@@ -14,7 +14,10 @@ public class ColorConverter : JsonConverter
 	public override void WriteJson(JsonWriter writer, object? value, JsonSerializer serializer)
 	{
 		if (value is not Color color)
+		{
+			writer.WriteNull();
 			return;
+		}
 
 		serializer.Serialize(writer, new[] { color.r, color.g, color.b, color.a });
 	}
@@ -22,20 +25,20 @@ public class ColorConverter : JsonConverter
 	public override object ReadJson(JsonReader reader, Type objectType, object? existingValue, JsonSerializer serializer)
 	{
 		var array = serializer.Deserialize<float[]>(reader);
+		var nullable = Nullable.GetUnderlyingType(objectType) == typeof(Color);
 
-		if (Nullable.GetUnderlyingType(objectType) == typeof(Color))
-		{
+		if (array == null)
+			return nullable ? null! : throw new JsonSerializationException();
 
-			if (array is null || new Color(array[0], array[1], array[2], array[3]) == Color.clear)
-				return null!;
-		}
+		if (array.Length is not 3 and not 4 || array.Any(float.IsNaN) || array.Any(float.IsInfinity))
+			throw new JsonSerializationException();
 
-		return array is null ? Color.clear : new Color(array[0], array[1], array[2], array[3]);
+		return new Color(array[0], array[1], array[2], array.Length == 4 ? array[3] : 1f);
 	}
 
 	public override bool CanConvert(Type objectType)
 	{
-		return objectType == typeof(Color);
+		return objectType == typeof(Color) || Nullable.GetUnderlyingType(objectType) == typeof(Color);
 	}
 
 	public static Color? Parse(string value)

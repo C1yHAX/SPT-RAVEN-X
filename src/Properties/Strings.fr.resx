@@ -795,9 +795,6 @@ Les couleurs sont stockées sous la forme d'un tableau de valeurs flottantes 'RG
   <data name="PropertyShowBoxes" xml:space="preserve">
     <value>Montrer les boites</value>
   </data>
-  <data name="PropertyShowCharms" xml:space="preserve">
-    <value>Montrer les silhouettes</value>
-  </data>
   <data name="PropertyShowCompass" xml:space="preserve">
     <value>Montrer la boussole</value>
   </data>
@@ -905,9 +902,6 @@ Les couleurs sont stockées sous la forme d'un tableau de valeurs flottantes 'RG
   </data>
   <data name="PropertyX" xml:space="preserve">
     <value>X</value>
-  </data>
-  <data name="PropertyXRayVision" xml:space="preserve">
-    <value>Vision à rayons X</value>
   </data>
   <data name="PropertyY" xml:space="preserve">
     <value>Y</value>

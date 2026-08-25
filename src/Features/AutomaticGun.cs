@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using EFT.InventoryLogic;
 using RavenX.Configuration;
 using RavenX.Extensions;
@@ -24,58 +24,89 @@ internal class AutomaticGun : ToggleFeature
 	[ConfigurationProperty(Order = 11)]
 	public int Rate { get; set; } = 500;
 
-	private readonly Dictionary<WeaponTemplate, KeyValuePair<int, bool>> _originals = [];
+	private Weapon? _weapon;
+	private FireModeComponent? _fireMode;
+	private Weapon.EFireMode _originalFireMode;
 
-	private bool _rateApplied;
-	private bool _autoApplied;
-
-	protected override void Update()
+#pragma warning disable IDE0060
+	[UsedImplicitly]
+	[SuppressMessage("ReSharper", "InconsistentNaming")]
+	protected static void FireRatePostfix(Weapon __instance, ref int __result)
 	{
-		base.Update();
+		var feature = Active(__instance);
+		if (feature is { OverrideRate: true })
+			__result = feature.Rate > 0 ? feature.Rate : 1;
+	}
+
+	[UsedImplicitly]
+	[SuppressMessage("ReSharper", "InconsistentNaming")]
+	protected static void BoltActionPostfix(Weapon __instance, ref bool __result)
+	{
+		if (Active(__instance) != null)
+			__result = false;
+	}
+#pragma warning restore IDE0060
+
+	private static AutomaticGun? Active(Weapon weapon)
+	{
+		var feature = FeatureFactory.GetFeature<AutomaticGun>();
+		if (feature is not { Enabled: true })
+			return null;
 
 		var player = GameState.Current?.LocalPlayer;
-		if (!player.IsValid())
-			return;
+		if (!player.IsValid() || !ReferenceEquals(player.HandsController?.Item, weapon))
+			return null;
 
-		if (player!.HandsController?.Item is not Weapon weapon)
-			return;
+		return feature;
+	}
 
-		if (weapon.Template is not WeaponTemplate template)
-			return;
-
-		if (!_originals.ContainsKey(template))
-			_originals[template] = new KeyValuePair<int, bool>(template.bFirerate, template.BoltAction);
-
-		if (Enabled)
+	protected override void UpdateWhenEnabled()
+	{
+		HarmonyPatchOnce(harmony =>
 		{
-			var fireModeComponent = weapon.GetItemComponent<FireModeComponent>();
-			if (fireModeComponent != null)
-				fireModeComponent.FireMode = Weapon.EFireMode.fullauto;
+			HarmonyPostfix(harmony, typeof(Weapon), "get_" + nameof(Weapon.FireRate), nameof(FireRatePostfix));
+			HarmonyPostfix(harmony, typeof(Weapon), "get_" + nameof(Weapon.BoltAction), nameof(BoltActionPostfix));
+		});
 
-			template.BoltAction = false;
-			_autoApplied = true;
-		}
-		else if (_autoApplied)
+		var weapon = GameState.Current?.LocalPlayer?.HandsController?.Item as Weapon;
+		if (ReferenceEquals(weapon, _weapon))
 		{
-			foreach (var entry in _originals)
-				entry.Key.BoltAction = entry.Value.Value;
-
-			_autoApplied = false;
-		}
-
-		if (OverrideRate)
-		{
-			template.bFirerate = Rate;
-			_rateApplied = true;
+			if (_fireMode != null)
+				_fireMode.FireMode = Weapon.EFireMode.fullauto;
 			return;
 		}
 
-		if (!_rateApplied)
+		RestoreFireMode();
+		if (weapon == null)
 			return;
 
-		foreach (var entry in _originals)
-			entry.Key.bFirerate = entry.Value.Key;
+		var fireMode = weapon.GetItemComponent<FireModeComponent>();
+		if (fireMode == null)
+			return;
 
-		_rateApplied = false;
+		_weapon = weapon;
+		_fireMode = fireMode;
+		_originalFireMode = fireMode.FireMode;
+		fireMode.FireMode = Weapon.EFireMode.fullauto;
+	}
+
+	protected override void UpdateWhenDisabled()
+	{
+		RestoreFireMode();
+	}
+
+	[UsedImplicitly]
+	private void OnDestroy()
+	{
+		RestoreFireMode();
+	}
+
+	private void RestoreFireMode()
+	{
+		if (_fireMode != null)
+			_fireMode.FireMode = _originalFireMode;
+
+		_weapon = null;
+		_fireMode = null;
 	}
 }

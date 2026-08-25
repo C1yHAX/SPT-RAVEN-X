@@ -18,6 +18,9 @@ internal class Ammunition : ToggleFeature
 
 	public override bool Enabled { get; set; } = false;
 
+	private Weapon? _lastWeapon;
+	private int _lastFireIndex = -1;
+
 	[UsedImplicitly]
 	private static void ShootPostfix(Shot shot)
 	{
@@ -25,7 +28,18 @@ internal class Ammunition : ToggleFeature
 		if (feature == null || !feature.Enabled)
 			return;
 
+		feature.Refill(shot);
+	}
+
+	private void Refill(Shot shot)
+	{
+		if (shot.Parent != null)
+			return;
+
 		if (shot.Weapon is not Weapon weapon)
+			return;
+
+		if (ReferenceEquals(_lastWeapon, weapon) && _lastFireIndex == shot.FireIndex)
 			return;
 
 		var ammo = shot.Ammo;
@@ -36,38 +50,54 @@ internal class Ammunition : ToggleFeature
 		if (player is not { IsYourPlayer: true })
 			return;
 
+		_lastWeapon = weapon;
+		_lastFireIndex = shot.FireIndex;
+		var replacement = CreateAmmo(ammo);
+		if (replacement == null)
+			return;
+
 		var magazine = weapon.GetCurrentMagazine();
 		if (magazine != null)
 		{
 			if (magazine is CylinderMagazine cylinderMagazine)
 			{
-
 				foreach (var slot in cylinderMagazine.Camoras)
-					slot.Add(CreateAmmo(ammo), false, true);
+				{
+					if (slot.ContainedItem != null)
+						continue;
+
+					slot.Add(replacement, false, true);
+					break;
+				}
 			}
 			else
 			{
 				var cartridges = magazine.Cartridges;
-				cartridges?.Add(CreateAmmo(ammo), false);
+				cartridges?.Add(replacement, false);
 			}
 		}
 		else
 		{
-
 			foreach (var slot in weapon.Chambers)
-				slot.Add(CreateAmmo(ammo), false, true);
+			{
+				if (slot.ContainedItem != null)
+					continue;
+
+				slot.Add(replacement, false, true);
+				break;
+			}
 		}
 	}
 
-	private static Item CreateAmmo(Item ammo)
+	private static Item? CreateAmmo(Item ammo)
 	{
 		var instantiated = Singleton<ItemFactory>.Instantiated;
 		if (!instantiated)
-			return ammo;
+			return null;
 
 		var instance = Singleton<ItemFactory>.Instance;
 		var itemId = Guid.NewGuid().ToString("N").Substring(0, 24);
-		return instance.CreateItem(itemId, ammo.TemplateId, null) ?? ammo;
+		return instance.CreateItem(itemId, ammo.TemplateId, null);
 	}
 
 	protected override void UpdateWhenEnabled()

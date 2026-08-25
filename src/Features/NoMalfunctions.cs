@@ -1,4 +1,6 @@
-﻿using RavenX.Extensions;
+using System.Diagnostics.CodeAnalysis;
+using EFT.InventoryLogic;
+using RavenX.Extensions;
 using RavenX.Properties;
 using JetBrains.Annotations;
 using EFT;
@@ -15,23 +17,32 @@ internal class NoMalfunctions : ToggleFeature
 
 	public override bool Enabled { get; set; } = false;
 
+#pragma warning disable IDE0060
+	[UsedImplicitly]
+	[SuppressMessage("ReSharper", "InconsistentNaming")]
+	protected static void AllowedPostfix(Weapon __instance, ref bool __result)
+	{
+		var feature = FeatureFactory.GetFeature<NoMalfunctions>();
+		if (feature is not { Enabled: true })
+			return;
+
+		var player = GameState.Current?.LocalPlayer;
+		if (!player.IsValid() || !ReferenceEquals(player.HandsController?.Item, __instance))
+			return;
+
+		__result = false;
+	}
+#pragma warning restore IDE0060
+
 	protected override void UpdateWhenEnabled()
 	{
-		var player = GameState.Current?.LocalPlayer;
-		if (!player.IsValid())
-			return;
-
-		if (player.HandsController is not Player.FirearmController controller)
-			return;
-
-		var template = controller.Item?.Template;
-		if (template == null)
-			return;
-
-		template.AllowFeed = false;
-		template.AllowJam = false;
-		template.AllowMisfire = false;
-		template.AllowOverheat = false;
-		template.AllowSlide = false;
+		HarmonyPatchOnce(harmony =>
+		{
+			HarmonyPostfix(harmony, typeof(Weapon), "get_" + nameof(Weapon.AllowFeed), nameof(AllowedPostfix));
+			HarmonyPostfix(harmony, typeof(Weapon), "get_" + nameof(Weapon.AllowJam), nameof(AllowedPostfix));
+			HarmonyPostfix(harmony, typeof(Weapon), "get_" + nameof(Weapon.AllowMisfire), nameof(AllowedPostfix));
+			HarmonyPostfix(harmony, typeof(Weapon), "get_" + nameof(Weapon.AllowOverheat), nameof(AllowedPostfix));
+			HarmonyPostfix(harmony, typeof(Weapon), "get_" + nameof(Weapon.AllowSlide), nameof(AllowedPostfix));
+		});
 	}
 }

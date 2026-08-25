@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using EFT.CameraControl;
 using EFT.InventoryLogic;
 using RavenX.Configuration;
@@ -14,20 +13,6 @@ using EFT;
 #nullable enable
 
 namespace RavenX.Features;
-
-public class PlayerColor(Color color, Color borderColor, Color infoColor) : IFeature
-{
-	[ConfigurationProperty(Order = 1)]
-	public Color Color { get; set; } = color;
-
-	[ConfigurationProperty(Order = 2)]
-	public Color BorderColor { get; set; } = borderColor;
-
-	[ConfigurationProperty(Order = 3)]
-	public Color InfoColor { get; set; } = infoColor;
-
-	public string Name => nameof(PlayerColor);
-}
 
 public class ShootableColor(Color color, Color borderColor) : IFeature
 {
@@ -45,33 +30,6 @@ internal class Players : ToggleFeature
 {
 	public override string Name => Strings.FeaturePlayersName;
 	public override string Description => Strings.FeaturePlayersDescription;
-
-	[ConfigurationProperty(Order = 10)]
-	public PlayerColor BearColors { get; set; } = new(Color.blue, Color.red, Color.red);
-
-	[ConfigurationProperty(Order = 10)]
-	public PlayerColor UsecColors { get; set; } = new(Color.green, Color.red, Color.red);
-
-	[ConfigurationProperty(Order = 10)]
-	public PlayerColor ScavColors { get; set; } = new(Color.yellow, Color.red, Color.red);
-
-	[ConfigurationProperty(Order = 10)]
-	public PlayerColor BossColors { get; set; } = new(Color.red, Color.red, Color.red);
-
-	[ConfigurationProperty(Order = 10)]
-	public PlayerColor CultistColors { get; set; } = new(Color.yellow, Color.red, Color.red);
-
-	[ConfigurationProperty(Order = 10)]
-	public PlayerColor ScavRaiderColors { get; set; } = new(Color.yellow, Color.red, Color.red);
-
-	[ConfigurationProperty(Order = 10)]
-	public PlayerColor ScavAssaultColors { get; set; } = new(Color.yellow, Color.red, Color.red);
-
-	[ConfigurationProperty(Order = 10)]
-	public PlayerColor MarksmanColors { get; set; } = new(Color.yellow, Color.red, Color.red);
-
-	[ConfigurationProperty(Order = 10)]
-	public PlayerColor RogueUsecColors { get; set; } = new(Color.gray, Color.red, Color.red);
 
 	[ConfigurationProperty(Order = 20)]
 	public bool ShowBoxes { get; set; } = true;
@@ -130,10 +88,19 @@ internal class Players : ToggleFeature
 	[ConfigurationProperty(Order = 64)]
 	public bool PerLimbVisibility { get; set; } = true;
 
-	[ConfigurationProperty(Order = 65, Browsable = false)]
-	public List<RoleSetting> RoleColors { get; set; } = [];
-
+	private List<RoleSetting> _roleColors = [];
 	private Dictionary<string, RoleSetting>? _roleIndex;
+
+	[ConfigurationProperty(Order = 65, Browsable = false)]
+	public List<RoleSetting> RoleColors
+	{
+		get => _roleColors;
+		set
+		{
+			_roleColors = value ?? [];
+			_roleIndex = null;
+		}
+	}
 
 	public RoleSetting RoleFor(Player player) => RoleFor(RoleCatalog.KeyOf(player));
 
@@ -149,11 +116,25 @@ internal class Players : ToggleFeature
 	public float TextOutline { get; set; } = 0f;
 
 	private static Camera? _opticCamera;
+	private static Camera? _scopeSourceCamera;
+	private static Camera[] _cameraBuffer = new Camera[8];
 	private static (Vector2 center, float radius) _scopeParameters;
 
 	[UsedImplicitly]
 	protected void OnGUI()
 	{
+		if (Event.current.type != EventType.Repaint)
+			return;
+
+		GUI.depth = 10;
+
+		if (!Enabled)
+		{
+			Render.FontSize = 0;
+			Render.OutlineThickness = 0f;
+			return;
+		}
+
 		Render.FontSize = TextSize;
 		Render.OutlineThickness = TextOutline;
 
@@ -174,9 +155,6 @@ internal class Players : ToggleFeature
 		if (camera == null)
 			return;
 
-		if (!Enabled)
-			return;
-
 		var isAiming = AimingCheck(camera, player);
 
 		foreach (var ennemy in hostiles)
@@ -188,9 +166,8 @@ internal class Players : ToggleFeature
 			if (!role.Enabled)
 				continue;
 
-			var defaults = GetPlayerColors(ennemy);
-			var playerColors = new PlayerColor(role.Visible, defaults.BorderColor, role.Visible);
-			var borderColor = playerColors.BorderColor;
+			var infoColor = role.Visible;
+			var borderColor = role.Visible;
 
 			var position = ennemy.Transform.position;
 			var screenPosition = isAiming ? ScopePointToScreenPoint(camera, position) : camera.WorldPointToVisibleScreenPoint(position);
@@ -217,8 +194,17 @@ internal class Players : ToggleFeature
 
 			if (ShowShootable)
 			{
-				var bonesToCheck = GetBonesToCheck(playerBones);
-				var anyVisible = bonesToCheck.Any(bone => IsTransformVisibleCached(bone.transform, camera.IsTransformVisible));
+				FillBonesToCheck(playerBones);
+				var anyVisible = false;
+
+				foreach (var bone in _bonesToCheck)
+				{
+					if (bone.Transform == null || !IsTransformVisibleCached(bone.Transform, camera.IsTransformVisible))
+						continue;
+
+					anyVisible = true;
+					break;
+				}
 
 				borderColor = anyVisible
 					? ShootableColors.BorderColor
@@ -226,18 +212,21 @@ internal class Players : ToggleFeature
 
 				if (ShowSkeletons)
 				{
-					foreach (var bone in bonesToCheck)
+					foreach (var bone in _bonesToCheck)
 					{
+						if (bone.Transform == null)
+							continue;
+
 						var exposed = PerLimbVisibility
-							? IsTransformVisibleCached(bone.transform, camera.IsTransformVisible)
+							? IsTransformVisibleCached(bone.Transform, camera.IsTransformVisible)
 							: anyVisible;
 
 						var bonesColor = exposed ? ShootableColors.Color : ShowNotShootable ? NotShootableColors.Color : role.Occluded;
-						Bones.RenderBones(ennemy, bone.bones, SkeletonThickness, bonesColor, camera, isAiming);
+						Bones.RenderBones(ennemy, bone.Bones, SkeletonThickness, bonesColor, camera, isAiming);
 					}
 
 					var headExposed = PerLimbVisibility
-						? IsTransformVisibleCached(bonesToCheck[0].transform, camera.IsTransformVisible)
+						? _bonesToCheck[0].Transform != null && IsTransformVisibleCached(_bonesToCheck[0].Transform!, camera.IsTransformVisible)
 						: anyVisible;
 
 					var color = headExposed ? ShootableColors.Color : ShowNotShootable ? NotShootableColors.Color : role.Occluded;
@@ -249,7 +238,7 @@ internal class Players : ToggleFeature
 				ClearTransformCache();
 			}
 			else if (ShowSkeletons)
-				Bones.RenderBones(ennemy, SkeletonThickness, playerColors.Color, camera, isAiming, distance);
+				Bones.RenderBones(ennemy, SkeletonThickness, role.Visible, camera, isAiming, distance);
 
 			var heightOffset = Mathf.Abs(headScreenPosition.y - leftShoulderScreenPosition.y);
 
@@ -299,7 +288,7 @@ internal class Players : ToggleFeature
 				var label = RoleCatalog.LabelOf(RoleCatalog.KeyOf(ennemy));
 				if (label.Length > 0)
 				{
-					Render.DrawString(new Vector2(boxPositionX, textY), label, playerColors.InfoColor, false);
+					Render.DrawString(new Vector2(boxPositionX, textY), label, infoColor, false);
 					textY -= 16f;
 				}
 			}
@@ -309,19 +298,25 @@ internal class Players : ToggleFeature
 				var nickname = ennemy.Profile?.Info?.Nickname ?? string.Empty;
 				if (nickname.Length > 0)
 				{
-					Render.DrawString(new Vector2(boxPositionX, textY), nickname, playerColors.InfoColor, false);
+					Render.DrawString(new Vector2(boxPositionX, textY), nickname, infoColor, false);
 					textY -= 16f;
 				}
 			}
 
 			if (infoText.Length > 0)
-				Render.DrawString(new Vector2(boxPositionX, textY), infoText, playerColors.InfoColor, false);
+				Render.DrawString(new Vector2(boxPositionX, textY), infoText, infoColor, false);
 		}
 	}
 
-	private static string JoinParts(params string[] parts)
+	private static string JoinParts(string first, string second, string third)
 	{
-		return string.Join(" ", parts.Where(p => p.Length > 0).ToArray());
+		if (first.Length == 0)
+			return second.Length == 0 ? third : third.Length == 0 ? second : second + " " + third;
+
+		if (second.Length == 0)
+			return third.Length == 0 ? first : first + " " + third;
+
+		return third.Length == 0 ? first + " " + second : first + " " + second + " " + third;
 	}
 
 	private static void DrawHealthBar(float boxX, float boxY, float boxWidth, float fraction)
@@ -340,22 +335,40 @@ internal class Players : ToggleFeature
 		Render.DrawBox(boxX, y, boxWidth * fraction, height, height, color);
 	}
 
-	private static (Transform transform, string[] bones)[] GetBonesToCheck(PlayerBones playerBones)
+	private struct BoneCheck(string[] bones)
 	{
-		return
-		[
-			(playerBones.Head.Original.transform, [Bones.Neck, Bones.Head]),
-			(playerBones.Neck.transform, [Bones.RCollarbone, Bones.Spine3, Bones.LCollarbone, Bones.Spine3, Bones.Spine3, Bones.Neck]),
-			(playerBones.Spine1.transform, [Bones.Pelvis, Bones.Spine1, Bones.Spine1, Bones.Spine2, Bones.Spine2, Bones.Spine3]),
-			(playerBones.Upperarms[0].transform, [Bones.LCollarbone, Bones.LForearm1, Bones.LForearm1, Bones.LForearm2]),
-			(playerBones.Upperarms[1].transform, [Bones.RCollarbone, Bones.RForearm1, Bones.RForearm1, Bones.RForearm2]),
-			(playerBones.Forearms[0].transform, [Bones.LForearm2, Bones.LForearm3, Bones.LForearm3, Bones.LPalm]),
-			(playerBones.Forearms[1].transform, [Bones.RForearm2, Bones.RForearm3, Bones.RForearm3, Bones.RPalm]),
-			(playerBones.LeftThigh1.Original.transform, [Bones.Pelvis, Bones.LThigh1, Bones.LThigh1, Bones.LThigh2]),
-			(playerBones.RightThigh1.Original.transform, [Bones.Pelvis, Bones.RThigh1, Bones.RThigh1, Bones.RThigh2]),
-			(playerBones.LeftThigh2.Original.transform, [Bones.LThigh2, Bones.LCalf, Bones.LCalf, Bones.LFoot, Bones.LFoot, Bones.LToe]),
-			(playerBones.RightThigh2.Original.transform, [Bones.RThigh2, Bones.RCalf, Bones.RCalf, Bones.RFoot, Bones.RFoot, Bones.RToe])
-		];
+		public Transform? Transform;
+		public readonly string[] Bones = bones;
+	}
+
+	private readonly BoneCheck[] _bonesToCheck =
+	[
+		new([Bones.Neck, Bones.Head]),
+		new([Bones.RCollarbone, Bones.Spine3, Bones.LCollarbone, Bones.Spine3, Bones.Spine3, Bones.Neck]),
+		new([Bones.Pelvis, Bones.Spine1, Bones.Spine1, Bones.Spine2, Bones.Spine2, Bones.Spine3]),
+		new([Bones.LCollarbone, Bones.LForearm1, Bones.LForearm1, Bones.LForearm2]),
+		new([Bones.RCollarbone, Bones.RForearm1, Bones.RForearm1, Bones.RForearm2]),
+		new([Bones.LForearm2, Bones.LForearm3, Bones.LForearm3, Bones.LPalm]),
+		new([Bones.RForearm2, Bones.RForearm3, Bones.RForearm3, Bones.RPalm]),
+		new([Bones.Pelvis, Bones.LThigh1, Bones.LThigh1, Bones.LThigh2]),
+		new([Bones.Pelvis, Bones.RThigh1, Bones.RThigh1, Bones.RThigh2]),
+		new([Bones.LThigh2, Bones.LCalf, Bones.LCalf, Bones.LFoot, Bones.LFoot, Bones.LToe]),
+		new([Bones.RThigh2, Bones.RCalf, Bones.RCalf, Bones.RFoot, Bones.RFoot, Bones.RToe])
+	];
+
+	private void FillBonesToCheck(PlayerBones playerBones)
+	{
+		_bonesToCheck[0].Transform = playerBones.Head.Original.transform;
+		_bonesToCheck[1].Transform = playerBones.Neck.transform;
+		_bonesToCheck[2].Transform = playerBones.Spine1.transform;
+		_bonesToCheck[3].Transform = playerBones.Upperarms.Length > 0 ? playerBones.Upperarms[0].transform : null;
+		_bonesToCheck[4].Transform = playerBones.Upperarms.Length > 1 ? playerBones.Upperarms[1].transform : null;
+		_bonesToCheck[5].Transform = playerBones.Forearms.Length > 0 ? playerBones.Forearms[0].transform : null;
+		_bonesToCheck[6].Transform = playerBones.Forearms.Length > 1 ? playerBones.Forearms[1].transform : null;
+		_bonesToCheck[7].Transform = playerBones.LeftThigh1.Original.transform;
+		_bonesToCheck[8].Transform = playerBones.RightThigh1.Original.transform;
+		_bonesToCheck[9].Transform = playerBones.LeftThigh2.Original.transform;
+		_bonesToCheck[10].Transform = playerBones.RightThigh2.Original.transform;
 	}
 
 	private readonly Dictionary<Transform, bool> _cache = [];
@@ -395,6 +408,13 @@ internal class Players : ToggleFeature
 
 	private static bool AimingCheck(Camera camera, Player player)
 	{
+		if (!ReferenceEquals(_scopeSourceCamera, camera))
+		{
+			_scopeSourceCamera = camera;
+			_opticCamera = null;
+			_scopeParameters = default;
+		}
+
 		var handsController = player.HandsController;
 		if (handsController == null)
 			return false;
@@ -416,39 +436,36 @@ internal class Players : ToggleFeature
 		if (isAiming && zoom <= 1)
 			isAiming = false;
 
-		var currentOptic = weaponAnimation.HandsContainer.Weapon.GetComponentInChildren<OpticSight>();
-		if (isAiming && currentOptic != null)
-			GetScopeParameters(camera, currentOptic);
+		if (!isAiming)
+			return false;
 
-		if (_opticCamera != null)
-			return isAiming;
+		var weapon = weaponAnimation.HandsContainer?.Weapon;
+		var currentOptic = weapon != null ? weapon.GetComponentInChildren<OpticSight>() : null;
+		if (currentOptic == null || !GetScopeParameters(camera, currentOptic))
+			return false;
 
-		_opticCamera = Camera.allCameras.FirstOrDefault(c => c.name == "BaseOpticCamera(Clone)");
+		if (_opticCamera == null)
+			FindOpticCamera();
 
-		return isAiming;
+		return _opticCamera != null;
 	}
 
-	public PlayerColor GetPlayerColors(Player player)
+	private static void FindOpticCamera()
 	{
-		var hostileType = player.GetHostileType();
-		return GetPlayerColors(hostileType);
-	}
+		var count = Camera.allCamerasCount;
+		if (_cameraBuffer.Length < count)
+			Array.Resize(ref _cameraBuffer, count);
 
-	public PlayerColor GetPlayerColors(HostileType hostileType)
-	{
-		return hostileType switch
+		count = Camera.GetAllCameras(_cameraBuffer);
+		for (var i = 0; i < count; i++)
 		{
-			HostileType.Bear => BearColors,
-			HostileType.Usec => UsecColors,
-			HostileType.Scav => ScavColors,
-			HostileType.Boss => BossColors,
-			HostileType.Cultist => CultistColors,
-			HostileType.ScavRaider => ScavRaiderColors,
-			HostileType.ScavAssault => ScavAssaultColors,
-			HostileType.Marksman => MarksmanColors,
-			HostileType.RogueUsec => RogueUsecColors,
-			_ => ScavColors,
-		};
+			var candidate = _cameraBuffer[i];
+			if (candidate == null || candidate.name != "BaseOpticCamera(Clone)")
+				continue;
+
+			_opticCamera = candidate;
+			break;
+		}
 	}
 
 	public static Vector2 ScopePointToScreenPoint(Camera camera, Vector3 worldPoint, bool clamp = false)
@@ -456,7 +473,11 @@ internal class Players : ToggleFeature
 		if (_opticCamera == null || !GetCameraOffset(camera, out var scale, out var cameraOffset))
 			return camera.WorldPointToScreenPoint(worldPoint);
 
-		var scopePoint = (Vector2)_opticCamera.WorldToScreenPoint(worldPoint) + cameraOffset;
+		var worldScreenPoint = _opticCamera.WorldToScreenPoint(worldPoint);
+		if (worldScreenPoint.z <= 0.01f)
+			return Vector2.zero;
+
+		var scopePoint = (Vector2)worldScreenPoint + cameraOffset;
 		scopePoint.y = Screen.height - scopePoint.y * scale;
 		scopePoint.x *= scale;
 
@@ -500,10 +521,18 @@ internal class Players : ToggleFeature
 		return clampedPoint;
 	}
 
-	private static void GetScopeParameters(Camera camera, OpticSight currentOptic)
+	private static bool GetScopeParameters(Camera camera, OpticSight currentOptic)
 	{
-		var opticTransform = currentOptic.LensRenderer.transform;
-		var lensMesh = currentOptic.LensRenderer.GetComponent<MeshFilter>().mesh;
+		var lensRenderer = currentOptic.LensRenderer;
+		if (lensRenderer == null)
+			return false;
+
+		var meshFilter = lensRenderer.GetComponent<MeshFilter>();
+		var lensMesh = meshFilter?.sharedMesh;
+		if (lensMesh == null)
+			return false;
+
+		var opticTransform = lensRenderer.transform;
 		var lensUpperRight = opticTransform.TransformPoint(lensMesh.bounds.max);
 		var lensUpperLeft = opticTransform.TransformPoint(new Vector3(lensMesh.bounds.min.x, 0, lensMesh.bounds.max.z));
 
@@ -511,5 +540,6 @@ internal class Players : ToggleFeature
 		var lensUpperLeft3D = camera.WorldPointToScreenPoint(lensUpperLeft);
 		_scopeParameters.radius = Vector2.Distance(lensUpperRight3D, lensUpperLeft3D) / 2;
 		_scopeParameters.center = camera.WorldPointToScreenPoint(opticTransform.position);
+		return _scopeParameters.radius > 0f;
 	}
 }

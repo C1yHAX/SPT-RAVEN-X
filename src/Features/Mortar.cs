@@ -1,4 +1,5 @@
 ﻿using Comfort.Common;
+using RavenX.Extensions;
 using RavenX.Properties;
 using JetBrains.Annotations;
 using UnityEngine;
@@ -23,7 +24,7 @@ internal class Mortar : TriggerFeature
 			return;
 
 		var player = GameState.Current?.LocalPlayer;
-		if (player == null)
+		if (!player.IsValid())
 			return;
 
 		world.ServerShellingController?.StartShellingPosition(player.Transform.position);

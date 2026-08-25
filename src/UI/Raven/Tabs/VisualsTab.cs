@@ -209,24 +209,21 @@ internal class VisualsTab : IRavenTab
 	private static string LootHint(LootItems loot)
 	{
 		if (loot.MaximumPrice > 0 && loot.MaximumPrice < loot.MinimumPrice)
-			return "Upper limit is below the lower one.";
+			return "The two price limits are applied from low to high.";
 
-		if ((loot.MinimumPrice > 0 || loot.MaximumPrice > 0) && !HandbookCatalog.Ready)
-			return "Prices are not read yet, so they are ignored.";
-
-		if (loot.TrackedNames.Count > 0)
-			return $"Limited to the {loot.TrackedNames.Count} tracked items.";
+		if ((loot.MinimumPrice > 0 || loot.MaximumPrice > 0) && !HandbookCatalog.PricesReady)
+			return "Prices are loading. Items without a price stay hidden.";
 
 		return string.Empty;
 	}
 
 	private static void DrawLootFilters(LootItems loot)
 	{
-		var from = RavenWidgets.Slider("Price from", loot.MinimumPrice, 0f, 200000f,
+		var from = RavenWidgets.Slider("Price from", loot.MinimumPrice, 0f, 1000000f,
 			loot.MinimumPrice > 0 ? $"{loot.MinimumPrice}" : "any");
 		loot.MinimumPrice = Mathf.RoundToInt(from / 500f) * 500;
 
-		var to = RavenWidgets.Slider("Price to", loot.MaximumPrice, 0f, 200000f,
+		var to = RavenWidgets.Slider("Price to", loot.MaximumPrice, 0f, 1000000f,
 			loot.MaximumPrice > 0 ? $"{loot.MaximumPrice}" : "no limit");
 		loot.MaximumPrice = Mathf.RoundToInt(to / 500f) * 500;
 

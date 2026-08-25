@@ -16,11 +16,13 @@ public interface IRavenTab
 
 public class RavenMenu
 {
-	public const string Version = "v1.2.0";
+	public const string Version = "v1.3.0";
 
 	private readonly List<IRavenTab> _tabs = [];
 	private Rect _window = new(90, 60, 980, 660);
-	private static string? _tabError;
+	private string? _tabError;
+	private string? _pendingTabError;
+	private bool _hasPendingTabError;
 	private Vector2 _scroll;
 	private int _index;
 	private bool _dragging;
@@ -50,38 +52,64 @@ public class RavenMenu
 		RavenTheme.EnsureBuilt();
 		RavenWidgets.BeginFrame();
 
-		Render.MenuArea = _window;
+		var previousDepth = GUI.depth;
+		var previousColor = GUI.color;
+		var previousContentColor = GUI.contentColor;
+		var previousBackgroundColor = GUI.backgroundColor;
+		var previousEnabled = GUI.enabled;
 		Render.DrawingMenu = true;
-		GUI.depth = 0;
 
-		if (Event.current.type == EventType.Layout && _hasPendingSize)
+		try
 		{
-			_window.width = _pendingSize.x;
-			_window.height = _pendingSize.y;
-			_hasPendingSize = false;
+			GUI.depth = -1000;
+
+			if (Event.current.type == EventType.Layout && _hasPendingSize)
+			{
+				_window.width = _pendingSize.x;
+				_window.height = _pendingSize.y;
+				_hasPendingSize = false;
+			}
+
+			ClampWindowToScreen();
+			HandleDrag();
+			ClampWindowToScreen();
+
+			Render.MenuArea = _window;
+			GUI.Box(_window, GUIContent.none, RavenTheme.Window);
+
+			HandleResize();
+			DrawHeader();
+			DrawTabs();
+			ClampWindowToScreen();
+			Render.MenuArea = _window;
+			DrawContent();
 		}
+		finally
+		{
+			RavenTabHelper.ForceClose();
 
-		HandleDrag();
-
-		GUI.Box(_window, GUIContent.none, RavenTheme.Window);
-
-		HandleResize();
-
-		DrawHeader();
-		DrawTabs();
-		DrawContent();
-
-		RavenWidgets.EndFrame();
-
-		Render.DrawingMenu = false;
+			try
+			{
+				RavenWidgets.EndFrame();
+			}
+			finally
+			{
+				Render.DrawingMenu = false;
+				GUI.depth = previousDepth;
+				GUI.color = previousColor;
+				GUI.contentColor = previousContentColor;
+				GUI.backgroundColor = previousBackgroundColor;
+				GUI.enabled = previousEnabled;
+			}
+		}
 	}
 
 	public void OnClosed()
 	{
-		RavenWidgets.CloseDropdowns();
-		RavenWidgets.CancelKeyCapture();
+		RavenWidgets.ResetInteraction();
 		_dragging = false;
 		_resizing = false;
+		_hasPendingSize = false;
 	}
 
 	private bool _resizing;
@@ -90,12 +118,25 @@ public class RavenMenu
 	private Vector2 _pendingSize;
 	private bool _hasPendingSize;
 
-	private const float MinWidth = 520f;
-	private const float MinHeight = 320f;
+	private const float MinWidth = 420f;
+	private const float MinHeight = 300f;
 	private const float MinContentHeight = 90f;
 	private const float GripSize = 18f;
 
 	private float MinimumHeight => MinHeight + (_tabsHeight - RavenTheme.TabHeight);
+
+	private void ClampWindowToScreen()
+	{
+		var maxWidth = Mathf.Max(240f, Screen.width - 16f);
+		var maxHeight = Mathf.Max(200f, Screen.height - 16f);
+		var minWidth = Mathf.Min(MinWidth, maxWidth);
+		var minHeight = Mathf.Min(MinimumHeight, maxHeight);
+
+		_window.width = Mathf.Clamp(_window.width, minWidth, maxWidth);
+		_window.height = Mathf.Clamp(_window.height, minHeight, maxHeight);
+		_window.x = Mathf.Clamp(_window.x, 8f, Mathf.Max(8f, Screen.width - _window.width - 8f));
+		_window.y = Mathf.Clamp(_window.y, 8f, Mathf.Max(8f, Screen.height - _window.height - 8f));
+	}
 
 	private void HandleResize()
 	{
@@ -113,9 +154,11 @@ public class RavenMenu
 
 			case EventType.MouseDrag when _resizing:
 				var delta = e.mousePosition - _resizeStart;
+				var maxWidth = Mathf.Max(Mathf.Min(MinWidth, Screen.width - 16f), Screen.width - _window.x - 8f);
+				var maxHeight = Mathf.Max(Mathf.Min(MinimumHeight, Screen.height - 16f), Screen.height - _window.y - 8f);
 				_pendingSize = new Vector2(
-					Mathf.Clamp(_sizeStart.x + delta.x, MinWidth, Screen.width - _window.x - 8f),
-					Mathf.Clamp(_sizeStart.y + delta.y, MinimumHeight, Screen.height - _window.y - 8f));
+					Mathf.Clamp(_sizeStart.x + delta.x, Mathf.Min(MinWidth, maxWidth), maxWidth),
+					Mathf.Clamp(_sizeStart.y + delta.y, Mathf.Min(MinimumHeight, maxHeight), maxHeight));
 				_hasPendingSize = true;
 				e.Use();
 				break;
@@ -167,8 +210,6 @@ public class RavenMenu
 				break;
 		}
 
-		_window.x = Mathf.Clamp(_window.x, -_window.width + 120f, Screen.width - 120f);
-		_window.y = Mathf.Clamp(_window.y, 0f, Screen.height - RavenTheme.HeaderHeight);
 	}
 
 	private void DrawHeader()
@@ -227,28 +268,37 @@ public class RavenMenu
 		var height = Mathf.Max(MinContentHeight, _window.height - (top - _window.y) - 42f);
 		var content = new Rect(_window.x + 18f, top + 12f, _window.width - 36f, height);
 
-		ContentWidth = content.width - 20f;
+		ContentWidth = Mathf.Max(1f, content.width - 20f);
 		RavenWidgets.LayoutOrigin = new Vector2(content.x - _scroll.x, content.y - _scroll.y);
 
-		GUILayout.BeginArea(content);
-		_scroll = GUILayout.BeginScrollView(_scroll, false, true);
+		if (Event.current.type == EventType.Layout && _hasPendingTabError)
+		{
+			_tabError = _pendingTabError;
+			_hasPendingTabError = false;
+		}
 
+		var areaOpen = false;
+		var scrollOpen = false;
 		try
 		{
+			GUILayout.BeginArea(content);
+			areaOpen = true;
+			_scroll = GUILayout.BeginScrollView(_scroll, false, true);
+			scrollOpen = true;
+
 			if (_tabError != null)
 				GUILayout.Label(_tabError, RavenTheme.MutedLabel);
 
 			if (_index >= 0 && _index < _tabs.Count)
 				DrawTab(_tabs[_index]);
-
-			GUILayout.EndScrollView();
-		}
-		catch (System.Exception)
-		{
 		}
 		finally
 		{
-			GUILayout.EndArea();
+			if (scrollOpen)
+				GUILayout.EndScrollView();
+
+			if (areaOpen)
+				GUILayout.EndArea();
 		}
 
 		var footer = new Rect(_window.x + 22f, _window.yMax - 26f, _window.width - 44f, 16f);
@@ -257,18 +307,26 @@ public class RavenMenu
 		GUI.Label(new Rect(footer.x + 108f, footer.y, 200f, footer.height), "EFT | ONLINE", RavenTheme.Subtitle);
 	}
 
-	private static void DrawTab(IRavenTab tab)
+	private void DrawTab(IRavenTab tab)
 	{
 		try
 		{
 			tab.Draw();
-			_tabError = null;
+
+			if (Event.current.type == EventType.Layout && _tabError != null && !_hasPendingTabError)
+				QueueTabError(null);
 		}
 		catch (System.Exception ex)
 		{
-			_tabError = $"{tab.Title} could not be drawn: {ex.Message}";
+			QueueTabError($"{tab.Title} could not be drawn: {ex.Message}");
 			RavenTabHelper.ForceClose();
 		}
+	}
+
+	private void QueueTabError(string? message)
+	{
+		_pendingTabError = message;
+		_hasPendingTabError = true;
 	}
 
 	internal static float ContentWidth { get; private set; } = 900f;

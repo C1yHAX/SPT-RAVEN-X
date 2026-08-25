@@ -28,6 +28,21 @@ public static class PlayerExtensions
 		return player.HealthController is { IsAlive: true };
 	}
 
+	public static bool IsFriendlyTo(this Player? player, Player? localPlayer)
+	{
+		if (player == null || localPlayer == null)
+			return false;
+
+		if (player.IsYourPlayer || ReferenceEquals(player, localPlayer))
+			return true;
+
+		if (!string.IsNullOrEmpty(player.GroupId) && player.GroupId == localPlayer.GroupId)
+			return true;
+
+		var group = player.AIData?.BotOwner?.BotsGroup ?? player.BotsGroup;
+		return group?.IsAlly(localPlayer) == true;
+	}
+
 	public static bool HasItemComponentInSlot<T>(this Player? player, EquipmentSlot slot) where T : class, IItemComponent
 	{
 		if (!IsValid(player))

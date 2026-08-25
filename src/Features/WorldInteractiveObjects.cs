@@ -29,14 +29,17 @@ internal class WorldInteractiveObjects : TriggerFeature
 			if (!obj.IsValid())
 				continue;
 
-			if (obj.DoorState != EDoorState.Locked)
-				continue;
-
 			var offset = player.Transform.position - obj.transform.position;
 			var sqrLen = offset.sqrMagnitude;
 
-			if (sqrLen <= 20.0f)
+			if (sqrLen > 400f)
+				continue;
+
+			if (obj.DoorState == EDoorState.Locked)
 				obj.DoorState = EDoorState.Shut;
+
+			if (obj.DoorState == EDoorState.Shut)
+				obj.Open();
 		}
 	}
 }

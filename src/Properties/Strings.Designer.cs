@@ -1393,12 +1393,6 @@ namespace RavenX.Properties {
             }
         }
 
-        internal static string PropertyShowCharms {
-            get {
-                return ResourceManager.GetString("PropertyShowCharms", resourceCulture);
-            }
-        }
-
         internal static string PropertyShowCompass {
             get {
                 return ResourceManager.GetString("PropertyShowCompass", resourceCulture);
@@ -1618,12 +1612,6 @@ namespace RavenX.Properties {
         internal static string PropertyX {
             get {
                 return ResourceManager.GetString("PropertyX", resourceCulture);
-            }
-        }
-
-        internal static string PropertyXRayVision {
-            get {
-                return ResourceManager.GetString("PropertyXRayVision", resourceCulture);
             }
         }
 

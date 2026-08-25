@@ -1,16 +1,15 @@
-﻿using RavenX.Configuration;
-using RavenX.Properties;
+using System;
+using RavenX.Configuration;
 using JetBrains.Annotations;
 using UnityEngine;
-using EFT;
 
 namespace RavenX.Features;
 
 [UsedImplicitly]
 internal class FovChanger : ToggleFeature
 {
-	public override string Name => Strings.FeatureFovChangerName;
-	public override string Description => Strings.FeatureFovChangerDescription;
+	public override string Name => Properties.Strings.FeatureFovChangerName;
+	public override string Description => Properties.Strings.FeatureFovChangerDescription;
 
 	[ConfigurationProperty(Order = 1)]
 	public override bool Enabled { get; set; } = false;
@@ -21,6 +20,10 @@ internal class FovChanger : ToggleFeature
 	[ConfigurationProperty(Order = 3)]
 	public float CameraOffset { get; set; } = 0.05f;
 
+	private Camera? _camera;
+	private object? _container;
+	private Action? _restore;
+
 	[UsedImplicitly]
 	private void LateUpdate()
 	{
@@ -28,22 +31,50 @@ internal class FovChanger : ToggleFeature
 			return;
 
 		var snapshot = GameState.Current;
-		if (snapshot == null)
+		var camera = snapshot?.Camera;
+		var player = snapshot?.LocalPlayer;
+		var container = player?.ProceduralWeaponAnimation?.HandsContainer;
+		if (camera == null || container == null)
+		{
+			Restore();
 			return;
+		}
 
-		var camera = snapshot.Camera;
-		if (camera == null)
-			return;
-
-		var player = snapshot.LocalPlayer;
-		if (player == null)
-			return;
-
-		var container = player.ProceduralWeaponAnimation.HandsContainer;
-		if (container == null)
-			return;
+		if (!ReferenceEquals(_camera, camera) || !ReferenceEquals(_container, container))
+		{
+			Restore();
+			var fieldOfView = camera.fieldOfView;
+			var cameraOffset = container.CameraOffset;
+			_camera = camera;
+			_container = container;
+			_restore = () =>
+			{
+				if (camera != null)
+					camera.fieldOfView = fieldOfView;
+				container.CameraOffset = cameraOffset;
+			};
+		}
 
 		container.CameraOffset = new Vector3(0.04f, 0.04f, CameraOffset);
-		camera.fieldOfView = Fov;
+		camera.fieldOfView = Mathf.Clamp(Fov, 1f, 179f);
+	}
+
+	protected override void UpdateWhenDisabled()
+	{
+		Restore();
+	}
+
+	[UsedImplicitly]
+	private void OnDestroy()
+	{
+		Restore();
+	}
+
+	private void Restore()
+	{
+		_restore?.Invoke();
+		_camera = null;
+		_container = null;
+		_restore = null;
 	}
 }

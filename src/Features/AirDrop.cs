@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using EFT.InventoryLogic;
+using RavenX.Extensions;
 using RavenX.Properties;
 using JetBrains.Annotations;
 using UnityEngine;
@@ -20,7 +21,7 @@ internal class AirDrop : TriggerFeature
 	protected override void UpdateOnceWhenTriggered()
 	{
 		var player = GameState.Current?.LocalPlayer;
-		if (player == null)
+		if (!player.IsValid())
 			return;
 
 		if (TemplateHelper.FindTemplates(KnownTemplateIds.RedSignalFlare).FirstOrDefault() is not AmmoTemplate template)

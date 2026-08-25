@@ -116,16 +116,16 @@ internal static class Bones
 		[RPalm, RDigit11],
 		[RDigit11, RDigit12],
 		[RDigit12, RDigit13],
-		[RPalm, RDigit11],
+		[RPalm, RDigit21],
 		[RDigit21, RDigit22],
 		[RDigit22, RDigit23],
-		[RPalm, RDigit11],
+		[RPalm, RDigit31],
 		[RDigit31, RDigit32],
 		[RDigit32, RDigit33],
-		[RPalm, RDigit11],
+		[RPalm, RDigit41],
 		[RDigit41, RDigit42],
 		[RDigit42, RDigit43],
-		[RPalm, RDigit11],
+		[RPalm, RDigit51],
 		[RDigit51, RDigit52],
 		[RDigit52, RDigit53]
 	];
@@ -137,7 +137,10 @@ internal static class Bones
 
 	public static void RenderBone(Dictionary<string, Transform> bones, string from, string to, float thickness, Color color, Camera camera, bool isAiming)
 	{
-		RenderBone(bones[from].position, bones[to].position, thickness, color, camera, isAiming);
+		if (!bones.TryGetValue(from, out var fromBone) || !bones.TryGetValue(to, out var toBone) || fromBone == null || toBone == null)
+			return;
+
+		RenderBone(fromBone.position, toBone.position, thickness, color, camera, isAiming);
 	}
 
 	public static void RenderBone(Vector3 fromPosition, Vector3 toPosition, float thickness, Color color, Camera camera, bool isAiming)
@@ -165,8 +168,11 @@ internal static class Bones
 			foreach (var finger in FingerConnections)
 				RenderBone(bones, finger[0], finger[1], thickness, color, camera, isAiming);
 
-		var head = GetScreenPosition(camera, bones[Head].position, isAiming);
-		var neck = GetScreenPosition(camera, bones[Neck].position, isAiming);
+		if (!bones.TryGetValue(Head, out var headBone) || !bones.TryGetValue(Neck, out var neckBone) || headBone == null || neckBone == null)
+			return;
+
+		var head = GetScreenPosition(camera, headBone.position, isAiming);
+		var neck = GetScreenPosition(camera, neckBone.position, isAiming);
 
 		var radius = Vector2.Distance(head, neck);
 
@@ -184,7 +190,7 @@ internal static class Bones
 			return;
 
 		var numberOfConnections = connections.Length;
-		for (int i = 0; i < numberOfConnections; i += 2)
+		for (var i = 0; i + 1 < numberOfConnections; i += 2)
 		{
 			RenderBone(bones, connections[i], connections[i + 1], thickness, color, camera, isAiming);
 		}
@@ -200,8 +206,11 @@ internal static class Bones
 		if (bones == null)
 			return;
 
-		var head = GetScreenPosition(camera, bones[Head].position, isAiming);
-		var neck = GetScreenPosition(camera, bones[Neck].position, isAiming);
+		if (!bones.TryGetValue(Head, out var headBone) || !bones.TryGetValue(Neck, out var neckBone) || headBone == null || neckBone == null)
+			return;
+
+		var head = GetScreenPosition(camera, headBone.position, isAiming);
+		var neck = GetScreenPosition(camera, neckBone.position, isAiming);
 
 		var radius = Vector2.Distance(head, neck);
 

@@ -21,6 +21,7 @@ internal class ItemsTab : IRavenTab
 	private string _status = string.Empty;
 
 	private string? _lastQuery;
+	private int _lastTemplateRevision = -1;
 	private Entry[] _results = [];
 	private Vector2 _scroll;
 	private Entry? _selected;
@@ -211,7 +212,7 @@ internal class ItemsTab : IRavenTab
 					GUILayout.Label(rarity.ToString(), RavenTheme.ValueLabel, GUILayout.Width(74f));
 
 				if (RavenWidgets.SmallButton("remove", 58f))
-					loot.TrackedNames.Remove(tracked);
+					RavenWidgets.RunNextLayout(() => loot.TrackedNames.Remove(tracked));
 
 				GUILayout.EndHorizontal();
 			}
@@ -279,8 +280,8 @@ internal class ItemsTab : IRavenTab
 
 				if (category.Children.Count > 0)
 				{
-					if (GUILayout.Button(category.Expanded ? "-" : "+", RavenTheme.ValueLabel, GUILayout.Width(14f)))
-						category.Expanded = !category.Expanded;
+					if (RavenWidgets.LayoutButton(category.Expanded ? "-" : "+", RavenTheme.ValueLabel, GUILayout.Width(14f)))
+						RavenWidgets.RunNextLayout(() => category.Expanded = !category.Expanded);
 				}
 				else
 				{
@@ -291,10 +292,13 @@ internal class ItemsTab : IRavenTab
 
 				GUI.contentColor = selected ? RavenTheme.Accent : Color.white;
 
-				if (GUILayout.Button(category.Name, RavenTheme.Label, GUILayout.ExpandWidth(true)))
+				if (RavenWidgets.LayoutButton(category.Name, RavenTheme.Label, GUILayout.ExpandWidth(true)))
 				{
-					_categoryId = selected ? string.Empty : category.Id;
-					_categoryName = selected ? string.Empty : category.Name;
+					RavenWidgets.RunNextLayout(() =>
+					{
+						_categoryId = selected ? string.Empty : category.Id;
+						_categoryName = selected ? string.Empty : category.Name;
+					});
 				}
 
 				GUI.contentColor = Color.white;
@@ -340,11 +344,8 @@ internal class ItemsTab : IRavenTab
 				if (isSelected)
 					RavenWidgets.Rounded(rect, 3f, RavenTheme.AccentTrack, RavenTheme.AccentTrack);
 
-				if (Event.current.type == EventType.MouseDown && Event.current.button == 0 && rect.Contains(Event.current.mousePosition))
-				{
-					_selected = entry;
-					Event.current.Use();
-				}
+				if (RavenWidgets.Click(rect))
+					RavenWidgets.RunNextLayout(() => _selected = entry);
 
 				var caption = entry.Name.Length > 0 ? entry.Name : entry.ShortName;
 				GUI.Label(new Rect(rect.x + 6f, rect.y, rect.width - 12f, rect.height), caption, RavenWidgets.RowLabel(isSelected));
@@ -433,12 +434,15 @@ internal class ItemsTab : IRavenTab
 	private void RefreshResults()
 	{
 		var query = _searchInput.Trim();
-		if (_lastQuery != null && query == _lastQuery)
+		var templates = TemplateHelper.AllTemplates();
+		var revision = TemplateHelper.Revision;
+		if (_lastQuery != null && query == _lastQuery && revision == _lastTemplateRevision)
 			return;
 
 		_lastQuery = query;
+		_lastTemplateRevision = revision;
 
-		var entries = TemplateHelper.AllTemplates()
+		var entries = templates
 			.Select(t => new Entry
 			{
 				Name = t.NameLocalizationKey.Localized(),

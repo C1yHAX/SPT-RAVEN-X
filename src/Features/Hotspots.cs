@@ -37,8 +37,10 @@ internal class Hotspots : Feature
 	private static string FilePath => Path.Combine(Context.UserPath, "hotspots.json");
 
 	private List<Hotspot>? _all;
+	private bool _loadedSafely = true;
 
 	internal List<Hotspot> All => _all ??= Load();
+	internal string? LastError { get; private set; }
 
 	internal static string CurrentMap
 	{
@@ -65,15 +67,35 @@ internal class Hotspots : Feature
 		if (!player.IsValid() || map.Length == 0 || name.Trim().Length == 0)
 			return false;
 
-		All.Add(new Hotspot { Map = map, Name = name.Trim(), Position = player.Transform.position });
-		Save();
-		return true;
+		var all = All;
+		if (!_loadedSafely)
+			return false;
+
+		var hotspot = new Hotspot { Map = map, Name = name.Trim(), Position = player.Transform.position };
+		all.Add(hotspot);
+		if (Save())
+			return true;
+
+		all.Remove(hotspot);
+		return false;
 	}
 
-	internal void Remove(Hotspot hotspot)
+	internal bool Remove(Hotspot hotspot)
 	{
-		All.Remove(hotspot);
-		Save();
+		var all = All;
+		if (!_loadedSafely)
+			return false;
+
+		var index = all.IndexOf(hotspot);
+		if (index < 0)
+			return false;
+
+		all.RemoveAt(index);
+		if (Save())
+			return true;
+
+		all.Insert(index, hotspot);
+		return false;
 	}
 
 	internal static bool TeleportTo(Hotspot hotspot)
@@ -86,32 +108,42 @@ internal class Hotspots : Feature
 		return true;
 	}
 
-	private static List<Hotspot> Load()
+	private List<Hotspot> Load()
 	{
 		try
 		{
 			if (!File.Exists(FilePath))
 				return [];
 
-			return JsonConvert.DeserializeObject<List<Hotspot>>(File.ReadAllText(FilePath)) ?? [];
+			var result = JsonConvert.DeserializeObject<List<Hotspot>>(File.ReadAllText(FilePath)) ?? [];
+			LastError = null;
+			_loadedSafely = true;
+			return result;
 		}
-		catch
+		catch (System.Exception ex)
 		{
-
+			LastError = $"Unable to read hotspots.json: {ex.Message}";
+			_loadedSafely = false;
 			return [];
 		}
 	}
 
-	internal void Save()
+	internal bool Save()
 	{
+		if (!_loadedSafely)
+			return false;
+
 		try
 		{
 			Directory.CreateDirectory(Context.UserPath);
-			File.WriteAllText(FilePath, JsonConvert.SerializeObject(All, Formatting.Indented));
+			Configuration.ConfigurationManager.WriteAtomic(FilePath, JsonConvert.SerializeObject(All, Formatting.Indented));
+			LastError = null;
+			return true;
 		}
-		catch
+		catch (System.Exception ex)
 		{
-
+			LastError = $"Unable to save hotspots.json: {ex.Message}";
+			return false;
 		}
 	}
 }

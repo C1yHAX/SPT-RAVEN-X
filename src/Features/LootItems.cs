@@ -62,7 +62,7 @@ internal class LootItems : PointOfInterests
 	{
 		lootname = lootname.Trim();
 
-		if (TrackedNames.Any(t => t.Name == lootname && t.Rarity == rarity))
+		if (TrackedNames.Any(t => string.Equals(t.Name, lootname, StringComparison.OrdinalIgnoreCase) && t.Rarity == rarity))
 			return false;
 
 		TrackedNames.Add(new TrackedItem(lootname, color, rarity));
@@ -107,7 +107,6 @@ internal class LootItems : PointOfInterests
 
 	public override void RefreshData(List<PointOfInterest> data)
 	{
-		Wishlist.Clear();
 		Wishlist = RefreshWishlist();
 
 		HandbookCatalog.Refresh();
@@ -149,6 +148,9 @@ internal class LootItems : PointOfInterests
 			if (valueTransform == null)
 				continue;
 
+			if (valueTransform.GetComponentInParent<Player>() != null)
+				continue;
+
 			var position = valueTransform.position;
 			FindItemsInRootItem(records, rootItem, position);
 		}
@@ -156,9 +158,7 @@ internal class LootItems : PointOfInterests
 
 	private void FindItemsInRootItem(List<PointOfInterest> records, Item? rootItem, Vector3 position, string? ownerOverride = null, Transform? follow = null)
 	{
-		var items = rootItem?
-			.GetAllItems()?
-			.ToArray();
+		var items = rootItem?.GetAllItems();
 
 		if (items == null)
 			return;
@@ -168,7 +168,7 @@ internal class LootItems : PointOfInterests
 			if (!item.IsValid() || item.IsFiltered())
 				continue;
 
-			TryAddRecordIfTracked(item, records, position, ownerOverride ?? item.Owner?.RootItem?.TemplateId.LocalizedShortName(), follow);
+			TryAddRecord(item, records, position, ownerOverride ?? item.Owner?.RootItem?.TemplateId.LocalizedShortName(), follow);
 		}
 	}
 
@@ -212,7 +212,7 @@ internal class LootItems : PointOfInterests
 				continue;
 			}
 
-			TryAddRecordIfTracked(lootItem.Item, records, position);
+			TryAddRecord(lootItem.Item, records, position);
 		}
 	}
 
@@ -225,21 +225,31 @@ internal class LootItems : PointOfInterests
 		return template.CreditsPrice;
 	}
 
+	private static int PriceOf(Item item)
+	{
+		var unitPrice = PriceOf(item.Template);
+		if (unitPrice <= 0)
+			return 0;
+
+		var total = (long)unitPrice * Mathf.Max(1, item.StackObjectsCount);
+		return total >= int.MaxValue ? int.MaxValue : (int)total;
+	}
+
 	private string FormatName(string itemName, Item item)
 	{
 		if (!ShowPrices)
 			return itemName;
 
-		var price = PriceOf(item.Template);
+		var price = PriceOf(item);
 		if (price <= 0)
 			return itemName;
 
 		return price >= 1000
-			? $"{itemName} {price / 1000f:0.#}K"
-			: $"{itemName} {price}";
+			? $"{itemName} {price / 1000f:0.#}K ₽"
+			: $"{itemName} {price} ₽";
 	}
 
-	private void TryAddRecordIfTracked(Item item, List<PointOfInterest> records, Vector3 position, string? owner = null, Transform? follow = null)
+	private void TryAddRecord(Item item, List<PointOfInterest> records, Vector3 position, string? owner = null, Transform? follow = null)
 	{
 		if (IsOutOfRange(position))
 			return;
@@ -255,14 +265,8 @@ internal class LootItems : PointOfInterests
 		if (trackedItem?.Color != null)
 			color = trackedItem.Color.Value;
 
-		if (!Wishlist.Contains(templateId))
-		{
-			if (!PassesFilters(template, rarity))
-				return;
-
-			if (trackedItem == null && TrackedNames.Count > 0)
-				return;
-		}
+		if (!Wishlist.Contains(templateId) && !PassesFilters(item, rarity))
+			return;
 
 		if (owner != null && owner == KnownTemplateIds.DefaultInventoryLocalizedShortName)
 			owner = nameof(Corpse);
@@ -296,16 +300,24 @@ internal class LootItems : PointOfInterests
 		return (position - camera.transform.position).sqrMagnitude > limit * limit;
 	}
 
-	private bool PassesFilters(ItemTemplate template, ELootRarity rarity)
+	private bool PassesFilters(Item item, ELootRarity rarity)
 	{
-		var price = PriceOf(template);
+		var lower = MinimumPrice;
+		var upper = MaximumPrice;
 
-		if (price > 0)
+		if (upper > 0 && lower > upper)
+			(lower, upper) = (upper, lower);
+
+		if (lower > 0 || upper > 0)
 		{
-			if (MinimumPrice > 0 && price < MinimumPrice)
+			var price = PriceOf(item);
+			if (price <= 0)
 				return false;
 
-			if (MaximumPrice > 0 && price > MaximumPrice)
+			if (lower > 0 && price < lower)
+				return false;
+
+			if (upper > 0 && price > upper)
 				return false;
 		}
 
@@ -322,7 +334,14 @@ internal class LootItems : PointOfInterests
 
 	private TrackedItem? TryFindTrackedItem(string itemName, string templateId, ELootRarity rarity)
 	{
-		return TrackedNames.FirstOrDefault(t => TextMatches(t, itemName, templateId) && RarityMatches(rarity, t.Rarity));
+		for (var i = 0; i < TrackedNames.Count; i++)
+		{
+			var tracked = TrackedNames[i];
+			if (TextMatches(tracked, itemName, templateId) && RarityMatches(rarity, tracked.Rarity))
+				return tracked;
+		}
+
+		return null;
 	}
 
 	private static bool TextMatches(TrackedItem trackedItem, string itemName, string templateId)

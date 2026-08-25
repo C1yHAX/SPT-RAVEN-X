@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using RavenX.Configuration;
 using RavenX.UI.Raven;
 using RavenX.UI.Raven.Tabs;
@@ -25,7 +26,7 @@ internal class RavenUI : ToggleFeature
 
 	private RavenMenu? _menu;
 	private bool _wasEnabled;
-	private EventSystem? _suspendedEventSystem;
+	private readonly HashSet<EventSystem> _suspendedEventSystems = [];
 
 	private RavenMenu Menu => _menu ??= BuildMenu();
 
@@ -48,10 +49,6 @@ internal class RavenUI : ToggleFeature
 
 	protected override void Update()
 	{
-
-		if (RavenWidgets.IsCapturingKey)
-			return;
-
 		base.Update();
 
 		if (_wasEnabled == Enabled)
@@ -77,26 +74,30 @@ internal class RavenUI : ToggleFeature
 
 	private void SuspendGameUi()
 	{
-		if (_suspendedEventSystem != null)
-			return;
-
 		var current = EventSystem.current;
-		if (current == null || !current.enabled)
+		if (current == null || !current.enabled || _suspendedEventSystems.Contains(current))
 			return;
 
 		current.enabled = false;
-		_suspendedEventSystem = current;
+		_suspendedEventSystems.Add(current);
 	}
 
 	private void RestoreGameUi()
 	{
-		if (_suspendedEventSystem == null)
-			return;
+		foreach (var eventSystem in _suspendedEventSystems)
+		{
+			if (eventSystem != null)
+				eventSystem.enabled = true;
+		}
 
-		if (_suspendedEventSystem)
-			_suspendedEventSystem.enabled = true;
+		_suspendedEventSystems.Clear();
+	}
 
-		_suspendedEventSystem = null;
+	[UsedImplicitly]
+	private void OnDestroy()
+	{
+		RestoreGameUi();
+		_menu?.OnClosed();
 	}
 
 	protected override void OnGUIWhenEnabled()

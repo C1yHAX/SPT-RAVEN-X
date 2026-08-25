@@ -32,6 +32,8 @@ internal class CrossHair : ToggleFeature
 
 	protected override void OnGUIWhenEnabled()
 	{
+		if (Event.current.type != EventType.Repaint)
+			return;
 
 		if (Cursor.visible)
 			return;

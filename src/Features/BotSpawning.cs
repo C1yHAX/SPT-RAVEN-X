@@ -34,10 +34,16 @@ internal class BotSpawning : ToggleFeature
 
 	internal string Status { get; private set; } = string.Empty;
 	internal float LastDistance { get; private set; }
+	private bool _spawning;
 
 	internal bool Request(string botType)
 	{
 		LastDistance = 0f;
+		if (_spawning)
+		{
+			Status = "Failed — a bot is already spawning";
+			return false;
+		}
 
 		if (!Enum.TryParse<WildSpawnType>(botType, out var spawnType))
 		{
@@ -74,8 +80,9 @@ internal class BotSpawning : ToggleFeature
 
 		if (!Enabled)
 		{
-			Status = $"{spawnType} requested — map picks the spot";
-			ConsoleCommands.SpawnBot.SpawnBots([botType]);
+			_spawning = true;
+			Status = "Spawning…";
+			SpawnDefault(spawner, spawnType, Difficulty, player);
 			return true;
 		}
 
@@ -89,8 +96,9 @@ internal class BotSpawning : ToggleFeature
 
 		LastDistance = Vector3.Distance(origin, position);
 		Status = "Spawning…";
+		_spawning = true;
 
-		SpawnAt(spawner, spawnType, position, origin);
+		SpawnAt(spawner, spawnType, Difficulty, position, origin, player);
 		return true;
 	}
 
@@ -109,9 +117,11 @@ internal class BotSpawning : ToggleFeature
 
 		heading = heading.normalized;
 
+		var distance = Mathf.Max(0f, Distance);
+
 		foreach (var factor in _fallbackFactors)
 		{
-			var candidate = origin + heading * (Distance * factor);
+			var candidate = origin + heading * (distance * factor);
 
 			if (Physics.Raycast(candidate + Vector3.up * 150f, Vector3.down, out var hit, 400f, Physics.DefaultRaycastLayers, QueryTriggerInteraction.Ignore))
 				candidate = hit.point;
@@ -126,7 +136,26 @@ internal class BotSpawning : ToggleFeature
 		return false;
 	}
 
-	private async void SpawnAt(BotSpawner spawner, WildSpawnType spawnType, Vector3 position, Vector3 lookAt)
+	private async void SpawnDefault(BotSpawner spawner, WildSpawnType spawnType, BotDifficulty difficulty, Player player)
+	{
+		try
+		{
+			await spawner.SpawnBotByTypeForce(1, spawnType, difficulty, null);
+			Status = ReferenceEquals(GameState.Current?.LocalPlayer, player)
+				? $"{spawnType} spawned at a map-selected position"
+				: "Cancelled — raid ended";
+		}
+		catch (Exception e)
+		{
+			Status = $"Failed — {e.Message}";
+		}
+		finally
+		{
+			_spawning = false;
+		}
+	}
+
+	private async void SpawnAt(BotSpawner spawner, WildSpawnType spawnType, BotDifficulty difficulty, Vector3 position, Vector3 lookAt, Player player)
 	{
 		try
 		{
@@ -137,8 +166,14 @@ internal class BotSpawning : ToggleFeature
 				return;
 			}
 
-			var profileParams = new GetProfileDataParams(EPlayerSide.Savage, spawnType, Difficulty, 5f, null, false);
+			var profileParams = new GetProfileDataParams(EPlayerSide.Savage, spawnType, difficulty, 5f, null, false);
 			var data = await BotCreationData.Create(profileParams, spawner._botCreator, 1, spawner);
+
+			if (!ReferenceEquals(GameState.Current?.LocalPlayer, player))
+			{
+				Status = "Cancelled — raid ended";
+				return;
+			}
 
 			if (data == null)
 			{
@@ -165,6 +200,10 @@ internal class BotSpawning : ToggleFeature
 		catch (Exception e)
 		{
 			Status = $"Failed — {e.Message}";
+		}
+		finally
+		{
+			_spawning = false;
 		}
 	}
 }

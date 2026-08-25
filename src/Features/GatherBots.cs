@@ -30,7 +30,7 @@ internal class GatherBots : TriggerFeature
 
 		var origin = player.Transform.position;
 		var forward = player.Transform.forward;
-		var hostiles = state.Hostiles.Where(h => h.IsAlive()).ToArray();
+		var hostiles = state.Hostiles.Where(h => h.IsAlive() && h.AIData?.BotOwner != null).ToArray();
 
 		for (var i = 0; i < hostiles.Length; i++)
 		{

@@ -114,7 +114,6 @@
       <HintPath>installer\Resources\0Harmony.dll</HintPath>
     </Reference>
   </ItemGroup>
-  <!-- Only to work with legacy installer regex parsing -->
   <ItemGroup Condition="Exists('$(EFTManagedPath)\UnityEngine.InputLegacyModule.dll')">
     <Reference Include="UnityEngine.InputLegacyModule">
       <HintPath>$(EFTManagedPath)\UnityEngine.InputLegacyModule.dll</HintPath>
@@ -258,10 +257,10 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Strings.zh-cn.resx</DependentUpon>
     </Compile>
-    <Compile Include="src\Properties\Strings.jp.Designer.cs">
+    <Compile Include="src\Properties\Strings.ja.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>Strings.jp.resx</DependentUpon>
+      <DependentUpon>Strings.ja.resx</DependentUpon>
     </Compile>
     <Compile Include="src\Features\RavenUI.cs" />
     <Compile Include="src\UI\Raven\Tabs\RavenTabHelper.cs" />
@@ -310,14 +309,20 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Strings.zh-cn.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Include="src\Properties\Strings.jp.resx">
-      <LogicalName>RavenX.Properties.Strings.jp.resources</LogicalName>
+    <EmbeddedResource Include="src\Properties\Strings.ja.resx">
+      <LogicalName>RavenX.Properties.Strings.ja.resources</LogicalName>
       <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Strings.jp.Designer.cs</LastGenOutput>
+      <LastGenOutput>Strings.ja.Designer.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>copy /Y "$(TargetPath)" "$(EFTManagedPath)"</PostBuildEvent>
+    <PostBuildEvent>copy /Y "$(TargetPath)" "$(EFTManagedPath)"
+if exist "$(TargetDir)fr\RavenX.resources.dll" if not exist "$(EFTManagedPath)\fr" mkdir "$(EFTManagedPath)\fr"
+if exist "$(TargetDir)fr\RavenX.resources.dll" copy /Y "$(TargetDir)fr\RavenX.resources.dll" "$(EFTManagedPath)\fr"
+if exist "$(TargetDir)ja\RavenX.resources.dll" if not exist "$(EFTManagedPath)\ja" mkdir "$(EFTManagedPath)\ja"
+if exist "$(TargetDir)ja\RavenX.resources.dll" copy /Y "$(TargetDir)ja\RavenX.resources.dll" "$(EFTManagedPath)\ja"
+if exist "$(TargetDir)zh-cn\RavenX.resources.dll" if not exist "$(EFTManagedPath)\zh-cn" mkdir "$(EFTManagedPath)\zh-cn"
+if exist "$(TargetDir)zh-cn\RavenX.resources.dll" copy /Y "$(TargetDir)zh-cn\RavenX.resources.dll" "$(EFTManagedPath)\zh-cn"</PostBuildEvent>
   </PropertyGroup>
 </Project>

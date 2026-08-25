@@ -2,6 +2,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Net;
 using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
@@ -16,7 +17,7 @@ internal class VersionChecker
 
 	private static HttpClient CreateClient()
 	{
-		var client = new HttpClient();
+		var client = new HttpClient { Timeout = TimeSpan.FromSeconds(15) };
 		client.DefaultRequestHeaders.UserAgent.ParseAdd("RavenX-Installer");
 		return client;
 	}
@@ -32,9 +33,14 @@ internal class VersionChecker
 				return supported;
 
 			var branch = $"dev-{version}";
-			var uri = new Uri($"https://github.com/C1yHAX/SPT-RAVEN-X/tree/{branch}");
-			var result = await _client.GetAsync(uri);
-			_versions[version] = result.IsSuccessStatusCode;
+			var uri = new Uri($"https://codeload.github.com/C1yHAX/SPT-RAVEN-X/zip/refs/heads/{Uri.EscapeDataString(branch)}");
+			using var request = new HttpRequestMessage(HttpMethod.Head, uri);
+			using var result = await _client.SendAsync(request, HttpCompletionOption.ResponseHeadersRead);
+			var isSupported = result.IsSuccessStatusCode;
+			if (isSupported || result.StatusCode == HttpStatusCode.NotFound)
+				_versions[version] = isSupported;
+
+			return isSupported;
 		}
 		catch (Exception e)
 		{
@@ -42,22 +48,13 @@ internal class VersionChecker
 			Spectre.Console.AnsiConsole.WriteException(e);
 #endif
 			_ = e;
-			_versions[version] = false;
+			return false;
 		}
 		finally
 		{
 			_semaphore.Release();
 		}
 
-		return _versions[version];
 	}
 
-	public static bool IsVersionSupported(Version version)
-	{
-#pragma warning disable VSTHRD002
-		return IsVersionSupportedAsync(version)
-			.GetAwaiter()
-			.GetResult();
-#pragma warning restore VSTHRD002
-	}
 }

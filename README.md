@@ -1,7 +1,7 @@
 <img width="1774" height="887" alt="image" src="https://github.com/user-attachments/assets/4d4b952d-3961-4fe6-a280-2ca88a64e73f" />
 
 
-In-game mod menu for [SPT](https://sp-tarkov.com/). Built for **SPT 4.1.2** (EFT `0.16.9.5.40743`).
+In-game mod menu for [SPT](https://sp-tarkov.com/). Built for **SPT 4.1.3** (EFT `0.16.9.5.40743`).
 
 Press **Insert** to open the menu.
 
@@ -19,7 +19,7 @@ Everything that gets drawn. This is the single place that answers "is this shown
 
 | Group | Contents |
 |---|---|
-| Players ESP | Boxes, info, skeletons, charms, x-ray, shootable and blocked targets, snap lines |
+| Players ESP | Boxes, info, skeletons, shootable and blocked targets, snap lines |
 | Readout | Names, weapon, distance, health value, HP bars — each on its own |
 | Chams | Whole-body colouring per role, with a second colour for the parts behind cover, plus opacity and range |
 | Loot & World | Loot with container and corpse search, prices, wishlist, containers, extractions, quest markers |
@@ -93,6 +93,8 @@ Or copy the built files by hand:
 
 `0Harmony.dll` is already provided by BepInEx.
 
+For a translated manual build, copy its `fr`, `ja`, or `zh-cn` folder next to `RavenX.dll` in `EscapeFromTarkov_Data\Managed\`.
+
 > **Run the game once before installing.** SPT rewrites the game assemblies on first launch, and RavenX has to be compiled against those. Installing on untouched binaries either fails to compile or freezes the game at the startup screen.
 
 ---
@@ -102,7 +104,7 @@ Or copy the built files by hand:
 Requires the .NET SDK and MSBuild. Point `EFTBasePath` at your SPT installation:
 
 ```bash
-MSBuild.exe BepInExPlugin/BepInExPlugin.csproj -p:EFTBasePath="E:\Games\SPT" -p:Configuration=Release
+MSBuild.exe plugin/BepInExPlugin.csproj -p:EFTBasePath="E:\Games\SPT" -p:Configuration=Release
 ```
 
 Clean `bin` and `obj` after upgrading SPT, or stale references will produce type and token errors at startup.
@@ -123,5 +125,5 @@ MIT. See [LICENSE](LICENSE).
 
 ## Credit
 
-RavenX is maintained by **C1yHAX** — the SPT 4.1.2 port, the Raven interface and everything under that name.
+RavenX is maintained by **C1yHAX** — the SPT 4.1.3 port, the Raven interface and everything under that name.
 The project was also built using code from sailro https://github.com/sailro/EscapeFromTarkov-Trainer.

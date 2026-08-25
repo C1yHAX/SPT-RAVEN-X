@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using UnityEngine;
 using EFT;
 
@@ -20,6 +21,61 @@ internal static class RoleCatalog
 	public const string PmcBearKey = "PMC-BEAR";
 	public const string PmcUsecKey = "PMC-USEC";
 
+	private static readonly Dictionary<string, string> _roleLabels = new(StringComparer.OrdinalIgnoreCase)
+	{
+		["marksman"] = "Sniper Scav",
+		["assault"] = "Scav",
+		["assaultGroup"] = "Scav Group",
+		["cursedAssault"] = "Cursed Scav",
+		["bossBully"] = "Reshala",
+		["followerBully"] = "Reshala Guard",
+		["bossKilla"] = "Killa",
+		["bossKojaniy"] = "Shturman",
+		["followerKojaniy"] = "Shturman Guard",
+		["pmcBot"] = "Raider",
+		["bossGluhar"] = "Glukhar",
+		["followerGluharAssault"] = "Glukhar Assault",
+		["followerGluharSecurity"] = "Glukhar Security",
+		["followerGluharScout"] = "Glukhar Scout",
+		["followerGluharSnipe"] = "Glukhar Sniper",
+		["bossSanitar"] = "Sanitar",
+		["followerSanitar"] = "Sanitar Guard",
+		["sectantWarrior"] = "Cultist Warrior",
+		["sectantPriest"] = "Cultist Priest",
+		["bossTagilla"] = "Tagilla",
+		["followerTagilla"] = "Tagilla Guard",
+		["exUsec"] = "Rogue",
+		["bossKnight"] = "Knight",
+		["followerBigPipe"] = "Big Pipe",
+		["followerBirdEye"] = "Birdeye",
+		["bossZryachiy"] = "Zryachiy",
+		["followerZryachiy"] = "Zryachiy Guard",
+		["bossBoar"] = "Kaban",
+		["followerBoar"] = "Kaban Guard",
+		["bossBoarSniper"] = "Kaban Sniper",
+		["followerBoarClose1"] = "Kaban Guard 1",
+		["followerBoarClose2"] = "Kaban Guard 2",
+		["bossKolontay"] = "Kollontay",
+		["followerKolontayAssault"] = "Kollontay Assault",
+		["followerKolontaySecurity"] = "Kollontay Security",
+		["shooterBTR"] = "BTR Gunner",
+		["bossPartisan"] = "Partisan",
+		["sectantPredvestnik"] = "Cultist Harbinger",
+		["sectantPrizrak"] = "Cultist Ghost",
+		["sectantOni"] = "Cultist Oni",
+		["infectedAssault"] = "Infected Scav",
+		["infectedPmc"] = "Infected PMC",
+		["infectedCivil"] = "Infected Civilian",
+		["infectedLaborant"] = "Infected Lab Worker",
+		["infectedTagilla"] = "Infected Tagilla",
+		["bossTagillaAgro"] = "Tagilla Aggressive",
+		["bossKillaAgro"] = "Killa Aggressive",
+		["tagillaHelperAgro"] = "Tagilla Helper Aggressive",
+		["peacefullZryachiyEvent"] = "Peaceful Zryachiy Event",
+		["sectactPriestEvent"] = "Cultist Priest Event",
+		["ravangeZryachiyEvent"] = "Zryachiy Revenge Event"
+	};
+
 	private static readonly List<RoleDefinition> _definitions = Build();
 	private static readonly string[] _groups = [.. _definitions.Select(d => d.Group).Distinct()];
 
@@ -33,6 +89,11 @@ internal static class RoleCatalog
 			new(PmcBearKey, "BEAR", "PMC"),
 			new(PmcUsecKey, "USEC", "PMC")
 		};
+		var keys = new HashSet<string>(StringComparer.OrdinalIgnoreCase)
+		{
+			PmcBearKey,
+			PmcUsecKey
+		};
 
 		foreach (WildSpawnType role in Enum.GetValues(typeof(WildSpawnType)))
 		{
@@ -40,7 +101,9 @@ internal static class RoleCatalog
 				continue;
 
 			var name = role.ToString();
-			definitions.Add(new RoleDefinition("ROLE-" + name, name, GroupOf(role, name)));
+			var key = "ROLE-" + name;
+			if (keys.Add(key))
+				definitions.Add(new RoleDefinition(key, LabelFor(name), GroupOf(role, name)));
 		}
 
 		return definitions;
@@ -67,6 +130,32 @@ internal static class RoleCatalog
 	}
 
 	private static bool IsFollower(string name) => name.StartsWith("follower", StringComparison.OrdinalIgnoreCase);
+
+	private static string LabelFor(string name)
+	{
+		if (_roleLabels.TryGetValue(name, out var label))
+			return label;
+
+		var result = new StringBuilder(name.Length + 8);
+		for (var i = 0; i < name.Length; i++)
+		{
+			var current = name[i];
+			if (current is '_' or '-')
+			{
+				if (result.Length > 0 && result[result.Length - 1] != ' ')
+					result.Append(' ');
+				continue;
+			}
+
+			if (i > 0 && result.Length > 0 && result[result.Length - 1] != ' '
+				&& (char.IsUpper(current) || char.IsDigit(current) && !char.IsDigit(name[i - 1]) || !char.IsDigit(current) && char.IsDigit(name[i - 1])))
+				result.Append(' ');
+
+			result.Append(result.Length == 0 ? char.ToUpperInvariant(current) : current);
+		}
+
+		return result.ToString();
+	}
 
 	public static string KeyOf(Player player)
 	{
@@ -124,15 +213,19 @@ internal static class RoleCatalog
 	public static RoleSetting Resolve(List<RoleSetting> settings, ref Dictionary<string, RoleSetting>? index, string key)
 	{
 		if (index == null || index.Count != settings.Count)
-		{
-			index = new Dictionary<string, RoleSetting>(StringComparer.OrdinalIgnoreCase);
+			RebuildIndex(settings, ref index);
 
-			foreach (var entry in settings)
-				index[entry.Key] = entry;
-		}
-
-		if (index.TryGetValue(key, out var found))
+		if (index!.TryGetValue(key, out var found) && string.Equals(found.Key, key, StringComparison.OrdinalIgnoreCase))
 			return found;
+
+		foreach (var entry in settings)
+		{
+			if (entry != null && string.Equals(entry.Key, key, StringComparison.OrdinalIgnoreCase))
+			{
+				index[key] = entry;
+				return entry;
+			}
+		}
 
 		var group = "Special";
 
@@ -152,5 +245,22 @@ internal static class RoleCatalog
 		index[key] = setting;
 
 		return setting;
+	}
+
+	private static void RebuildIndex(List<RoleSetting> settings, ref Dictionary<string, RoleSetting>? index)
+	{
+		index = new Dictionary<string, RoleSetting>(StringComparer.OrdinalIgnoreCase);
+
+		for (var i = settings.Count - 1; i >= 0; i--)
+		{
+			var entry = settings[i];
+			if (entry == null || string.IsNullOrWhiteSpace(entry.Key) || index.ContainsKey(entry.Key))
+			{
+				settings.RemoveAt(i);
+				continue;
+			}
+
+			index[entry.Key] = entry;
+		}
 	}
 }

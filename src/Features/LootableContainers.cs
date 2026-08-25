@@ -72,8 +72,12 @@ internal class LootableContainers : PointOfInterests
 			if (rootItem is not { IsContainer: true })
 				continue;
 
+			var transform = owner.Value.Transform;
+			if (transform == null)
+				continue;
+
 			if (ShowContainers && _targetedContainer.Contains(rootItem.TemplateId))
-				AddRecord(rootItem.TemplateId.LocalizedShortName(), owner.Value.Transform.position, Color, data);
+				AddRecord(rootItem.TemplateId.LocalizedShortName(), transform.position, Color, data);
 		}
 
 		if (!ShowCorpses)

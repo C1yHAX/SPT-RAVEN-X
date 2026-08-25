@@ -24,28 +24,32 @@ internal class Map : BaseMapToggleFeature
 
 	protected override void OnGUIWhenEnabled()
 	{
-		if (Range <= 0)
+		if (Event.current.type != EventType.Repaint)
 			return;
 
 		var snapshot = GameState.Current;
 		if (snapshot == null)
 			return;
 
-		snapshot.MapMode = true;
+		snapshot.MapMode = false;
+		if (Range <= 0)
+			return;
 
 		var camera = snapshot.Camera;
 		if (camera == null)
 			return;
 
 		var hostiles = snapshot.Hostiles;
-		var width = Screen.currentResolution.width;
-		var height = Screen.currentResolution.height;
+		var width = Screen.width;
+		var height = Screen.height;
 
 		SetupMapCamera(camera, 0, 0, width, height);
 		UpdateMapCamera(camera, Range);
 
 		if (MapCamera == null)
 			return;
+
+		snapshot.MapMode = true;
 
 		if (snapshot.MapCamera != MapCamera)
 			snapshot.MapCamera = MapCamera;
@@ -64,6 +68,8 @@ internal class Map : BaseMapToggleFeature
 			return;
 
 		snapshot.MapMode = false;
+		if (ReferenceEquals(snapshot.MapCamera, MapCamera))
+			snapshot.MapCamera = null;
 	}
 
 	protected override Vector2 GetTargetPosition(Vector3 playerPosition, Vector3 targetPosition, float playerEulerY)

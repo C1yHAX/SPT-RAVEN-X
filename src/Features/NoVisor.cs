@@ -1,8 +1,5 @@
-﻿using System;
-using RavenX.Properties;
 using JetBrains.Annotations;
 using UnityEngine;
-using EFT;
 
 #nullable enable
 
@@ -11,23 +8,50 @@ namespace RavenX.Features;
 [UsedImplicitly]
 internal class NoVisor : ToggleFeature
 {
-	public override string Name => Strings.FeatureNoVisorName;
-	public override string Description => Strings.FeatureNoVisorDescription;
+	public override string Name => Properties.Strings.FeatureNoVisorName;
+	public override string Description => Properties.Strings.FeatureNoVisorDescription;
 
 	public override bool Enabled { get; set; } = false;
 
-	protected override void Update()
+	private VisorEffect? _component;
+	private float _originalIntensity;
+
+	protected override void UpdateWhenEnabled()
 	{
-		base.Update();
-
-		var camera = GameState.Current?.Camera;
-		if (camera == null)
+		var component = GameState.Current?.Camera?.GetComponent<VisorEffect>();
+		if (component == null)
+		{
+			Restore();
 			return;
+		}
 
-		var component = camera.GetComponent<VisorEffect>();
-		if (component == null || Mathf.Abs(component.Intensity - Convert.ToInt32(!Enabled)) < Mathf.Epsilon)
-			return;
+		if (!ReferenceEquals(_component, component))
+		{
+			Restore();
+			_component = component;
+			_originalIntensity = component.Intensity;
+		}
 
-		component.Intensity = Convert.ToInt32(!Enabled);
+		component.Intensity = 0f;
+	}
+
+	protected override void UpdateWhenDisabled()
+	{
+		Restore();
+	}
+
+	[UsedImplicitly]
+	private void OnDestroy()
+	{
+		Restore();
+	}
+
+	private void Restore()
+	{
+		if (_component != null)
+			_component.Intensity = _originalIntensity;
+
+		_component = null;
+		_originalIntensity = 0f;
 	}
 }

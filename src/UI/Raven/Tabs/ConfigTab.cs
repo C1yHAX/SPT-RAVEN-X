@@ -1,5 +1,4 @@
 using System.IO;
-using System.Linq;
 using RavenX.Configuration;
 using RavenX.Features;
 using UnityEngine;
@@ -49,16 +48,10 @@ internal class ConfigTab : IRavenTab
 			GUILayout.EndHorizontal();
 
 			if (save)
-			{
-				ConfigurationManager.Save(path, Context.Features.Value);
-				_status = "Saved.";
-			}
+				_status = ConfigurationManager.Save(path, Context.Features.Value) ? "Saved." : "Save failed.";
 
 			if (load)
-			{
-				ConfigurationManager.Load(path, Context.Features.Value);
-				_status = "Loaded.";
-			}
+				_status = ConfigurationManager.Load(path, Context.Features.Value) ? "Loaded." : "Load failed.";
 
 			if (_status.Length > 0)
 			{
@@ -75,7 +68,7 @@ internal class ConfigTab : IRavenTab
 			GUILayout.Label("Click a bind, then press a key. Escape clears it, right-click cancels.", RavenTheme.MutedLabel);
 			RavenWidgets.Spacer(8f);
 
-			foreach (var feature in Context.Features.Value.OrderBy(f => f.Name))
+			foreach (var feature in Context.Features.Value)
 			{
 				if (GetKey(feature) is not { } current)
 					continue;

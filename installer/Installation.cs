@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.IO;
@@ -17,7 +18,8 @@ internal class Installation
 	public bool UsingSptButNeverRun { get; private set; }
 	public bool UsingBepInEx { get; private set; }
 	public string Location { get; }
-	public string DisplayString { get; private set; } = string.Empty;
+	private string? _displayString;
+	public string DisplayString => _displayString ??= ComputeDisplayString();
 
 	public string Data => Path.Combine(Location, "EscapeFromTarkov_Data");
 	public string Managed => Path.Combine(Data, "Managed");
@@ -30,7 +32,7 @@ internal class Installation
 		if (string.IsNullOrEmpty(location))
 			throw new ArgumentException("empty location");
 
-		Location = location;
+		Location = Path.TrimEndingDirectorySeparator(Path.GetFullPath(location));
 		Version = version;
 	}
 
@@ -39,17 +41,33 @@ internal class Installation
 		if (obj is not Installation other)
 			return false;
 
-		return other.Location == Location;
+		return string.Equals(other.Location, Location, StringComparison.OrdinalIgnoreCase);
 	}
 
 	public override int GetHashCode()
 	{
-		return Location.GetHashCode();
+		return StringComparer.OrdinalIgnoreCase.GetHashCode(Location);
 	}
 
 	[SupportedOSPlatform("windows")]
 	public static Installation? GetTargetInstallation(string? path, string promptTitle)
 	{
+		if (!string.IsNullOrWhiteSpace(path))
+		{
+			Installation? explicitInstallation = null;
+			AnsiConsole.Status().Start("Validating [green]Escape From Tarkov[/] installation...", _ => TryDiscoverInstallation(path, out explicitInstallation));
+
+			if (explicitInstallation == null)
+			{
+				AnsiConsole.MarkupLine($"[yellow]No valid [green]EscapeFromTarkov[/] installation found at [blue]{path.EscapeMarkup()}[/].[/]");
+				return null;
+			}
+
+			return AnsiConsole.Confirm($"Continue with [green]EscapeFromTarkov ({explicitInstallation.Version})[/] in [blue]{explicitInstallation.Location.EscapeMarkup()}[/] ?")
+				? explicitInstallation
+				: null;
+		}
+
 		var installations = new List<Installation>();
 
 		AnsiConsole
@@ -57,9 +75,6 @@ internal class Installation
 			.Start("Discovering [green]Escape From Tarkov[/] installations...", _ =>
 			{
 				installations = [.. DiscoverInstallations().Distinct()];
-
-				if (path is not null && TryDiscoverInstallation(path, out var installation))
-					installations.Add(installation);
 			});
 
 		installations = [.. installations.Distinct().OrderBy(i => i.Location)];
@@ -109,7 +124,16 @@ internal class Installation
 		if (TryDiscoverInstallation(path, out installation))
 			yield return installation;
 
-		var subFolders = Directory.EnumerateDirectories(Path.Combine(path, ".."));
+		string[] subFolders;
+		try
+		{
+			subFolders = [.. Directory.EnumerateDirectories(Path.Combine(path, ".."))];
+		}
+		catch (Exception exception) when (exception is IOException or UnauthorizedAccessException or ArgumentException or System.Security.SecurityException)
+		{
+			yield break;
+		}
+
 		foreach (var folder in subFolders)
 		{
 			if (TryDiscoverInstallation(folder, out installation))
@@ -127,6 +151,12 @@ internal class Installation
 				return false;
 
 			path = Path.GetFullPath(path.Trim('\"'));
+			if (File.Exists(path) && Path.GetFileName(path).Equals("EscapeFromTarkov.exe", StringComparison.OrdinalIgnoreCase))
+				path = Path.GetDirectoryName(path);
+
+			if (string.IsNullOrEmpty(path))
+				return false;
+
 			var exe = Path.Combine(path, "EscapeFromTarkov.exe");
 			if (!File.Exists(exe))
 				return false;
@@ -149,11 +179,9 @@ internal class Installation
 
 			installation.UsingBepInEx = Directory.Exists(installation.BepInExPlugins);
 
-			installation.DisplayString = installation.ComputeDisplayString();
-
 			return true;
 		}
-		catch (IOException)
+		catch (Exception exception) when (exception is IOException or UnauthorizedAccessException or ArgumentException or FormatException or Win32Exception or System.Security.SecurityException)
 		{
 			return false;
 		}
@@ -163,10 +191,7 @@ internal class Installation
 	{
 		var sb = new StringBuilder();
 		sb.Append($"{Location.EscapeMarkup()} - [[{Version}]] ");
-		sb.Append(UsingSpt ? "[b]SPT[/] " : "Vanilla ");
-
-		if (UsingSpt && VersionChecker.IsVersionSupported(Version))
-			sb.Append("[green](Supported)[/]");
+		sb.Append(UsingSpt ? "[b]SPT[/]" : "Vanilla");
 
 		return sb.ToString();
 	}

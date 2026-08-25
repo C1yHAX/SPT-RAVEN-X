@@ -795,9 +795,6 @@
   <data name="PropertyShowBoxes" xml:space="preserve">
     <value>外枠表示</value>
   </data>
-  <data name="PropertyShowCharms" xml:space="preserve">
-    <value>チャーム表示</value>
-  </data>
   <data name="PropertyShowCompass" xml:space="preserve">
     <value>コンパス表示</value>
   </data>
@@ -906,9 +903,6 @@
   <data name="PropertyX" xml:space="preserve">
     <value>X</value>
   </data>
-  <data name="PropertyXRayVision" xml:space="preserve">
-    <value>XRay-Vision</value>
-  </data>
   <data name="PropertyY" xml:space="preserve">
     <value>Y</value>
   </data>
@@ -960,5 +954,8 @@
   </data>
   <data name="FeatureAirDropDescription" xml:space="preserve">
     <value>プレイヤーの位置でエアドロップを発動</value>
+  </data>
+  <data name="PropertyElevationAdjustment" xml:space="preserve">
+    <value>仰角補正</value>
   </data>
 </root>

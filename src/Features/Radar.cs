@@ -35,13 +35,16 @@ internal class Radar : BaseMapToggleFeature
 	[ConfigurationProperty(Order = 101)]
 	public bool ShowCompass { get; set; } = false;
 
-	private float ScreenPercentage => Mathf.Min(RadarPercentage / 100f, 1);
+	private float ScreenPercentage => Mathf.Clamp(RadarPercentage / 100f, 0.01f, 1f);
 	private float RadarSize => Mathf.Sqrt(Screen.height * Screen.width * ScreenPercentage) / 2;
 	private float RadarX => Screen.width - RadarSize;
 	private float RadarY => Screen.height - RadarSize;
 
 	protected override void OnGUIWhenEnabled()
 	{
+		if (Event.current.type != EventType.Repaint)
+			return;
+
 		if (RadarRange <= 0)
 			return;
 
@@ -61,10 +64,11 @@ internal class Radar : BaseMapToggleFeature
 		var radarX = RadarX;
 		var radarY = RadarY;
 		var radarSize = RadarSize;
+		Render.DrawFilledBox(radarX, radarY, radarSize, radarSize, RadarBackground);
 
 		if (ShowMap)
 		{
-			SetupMapCamera(camera, radarX, Screen.currentResolution.height - radarY - radarSize, radarSize, radarSize);
+			SetupMapCamera(camera, radarX, Screen.height - radarY - radarSize, radarSize, radarSize);
 			UpdateMapCamera(camera, RadarRange);
 
 			if (MapCamera != null)

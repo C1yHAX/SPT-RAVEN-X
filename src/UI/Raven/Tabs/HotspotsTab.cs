@@ -62,7 +62,7 @@ internal class HotspotsTab : IRavenTab
 			}
 			else
 			{
-				_status = "Give the spot a name first.";
+				_status = hotspots.LastError ?? "Give the spot a name first.";
 			}
 		}
 	}
@@ -76,6 +76,12 @@ internal class HotspotsTab : IRavenTab
 			{
 				GUILayout.Label("Feature unavailable", RavenTheme.MutedLabel);
 				return;
+			}
+
+			if (hotspots.LastError != null)
+			{
+				GUILayout.Label(hotspots.LastError, RavenTheme.MutedLabel);
+				RavenWidgets.Spacer(6f);
 			}
 
 			var player = GameState.Current?.LocalPlayer;
@@ -111,8 +117,12 @@ internal class HotspotsTab : IRavenTab
 
 				if (RavenWidgets.SmallButton("delete", 58f))
 				{
-					hotspots.Remove(hotspot);
-					_status = $"Removed {hotspot.Name}.";
+					RavenWidgets.RunNextLayout(() =>
+					{
+						_status = hotspots.Remove(hotspot)
+							? $"Removed {hotspot.Name}."
+							: hotspots.LastError ?? $"Unable to remove {hotspot.Name}.";
+					});
 				}
 
 				GUILayout.EndHorizontal();

@@ -1,3 +1,4 @@
+using System;
 using RavenX.Extensions;
 using UnityEngine;
 using RavenX.Properties;
@@ -19,35 +20,64 @@ internal class NoRecoil : ToggleFeature
 	[RavenX.Configuration.ConfigurationProperty]
 	public float Strength { get; set; } = 1f;
 
-	private float _cameraBaseline;
-	private float _handPositionBaseline;
-	private float _handRotationBaseline;
+	private object? _effect;
+	private Action<float>? _apply;
+	private Action? _restore;
 
 	protected override void UpdateWhenEnabled()
 	{
 		var player = GameState.Current?.LocalPlayer;
-		if (!player.IsValid())
-			return;
-
-		if (player.ProceduralWeaponAnimation == null)
-			return;
-
-		var effect = player.ProceduralWeaponAnimation.Shootingg?.CurrentRecoilEffect;
+		var effect = player.IsValid() ? player.ProceduralWeaponAnimation?.Shootingg?.CurrentRecoilEffect : null;
 		if (effect == null)
+		{
+			Restore();
 			return;
+		}
 
-		var factor = 1f - Mathf.Clamp01(Strength);
+		if (!ReferenceEquals(_effect, effect))
+		{
+			Restore();
+			var camera = effect.CameraRotationRecoilEffect;
+			var handPosition = effect.HandPositionRecoilEffect;
+			var handRotation = effect.HandRotationRecoilEffect;
+			var cameraIntensity = camera.Intensity;
+			var handPositionIntensity = handPosition.Intensity;
+			var handRotationIntensity = handRotation.Intensity;
 
-		effect.CameraRotationRecoilEffect.Intensity = Scale(effect.CameraRotationRecoilEffect.Intensity, ref _cameraBaseline, factor);
-		effect.HandPositionRecoilEffect.Intensity = Scale(effect.HandPositionRecoilEffect.Intensity, ref _handPositionBaseline, factor);
-		effect.HandRotationRecoilEffect.Intensity = Scale(effect.HandRotationRecoilEffect.Intensity, ref _handRotationBaseline, factor);
+			_effect = effect;
+			_apply = factor =>
+			{
+				camera.Intensity = cameraIntensity * factor;
+				handPosition.Intensity = handPositionIntensity * factor;
+				handRotation.Intensity = handRotationIntensity * factor;
+			};
+			_restore = () =>
+			{
+				camera.Intensity = cameraIntensity;
+				handPosition.Intensity = handPositionIntensity;
+				handRotation.Intensity = handRotationIntensity;
+			};
+		}
+
+		_apply?.Invoke(1f - Mathf.Clamp01(Strength));
 	}
 
-	private static float Scale(float current, ref float baseline, float factor)
+	protected override void UpdateWhenDisabled()
 	{
-		if (current > 0f)
-			baseline = current;
+		Restore();
+	}
 
-		return baseline * factor;
+	[UsedImplicitly]
+	private void OnDestroy()
+	{
+		Restore();
+	}
+
+	private void Restore()
+	{
+		_restore?.Invoke();
+		_effect = null;
+		_apply = null;
+		_restore = null;
 	}
 }

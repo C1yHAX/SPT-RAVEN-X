@@ -18,6 +18,8 @@ internal class FriendlyBots : ToggleFeature
 	public override bool Enabled { get; set; } = false;
 
 	private readonly HashSet<BotsGroup> _joined = [];
+	private readonly HashSet<BotsGroup> _added = [];
+	private Player? _player;
 
 	internal int GroupCount => _joined.Count;
 
@@ -27,10 +29,22 @@ internal class FriendlyBots : ToggleFeature
 		var player = state?.LocalPlayer;
 
 		if (state == null || !player.IsValid())
-			return;
-
-		foreach (var hostile in state.Hostiles.Where(h => h.IsAlive()))
 		{
+			Restore();
+			return;
+		}
+
+		if (!ReferenceEquals(_player, player))
+		{
+			Restore();
+			_player = player;
+		}
+
+		foreach (var hostile in state.Hostiles)
+		{
+			if (!hostile.IsAlive())
+				continue;
+
 			var group = hostile.AIData?.BotOwner?.BotsGroup;
 			if (group == null || _joined.Contains(group))
 				continue;
@@ -43,11 +57,31 @@ internal class FriendlyBots : ToggleFeature
 
 			group.AddAlly(player);
 			_joined.Add(group);
+			_added.Add(group);
 		}
 	}
 
 	protected override void UpdateWhenDisabled()
 	{
+		Restore();
+	}
+
+	[UsedImplicitly]
+	private void OnDestroy()
+	{
+		Restore();
+	}
+
+	private void Restore()
+	{
+		if (_player != null)
+		{
+			foreach (var group in _added)
+				group?.Allies?.Remove(_player);
+		}
+
 		_joined.Clear();
+		_added.Clear();
+		_player = null;
 	}
 }

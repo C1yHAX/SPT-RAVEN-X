@@ -23,7 +23,7 @@ namespace Installer
 				if (eft == null)
 					return false;
 
-				var exe = eft.GetValue("DisplayIcon") as string;
+				var exe = NormalizeExecutablePath(eft.GetValue("DisplayIcon") as string);
 				if (string.IsNullOrEmpty(exe) || !File.Exists(exe))
 					return false;
 
@@ -56,13 +56,33 @@ namespace Installer
 				return mui
 					.GetValueNames()
 					.Where(v => candidates.Any(c => v.Contains($"{c}{attribute}", StringComparison.OrdinalIgnoreCase)))
-					.Select(v => Path.GetDirectoryName(v.Replace(attribute, string.Empty)))
+					.Select(v => Path.GetDirectoryName(v.Replace(attribute, string.Empty, StringComparison.OrdinalIgnoreCase)))
 					.Distinct();
 			}
 			catch
 			{
 				return [];
 			}
+		}
+
+		private static string? NormalizeExecutablePath(string? value)
+		{
+			if (string.IsNullOrWhiteSpace(value))
+				return null;
+
+			var path = value.Trim();
+			if (path[0] == '"')
+			{
+				var closingQuote = path.IndexOf('"', 1);
+				if (closingQuote > 1)
+					return path.Substring(1, closingQuote - 1);
+			}
+
+			var separator = path.LastIndexOf(',');
+			if (separator > 0 && int.TryParse(path.AsSpan(separator + 1), out _))
+				path = path.Substring(0, separator);
+
+			return path.Trim().Trim('"');
 		}
 	}
 }

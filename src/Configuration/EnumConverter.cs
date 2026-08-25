@@ -6,7 +6,7 @@ using EFT;
 
 namespace RavenX.Configuration;
 
-public class EnumConverter<T> : JsonConverter where T : Enum
+public class EnumConverter<T> : JsonConverter where T : struct, Enum
 {
 	public override void WriteJson(JsonWriter writer, object? value, JsonSerializer serializer)
 	{
@@ -17,7 +17,10 @@ public class EnumConverter<T> : JsonConverter where T : Enum
 	public override object ReadJson(JsonReader reader, Type objectType, object? existingValue, JsonSerializer serializer)
 	{
 		var value = serializer.Deserialize<string>(reader);
-		return value == null ? default(T)! : Enum.Parse(typeof(T), value);
+		if (value == null || !Enum.TryParse(value, true, out T result) || !Enum.IsDefined(typeof(T), result))
+			throw new JsonSerializationException();
+
+		return result;
 	}
 
 	public override bool CanConvert(Type objectType)

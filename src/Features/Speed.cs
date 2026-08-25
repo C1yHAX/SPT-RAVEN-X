@@ -26,6 +26,9 @@ internal class Speed : HoldFeature
 		if (!player.IsValid())
 			return;
 
+		if (player.IsInventoryOpened || FeatureFactory.GetFeature<RavenUI>()?.Enabled == true)
+			return;
+
 		var camera = GameState.Current?.Camera;
 		if (camera == null)
 			return;

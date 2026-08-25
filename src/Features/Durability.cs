@@ -1,4 +1,3 @@
-﻿using System.Linq;
 using EFT.InventoryLogic;
 using RavenX.Extensions;
 using RavenX.Properties;
@@ -17,16 +16,21 @@ internal class Durability : ToggleFeature
 
 	public override bool Enabled { get; set; } = false;
 
+	private float _nextUpdate;
+
 	protected override void UpdateWhenEnabled()
 	{
+		if (_nextUpdate > UnityEngine.Time.time)
+			return;
+
+		_nextUpdate = UnityEngine.Time.time + 0.25f;
 		var player = GameState.Current?.LocalPlayer;
 		if (!player.IsValid())
 			return;
 
 		var allPlayerItems = player.Profile
 			.Inventory
-			.GetPlayerItems()
-			.ToArray();
+			.GetPlayerItems();
 
 		foreach (var item in allPlayerItems)
 		{
@@ -37,5 +41,10 @@ internal class Durability : ToggleFeature
 			repairable.MaxDurability = repairable.TemplateDurability;
 			repairable.Durability = repairable.MaxDurability;
 		}
+	}
+
+	protected override void UpdateWhenDisabled()
+	{
+		_nextUpdate = 0f;
 	}
 }

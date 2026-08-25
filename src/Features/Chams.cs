@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using RavenX.Configuration;
 using RavenX.Extensions;
@@ -18,71 +19,11 @@ internal class Chams : ToggleFeature
 
 	public override bool Enabled { get; set; } = false;
 
-	[ConfigurationProperty(Order = 10)]
-	public bool ShowUsec { get; set; } = true;
-
-	[ConfigurationProperty(Order = 10)]
-	public bool ShowBear { get; set; } = true;
-
-	[ConfigurationProperty(Order = 10)]
-	public bool ShowCultist { get; set; } = true;
-
-	[ConfigurationProperty(Order = 10)]
-	public bool ShowRaider { get; set; } = true;
-
-	[ConfigurationProperty(Order = 20)]
-	public Color UsecVisibleColor { get; set; } = new(0.16f, 0.78f, 0.36f, 0.85f);
-
-	[ConfigurationProperty(Order = 20)]
-	public Color UsecOccludedColor { get; set; } = new(0.10f, 0.45f, 0.22f, 0.85f);
-
-	[ConfigurationProperty(Order = 20)]
-	public Color BearVisibleColor { get; set; } = new(0.24f, 0.55f, 0.98f, 0.85f);
-
-	[ConfigurationProperty(Order = 20)]
-	public Color BearOccludedColor { get; set; } = new(0.13f, 0.30f, 0.60f, 0.85f);
-
-	[ConfigurationProperty(Order = 20)]
-	public Color CultistVisibleColor { get; set; } = new(0.79f, 0.31f, 0.93f, 0.85f);
-
-	[ConfigurationProperty(Order = 20)]
-	public Color CultistOccludedColor { get; set; } = new(0.45f, 0.16f, 0.55f, 0.85f);
-
-	[ConfigurationProperty(Order = 20)]
-	public Color RaiderVisibleColor { get; set; } = new(0.98f, 0.55f, 0.20f, 0.85f);
-
-	[ConfigurationProperty(Order = 20)]
-	public Color RaiderOccludedColor { get; set; } = new(0.60f, 0.32f, 0.10f, 0.85f);
-
-	[ConfigurationProperty(Order = 11)]
-	public bool ShowScav { get; set; } = true;
-
-	[ConfigurationProperty(Order = 12)]
-	public bool ShowBoss { get; set; } = true;
-
-
-	[ConfigurationProperty(Order = 22)]
-	public Color ScavVisibleColor { get; set; } = new(0.93f, 0.77f, 0.20f, 0.85f);
-
-	[ConfigurationProperty(Order = 23)]
-	public Color ScavOccludedColor { get; set; } = new(0.80f, 0.45f, 0.12f, 0.85f);
-
-	[ConfigurationProperty(Order = 24)]
-	public Color BossVisibleColor { get; set; } = new(0.79f, 0.31f, 0.93f, 0.85f);
-
-	[ConfigurationProperty(Order = 25)]
-	public Color BossOccludedColor { get; set; } = new(0.55f, 0.18f, 0.70f, 0.85f);
-
 	[ConfigurationProperty(Order = 30)]
 	public float Opacity { get; set; } = 0.85f;
 
 	[ConfigurationProperty(Order = 31)]
 	public float MaximumDistance { get; set; } = 0f;
-
-	[ConfigurationProperty(Browsable = false)]
-	public List<RoleSetting> RoleColors { get; set; } = [];
-
-	private Dictionary<string, RoleSetting>? _roleIndex;
 
 	[ConfigurationProperty(Order = 80)]
 	public bool ShowCorpses { get; set; } = false;
@@ -96,18 +37,37 @@ internal class Chams : ToggleFeature
 	[ConfigurationProperty(Order = 83)]
 	public Color LootColor { get; set; } = new(0.30f, 0.85f, 0.90f, 0.85f);
 
-	private readonly Dictionary<int, Painted> _painted = [];
+	private const float RefreshInterval = 0.2f;
+	private const CameraEvent RenderEvent = CameraEvent.BeforeImageEffects;
+
+	private readonly Dictionary<string, MaterialPair> _styles = new(StringComparer.OrdinalIgnoreCase);
+	private readonly HashSet<string> _usedStyles = new(StringComparer.OrdinalIgnoreCase);
+	private readonly HashSet<int> _rendererIds = [];
+	private readonly List<string> _staleStyles = [];
 	private readonly List<Renderer> _rendererBuffer = [];
-	private readonly List<int> _stale = [];
-	private readonly HashSet<int> _seen = [];
 
-	private Material? _visibleMaterial;
-	private Material? _occludedMaterial;
+	private List<RoleSetting> _roleColors = [];
+	private Dictionary<string, RoleSetting>? _roleIndex;
+	private Shader? _shader;
+	private Camera? _camera;
+	private CommandBuffer? _commands;
+	private float _nextRefresh;
 
-	private sealed class Painted
+	private sealed class MaterialPair
 	{
-		public Renderer?[] Renderers = [];
-		public Material[][] Original = [];
+		public Material Visible = null!;
+		public Material Occluded = null!;
+	}
+
+	[ConfigurationProperty(Browsable = false)]
+	public List<RoleSetting> RoleColors
+	{
+		get => _roleColors;
+		set
+		{
+			_roleColors = value ?? [];
+			_roleIndex = null;
+		}
 	}
 
 	protected override void UpdateWhenEnabled()
@@ -117,173 +77,90 @@ internal class Chams : ToggleFeature
 
 		if (state == null || !player.IsValid())
 		{
-			RestoreAll();
+			ResetRuntime();
 			return;
 		}
 
-		if (!EnsureMaterials())
+		if (player!.IsInventoryOpened)
+		{
+			_commands?.Clear();
+			_nextRefresh = 0f;
+			return;
+		}
+
+		var camera = state.Camera != null ? state.Camera : Camera.main;
+		if (camera == null || !EnsureCommandBuffer(camera))
+		{
+			ResetRuntime();
+			return;
+		}
+
+		if (Time.unscaledTime < _nextRefresh)
 			return;
 
-		var origin = player!.Transform.position;
-		_seen.Clear();
-
-		foreach (var hostile in state.Hostiles)
-		{
-			if (hostile == null || !hostile.IsAlive())
-				continue;
-
-			if (!WantsChams(hostile))
-				continue;
-
-			if (TooFar(origin, hostile.Transform.position))
-				continue;
-
-			var key = hostile.GetInstanceID();
-
-			if (!_painted.ContainsKey(key) && !CapturePlayer(hostile))
-				continue;
-
-			Colors(hostile, out var visible, out var occluded);
-			Paint(key, visible, occluded);
-			_seen.Add(key);
-		}
-
-		if (ShowCorpses || ShowLoot)
-			PaintWorld(origin);
-
-		_stale.Clear();
-		foreach (var entry in _painted)
-		{
-			if (!_seen.Contains(entry.Key))
-				_stale.Add(entry.Key);
-		}
-
-		foreach (var lost in _stale)
-			Restore(lost);
-	}
-
-	private bool TooFar(Vector3 origin, Vector3 position) => MaximumDistance > 0f && Vector3.Distance(origin, position) > MaximumDistance;
-
-	private void PaintWorld(Vector3 origin)
-	{
-		var world = Comfort.Common.Singleton<GameWorld>.Instance;
-		if (world == null)
-			return;
-
-		var lootItems = world.LootItems;
-
-		for (var i = 0; i < lootItems.Count; i++)
-		{
-			var lootItem = lootItems.GetByIndex(i);
-			if (!lootItem.IsValid())
-				continue;
-
-			var isCorpse = lootItem is EFT.Interactive.Corpse;
-
-			if (isCorpse ? !ShowCorpses : !ShowLoot)
-				continue;
-
-			if (TooFar(origin, lootItem.transform.position))
-				continue;
-
-			var key = lootItem.GetInstanceID();
-
-			if (!_painted.ContainsKey(key) && !CaptureObject(lootItem.gameObject))
-				continue;
-
-			var visible = isCorpse ? CorpseColor : LootColor;
-			var occluded = RoleCatalog.OccludedFrom(visible);
-
-			visible.a = Opacity;
-			occluded.a = Opacity;
-
-			Paint(key, visible, occluded);
-			_seen.Add(key);
-		}
+		_nextRefresh = Time.unscaledTime + RefreshInterval;
+		Rebuild(state, player);
 	}
 
 	protected override void UpdateWhenDisabled()
 	{
-		RestoreAll();
+		ResetRuntime();
+	}
+
+	private void OnDestroy()
+	{
+		ResetRuntime();
 	}
 
 	public RoleSetting RoleFor(string key) => RoleCatalog.Resolve(RoleColors, ref _roleIndex, key);
 
-	private RoleSetting RoleFor(Player hostile) => RoleFor(RoleCatalog.KeyOf(hostile));
-
-	private bool WantsChams(Player hostile) => RoleFor(hostile).Enabled;
-
-	private void Colors(Player hostile, out Color visible, out Color occluded)
+	private void Rebuild(GameStateSnapshot state, Player player)
 	{
-		var role = RoleFor(hostile);
+		var commands = _commands;
+		if (commands == null)
+			return;
 
-		visible = role.Visible;
-		occluded = role.Occluded;
+		commands.Clear();
+		_usedStyles.Clear();
+		var origin = player.Transform.position;
 
-		visible.a = Opacity;
-		occluded.a = Opacity;
-	}
-
-	private void Paint(int key, Color visible, Color occluded)
-	{
-		if (!_painted.TryGetValue(key, out var painted))
+		foreach (var hostile in state.Hostiles)
 		{
-			painted = new Painted
-			{
-				Renderers = [.. _rendererBuffer]
-			};
-
-			painted.Original = new Material[painted.Renderers.Length][];
-
-			var owned = false;
-
-			for (var i = 0; i < painted.Renderers.Length; i++)
-			{
-				var renderer = painted.Renderers[i];
-				if (renderer == null)
-				{
-					painted.Original[i] = [];
-					continue;
-				}
-
-				var materials = renderer.sharedMaterials;
-
-				if (AlreadyPainted(materials))
-				{
-					painted.Renderers[i] = null;
-					painted.Original[i] = [];
-					continue;
-				}
-
-				painted.Original[i] = materials;
-				owned = true;
-			}
-
-			if (!owned)
-				return;
-
-			_painted[key] = painted;
-		}
-
-		_visibleMaterial!.color = visible;
-		_occludedMaterial!.color = occluded;
-
-		foreach (var renderer in painted.Renderers)
-		{
-			if (renderer == null)
+			if (hostile == null || !hostile.IsAlive() || TooFar(origin, hostile.Transform.position))
 				continue;
 
-			renderer.sharedMaterials = [_visibleMaterial, _occludedMaterial];
+			var roleKey = RoleCatalog.KeyOf(hostile);
+			var role = RoleFor(roleKey);
+			if (!role.Enabled)
+				continue;
+
+			var visible = role.Visible;
+			var occluded = role.Occluded;
+			visible.a = Opacity;
+			occluded.a = Opacity;
+
+			var style = StyleFor($"player:{roleKey}", visible, occluded);
+			DrawPlayer(commands, hostile, style);
 		}
+
+		if (ShowCorpses || ShowLoot)
+			DrawWorld(commands, origin);
+
+		RemoveUnusedStyles();
 	}
 
-	private bool CapturePlayer(Player hostile)
+	private bool TooFar(Vector3 origin, Vector3 position)
+	{
+		return MaximumDistance > 0f && (position - origin).sqrMagnitude > MaximumDistance * MaximumDistance;
+	}
+
+	private void DrawPlayer(CommandBuffer commands, Player hostile, MaterialPair style)
 	{
 		_rendererBuffer.Clear();
 
 		var body = hostile.PlayerBody;
 		if (body == null)
-			return false;
+			return;
 
 		try
 		{
@@ -291,74 +168,174 @@ internal class Chams : ToggleFeature
 		}
 		catch
 		{
-
-			return false;
+			return;
 		}
 
-		return _rendererBuffer.Count > 0;
+		DrawRenderers(commands, style);
 	}
 
-	private bool CaptureObject(GameObject? source)
+	private void DrawWorld(CommandBuffer commands, Vector3 origin)
 	{
-		_rendererBuffer.Clear();
-
-		if (source == null)
-			return false;
-
-		source.GetComponentsInChildren(true, _rendererBuffer);
-		return _rendererBuffer.Count > 0;
-	}
-
-	private bool AlreadyPainted(Material[] materials)
-	{
-		foreach (var material in materials)
-		{
-			if (ReferenceEquals(material, _visibleMaterial) || ReferenceEquals(material, _occludedMaterial))
-				return true;
-		}
-
-		return false;
-	}
-
-	private void Restore(int key)
-	{
-		if (!_painted.TryGetValue(key, out var painted))
+		var world = Comfort.Common.Singleton<GameWorld>.Instance;
+		if (world == null)
 			return;
 
-		for (var i = 0; i < painted.Renderers.Length; i++)
+		var lootItems = world.LootItems;
+		var count = lootItems.Count;
+
+		for (var i = 0; i < count; i++)
 		{
-			var renderer = painted.Renderers[i];
-			if (renderer != null)
-				renderer.sharedMaterials = painted.Original[i];
+			var lootItem = lootItems.GetByIndex(i);
+			if (!lootItem.IsValid())
+				continue;
+
+			var isCorpse = lootItem is EFT.Interactive.Corpse;
+			if (isCorpse ? !ShowCorpses : !ShowLoot)
+				continue;
+
+			if (TooFar(origin, lootItem.transform.position))
+				continue;
+
+			var visible = isCorpse ? CorpseColor : LootColor;
+			var occluded = RoleCatalog.OccludedFrom(visible);
+			visible.a = Opacity;
+			occluded.a = Opacity;
+
+			var style = StyleFor(isCorpse ? "world:corpse" : "world:loot", visible, occluded);
+			_rendererBuffer.Clear();
+			lootItem.gameObject.GetComponentsInChildren(true, _rendererBuffer);
+			DrawRenderers(commands, style);
+		}
+	}
+
+	private void DrawRenderers(CommandBuffer commands, MaterialPair style)
+	{
+		_rendererIds.Clear();
+
+		foreach (var renderer in _rendererBuffer)
+		{
+			if (renderer == null || renderer is not SkinnedMeshRenderer && renderer is not MeshRenderer)
+				continue;
+
+			if (!renderer.enabled || !renderer.gameObject.activeInHierarchy || !_rendererIds.Add(renderer.GetInstanceID()))
+				continue;
+
+			var subMeshCount = SubMeshCount(renderer);
+			for (var subMesh = 0; subMesh < subMeshCount; subMesh++)
+			{
+				commands.DrawRenderer(renderer, style.Occluded, subMesh);
+				commands.DrawRenderer(renderer, style.Visible, subMesh);
+			}
+		}
+	}
+
+	private static int SubMeshCount(Renderer renderer)
+	{
+		if (renderer is SkinnedMeshRenderer skinned && skinned.sharedMesh != null)
+			return skinned.sharedMesh.subMeshCount;
+
+		if (renderer is MeshRenderer)
+		{
+			var filter = renderer.GetComponent<MeshFilter>();
+			if (filter != null && filter.sharedMesh != null)
+				return filter.sharedMesh.subMeshCount;
 		}
 
-		_painted.Remove(key);
+		return renderer.sharedMaterials.Length;
 	}
 
-	private void RestoreAll()
+	private MaterialPair StyleFor(string key, Color visible, Color occluded)
 	{
-		if (_painted.Count == 0)
-			return;
+		_usedStyles.Add(key);
 
-		_stale.Clear();
-		_stale.AddRange(_painted.Keys);
+		if (!_styles.TryGetValue(key, out var style))
+		{
+			style = new MaterialPair
+			{
+				Visible = CreateMaterial(_shader!, $"RavenChamVisible:{key}", CompareFunction.LessEqual),
+				Occluded = CreateMaterial(_shader!, $"RavenChamOccluded:{key}", CompareFunction.Greater)
+			};
 
-		foreach (var hostile in _stale)
-			Restore(hostile);
+			_styles[key] = style;
+		}
+
+		style.Visible.color = visible;
+		style.Occluded.color = occluded;
+		return style;
 	}
 
-	private bool EnsureMaterials()
+	private void RemoveUnusedStyles()
 	{
-		if (_visibleMaterial != null && _occludedMaterial != null)
+		_staleStyles.Clear();
+
+		foreach (var key in _styles.Keys)
+		{
+			if (!_usedStyles.Contains(key))
+				_staleStyles.Add(key);
+		}
+
+		foreach (var key in _staleStyles)
+		{
+			DestroyStyle(_styles[key]);
+			_styles.Remove(key);
+		}
+	}
+
+	private bool EnsureCommandBuffer(Camera camera)
+	{
+		_shader ??= Shader.Find("Hidden/Internal-Colored");
+		if (_shader == null)
+			return false;
+
+		if (_camera == camera && _commands != null)
 			return true;
 
-		var shader = Shader.Find("Hidden/Internal-Colored");
-		if (shader == null)
-			return false;
+		ReleaseCommandBuffer();
 
-		_visibleMaterial = CreateMaterial(shader, "RavenChamVisible", CompareFunction.LessEqual);
-		_occludedMaterial = CreateMaterial(shader, "RavenChamOccluded", CompareFunction.Greater);
+		_commands = new CommandBuffer { name = "RavenX Chams" };
+		camera.AddCommandBuffer(RenderEvent, _commands);
+		_camera = camera;
+		_nextRefresh = 0f;
 		return true;
+	}
+
+	private void ResetRuntime()
+	{
+		ReleaseCommandBuffer();
+
+		foreach (var style in _styles.Values)
+			DestroyStyle(style);
+
+		_styles.Clear();
+		_usedStyles.Clear();
+		_staleStyles.Clear();
+		_rendererIds.Clear();
+		_rendererBuffer.Clear();
+		_nextRefresh = 0f;
+	}
+
+	private void ReleaseCommandBuffer()
+	{
+		if (_camera != null && _commands != null)
+			_camera.RemoveCommandBuffer(RenderEvent, _commands);
+
+		if (_commands != null)
+		{
+			_commands.Clear();
+			_commands.Release();
+			_commands = null;
+		}
+
+		_camera = null;
+	}
+
+	private static void DestroyStyle(MaterialPair style)
+	{
+		if (style.Visible != null)
+			UnityEngine.Object.Destroy(style.Visible);
+
+		if (style.Occluded != null)
+			UnityEngine.Object.Destroy(style.Occluded);
 	}
 
 	private static Material CreateMaterial(Shader shader, string name, CompareFunction zTest)
@@ -375,7 +352,6 @@ internal class Chams : ToggleFeature
 		material.SetInt("_Cull", (int)CullMode.Back);
 		material.SetInt("_ZWrite", 0);
 		material.SetInt("_ZTest", (int)zTest);
-
 		return material;
 	}
 }

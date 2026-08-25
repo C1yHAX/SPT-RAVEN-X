@@ -115,10 +115,24 @@ public static class Render
 
 	public static void DrawCrosshair(Vector2 position, float size, Color color, float thickness)
 	{
+		var rect = new Rect(position.x - size, position.y - size, size * 2f + thickness, size * 2f + thickness);
+		if (Behind(rect))
+			return;
+
 		Color = color;
 		var texture = Texture2D.whiteTexture;
 		GUI.DrawTexture(new Rect(position.x - size, position.y, size * 2 + thickness, thickness), texture);
 		GUI.DrawTexture(new Rect(position.x, position.y - size, thickness, size * 2 + thickness), texture);
+	}
+
+	public static void DrawFilledBox(float x, float y, float w, float h, Color color)
+	{
+		var rect = new Rect(x, y, w, h);
+		if (Behind(rect))
+			return;
+
+		Color = color;
+		GUI.DrawTexture(rect, Texture2D.whiteTexture);
 	}
 
 	public static void DrawPlayer(Vector2 position, float size, Color color, float thickness)

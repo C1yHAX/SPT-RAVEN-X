@@ -48,15 +48,31 @@ internal class FreeCamera : ToggleFeature
 	[ConfigurationProperty(Order = 32)]
 	public float FastMovementSpeed { get; set; } = 100f;
 
+	private Player? _hiddenPlayer;
+
 	private void TogglePlayerActiveStatusIfNeeded()
 	{
 		var player = GameState.Current?.LocalPlayer;
 		if (!player.IsValid())
+		{
+			RestorePlayer();
 			return;
+		}
+
+		if (_hiddenPlayer != null && !ReferenceEquals(_hiddenPlayer, player))
+			RestorePlayer();
 
 		var playerGameObject = player.gameObject;
-		if (playerGameObject.activeSelf == Enabled)
-			playerGameObject.SetActive(!Enabled);
+		if (Enabled)
+		{
+			if (playerGameObject.activeSelf)
+				playerGameObject.SetActive(false);
+			_hiddenPlayer = player;
+		}
+		else
+		{
+			RestorePlayer();
+		}
 	}
 
 	protected override void Update()
@@ -72,26 +88,22 @@ internal class FreeCamera : ToggleFeature
 		if (camera == null)
 			return;
 
+		if (FeatureFactory.GetFeature<RavenUI>()?.Enabled == true || UI.Raven.RavenWidgets.IsCapturingKey)
+			return;
+
 		var fastMode = Input.GetKey(FastMode);
 		var movementSpeed = fastMode ? FastMovementSpeed : MovementSpeed;
 
 		var heading = Vector3.zero;
 		var cameraTransform = camera.transform;
 
-		if (Input.GetKey(Left))
-			heading = -cameraTransform.right;
-
-		if (Input.GetKey(Right))
-			heading = cameraTransform.right;
-
-		if (Input.GetKey(Forward))
-			heading = cameraTransform.forward;
-
-		if (Input.GetKey(Backward))
-			heading = -cameraTransform.forward;
+		if (Input.GetKey(Left)) heading -= cameraTransform.right;
+		if (Input.GetKey(Right)) heading += cameraTransform.right;
+		if (Input.GetKey(Forward)) heading += cameraTransform.forward;
+		if (Input.GetKey(Backward)) heading -= cameraTransform.forward;
 
 		if (heading != Vector3.zero)
-			cameraTransform.position += movementSpeed * Time.deltaTime * heading;
+			cameraTransform.position += movementSpeed * Time.deltaTime * heading.normalized;
 
 		var localEulerAngles = cameraTransform.localEulerAngles;
 		var newRotationX = localEulerAngles.y + Input.GetAxis(MouseXAxis) * FreeLookSensitivity;
@@ -107,9 +119,27 @@ internal class FreeCamera : ToggleFeature
 			var position = TargetFrom(cameraTransform.position);
 
 			player.Teleport(position, false);
-			player.gameObject.SetActive(true);
 			Enabled = false;
 		}
+	}
+
+	protected override void UpdateWhenDisabled()
+	{
+		RestorePlayer();
+	}
+
+	[UsedImplicitly]
+	private void OnDestroy()
+	{
+		RestorePlayer();
+	}
+
+	private void RestorePlayer()
+	{
+		if (_hiddenPlayer != null && !_hiddenPlayer.gameObject.activeSelf)
+			_hiddenPlayer.gameObject.SetActive(true);
+
+		_hiddenPlayer = null;
 	}
 
 	private static Vector3 TargetFrom(Vector3 cameraPosition)
@@ -138,7 +168,7 @@ internal class FreeCamera : ToggleFeature
 			return;
 
 		player.Teleport(position, false);
-		player.gameObject.SetActive(true);
 		feature.Enabled = false;
+		feature.RestorePlayer();
 	}
 }

@@ -4,7 +4,6 @@ using EFT.Ballistics;
 using EFT.HealthSystem;
 using RavenX.Configuration;
 using RavenX.Extensions;
-using RavenX.Properties;
 using RavenX.UI;
 using JetBrains.Annotations;
 using UnityEngine;
@@ -17,19 +16,19 @@ namespace RavenX.Features;
 [UsedImplicitly]
 internal class Hits : ToggleFeature
 {
-	public override string Name => Strings.FeatureHitsName;
-	public override string Description => Strings.FeatureHitsDescription;
+	public override string Name => Properties.Strings.FeatureHitsName;
+	public override string Description => Properties.Strings.FeatureHitsDescription;
 
 	public override bool Enabled { get; set; } = false;
 
 	[ConfigurationProperty(Order = 10)]
-	public Color HitMarkerColor { get; set; } = new(225f / 255f, 66f / 255f, 33f / 255f, 1.0f);
+	public Color HitMarkerColor { get; set; } = new(225f / 255f, 66f / 255f, 33f / 255f, 1f);
 
 	[ConfigurationProperty(Order = 11)]
-	public Color ArmorDamageColor { get; set; } = new(0.0f, 126f / 255f, 1.0f, 1.0f);
+	public Color ArmorDamageColor { get; set; } = new(0f, 126f / 255f, 1f, 1f);
 
 	[ConfigurationProperty(Order = 12)]
-	public Color HealthDamageColor { get; set; } = new(1.0f, 33f / 255f, 33f / 255f, 1.0f);
+	public Color HealthDamageColor { get; set; } = new(1f, 33f / 255f, 33f / 255f, 1f);
 
 	[ConfigurationProperty(Order = 20)]
 	public float DisplayTime { get; set; } = 2f;
@@ -46,92 +45,101 @@ internal class Hits : ToggleFeature
 	[ConfigurationProperty(Order = 32)]
 	public bool ShowHealthDamage { get; set; } = true;
 
-	internal class HitMarker(DamageInfo damageInfo)
+	private sealed class HitMarker(DamageInfo damageInfo, float healthDamage)
 	{
-		public float ElapsedTime { get; set; } = 0.0f;
-		public DamageInfo DamageInfo { get; set; } = damageInfo;
-		public bool IsTaggedForDeletion { get; set; } = false;
+		public readonly float CreatedAt = Time.unscaledTime;
+		public readonly bool HasWeapon = damageInfo.Weapon != null;
+		public readonly float ArmorDamage = damageInfo.ArmorDamage;
+		public readonly float Damage = Mathf.Max(0f, healthDamage);
+		public readonly Vector3 HitPoint = damageInfo.HitPoint;
 	}
 
-	private static readonly HashSet<HitMarker> _hitMarkers = [];
+	private readonly List<HitMarker> _hitMarkers = [];
 
 #pragma warning disable IDE0060
 	[UsedImplicitly]
 	[SuppressMessage("ReSharper", "InconsistentNaming")]
-	protected static void ApplyDamagePostfix(EBodyPart bodyPart, float damage, DamageInfo damageInfo, ActiveHealthController? __instance)
+	protected static void ApplyDamagePostfix(DamageInfo damageInfo, ActiveHealthController? __instance, float __result)
 	{
 		var feature = FeatureFactory.GetFeature<Hits>();
-		if (feature == null || !feature.Enabled)
+		if (feature is not { Enabled: true } || __instance?.Player is not { IsYourPlayer: false })
 			return;
 
-		if (__instance == null)
+		if (damageInfo.Player?.iPlayer is not { IsYourPlayer: true })
 			return;
 
-		var victim = __instance.Player;
-		if (victim == null || victim.IsYourPlayer)
-			return;
-
-		var shooter = damageInfo.Player?.iPlayer;
-		if (shooter is not { IsYourPlayer: true })
-			return;
-
-		var marker = new HitMarker(damageInfo);
-		_hitMarkers.Add(marker);
+		feature._hitMarkers.Add(new HitMarker(damageInfo, __result));
 	}
 #pragma warning restore IDE0060
 
 	protected override void OnGUIWhenEnabled()
 	{
+		if (Event.current.type != EventType.Repaint)
+			return;
+
 		var camera = GameState.Current?.Camera;
 		if (camera == null)
 			return;
 
-		foreach (var marker in _hitMarkers)
-		{
-			var damageInfo = marker.DamageInfo;
-			marker.ElapsedTime += Time.deltaTime;
+		var displayTime = Mathf.Max(0f, DisplayTime);
+		var fadeTime = Mathf.Max(0f, FadeOutTime);
+		var lifetime = displayTime + fadeTime;
+		var now = Time.unscaledTime;
 
-			if (damageInfo.Weapon == null || marker.ElapsedTime >= DisplayTime + FadeOutTime)
+		for (var i = _hitMarkers.Count - 1; i >= 0; i--)
+		{
+			var marker = _hitMarkers[i];
+			var elapsed = now - marker.CreatedAt;
+			if (!marker.HasWeapon || elapsed >= lifetime)
 			{
-				marker.IsTaggedForDeletion = true;
+				_hitMarkers.RemoveAt(i);
 				continue;
 			}
 
-			var alpha = marker.ElapsedTime > DisplayTime && FadeOutTime > 0f ? (FadeOutTime - marker.ElapsedTime + DisplayTime) / FadeOutTime : 1f;
-			var armorDamage = Mathf.Round(damageInfo.ArmorDamage);
-			var damage = Mathf.Round(damageInfo.Damage);
-			var hitPoint = damageInfo.HitPoint;
-			var screenHitPoint = camera.WorldPointToScreenPoint(hitPoint);
+			var worldPoint = camera.WorldToScreenPoint(marker.HitPoint);
+			if (worldPoint.z <= 0.01f)
+				continue;
+
+			var screenHitPoint = new Vector2(worldPoint.x, Screen.height - worldPoint.y);
+			var alpha = fadeTime > 0f && elapsed > displayTime ? 1f - (elapsed - displayTime) / fadeTime : 1f;
+			alpha = Mathf.Clamp01(alpha);
+			var armorDamage = Mathf.Round(marker.ArmorDamage);
+			var healthDamage = Mathf.Round(marker.Damage);
 
 			if (ShowHitMarker)
 			{
-				var radius = 16f + marker.ElapsedTime * 2;
+				var radius = 16f + elapsed * 2f;
 				Render.DrawCircle(screenHitPoint, radius, HitMarkerColor.SetAlpha(alpha), 2.98f, 32);
 			}
 
 			var offset = 0f;
-			if (armorDamage > 0 && ShowArmorDamage)
+			if (armorDamage > 0f && ShowArmorDamage)
 			{
 				offset = 10f;
 				Render.DrawString(new Vector2(screenHitPoint.x, screenHitPoint.y - offset), $"{armorDamage}", ArmorDamageColor.SetAlpha(alpha));
 			}
 
-			if (damage > 0 && ShowHealthDamage)
-				Render.DrawString(new Vector2(screenHitPoint.x, screenHitPoint.y + offset), $"{damage}", HealthDamageColor.SetAlpha(alpha));
+			if (healthDamage > 0f && ShowHealthDamage)
+				Render.DrawString(new Vector2(screenHitPoint.x, screenHitPoint.y + offset), $"{healthDamage}", HealthDamageColor.SetAlpha(alpha));
 		}
-
-		_hitMarkers.RemoveWhere(m => m.IsTaggedForDeletion);
 	}
 
 	protected override void UpdateWhenEnabled()
 	{
-		var player = GameState.Current?.LocalPlayer;
-		if (!player.IsValid())
-			return;
-
 		HarmonyPatchOnce(harmony =>
 		{
 			HarmonyPostfix(harmony, typeof(ActiveHealthController), nameof(ActiveHealthController.ApplyDamage), nameof(ApplyDamagePostfix));
 		});
+	}
+
+	protected override void UpdateWhenDisabled()
+	{
+		_hitMarkers.Clear();
+	}
+
+	[UsedImplicitly]
+	private void OnDestroy()
+	{
+		_hitMarkers.Clear();
 	}
 }

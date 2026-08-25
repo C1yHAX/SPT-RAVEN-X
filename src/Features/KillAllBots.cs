@@ -28,9 +28,9 @@ internal class KillAllBots : TriggerFeature
 		if (state == null || !player.IsValid())
 			return;
 
-		foreach (var hostile in state.Hostiles.Where(h => h.IsAlive()).ToArray())
+		foreach (var hostile in state.Hostiles)
 		{
-			if (hostile.IsYourPlayer)
+			if (!hostile.IsAlive() || hostile.IsYourPlayer || hostile.AIData?.BotOwner == null)
 				continue;
 
 			var health = hostile.ActiveHealthController;

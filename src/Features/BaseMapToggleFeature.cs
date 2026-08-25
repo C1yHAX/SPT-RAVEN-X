@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using RavenX.Configuration;
 using RavenX.Extensions;
 using RavenX.UI;
+using JetBrains.Annotations;
 using UnityEngine;
 using EFT;
 
@@ -40,6 +41,7 @@ internal abstract class BaseMapToggleFeature : ToggleFeature
 
 	private GameObject? _mapCameraObject = null;
 	private Camera? _mapCamera = null;
+	private Camera? _sourceCamera = null;
 
 	protected Camera? MapCamera => _mapCamera;
 
@@ -68,6 +70,9 @@ internal abstract class BaseMapToggleFeature : ToggleFeature
 
 	protected void SetupMapCamera(Camera camera, float x, float y, float sizex, float sizey)
 	{
+		if (_sourceCamera != null && !ReferenceEquals(_sourceCamera, camera))
+			DisposeMapCamera();
+
 		if (_mapCamera != null)
 		{
 			_mapCamera.pixelRect = new Rect(x, y, sizex, sizey);
@@ -75,18 +80,25 @@ internal abstract class BaseMapToggleFeature : ToggleFeature
 			return;
 		}
 
-		Weather.ToClearWeather(ChangeTime);
-
 		_mapCameraObject = new GameObject(GetType().FullName + nameof(_mapCameraObject), typeof(Camera), typeof(PrismEffects));
-		_mapCameraObject.GetComponent<PrismEffects>().SetPrismPreset(camera.GetComponent<PrismEffects>().currentPrismPreset);
+		var mapPrism = _mapCameraObject.GetComponent<PrismEffects>();
+		var sourcePrism = camera.GetComponent<PrismEffects>();
+		if (mapPrism != null && sourcePrism != null)
+			mapPrism.SetPrismPreset(sourcePrism.currentPrismPreset);
+
 		_mapCamera = _mapCameraObject.GetComponent<Camera>();
 		_mapCamera.name = GetType().FullName + nameof(_mapCamera);
 		_mapCamera.pixelRect = new Rect(x, y, sizex, sizey);
 		_mapCamera.allowHDR = false;
 		_mapCamera.depth = -1;
+		_mapCamera.fieldOfView = 90f;
+		_mapCamera.cullingMask = camera.cullingMask;
+		_mapCamera.clearFlags = camera.clearFlags;
+		_mapCamera.backgroundColor = camera.backgroundColor;
+		_sourceCamera = camera;
 
-		GameWorld.OnDispose -= UpdateWhenDisabled;
-		GameWorld.OnDispose += UpdateWhenDisabled;
+		GameWorld.OnDispose -= DisposeMapCamera;
+		GameWorld.OnDispose += DisposeMapCamera;
 	}
 
 	protected void UpdateMapCamera(Camera camera, float range)
@@ -95,10 +107,12 @@ internal abstract class BaseMapToggleFeature : ToggleFeature
 			return;
 
 		var cameraTransform = camera.transform;
+		var cameraPosition = cameraTransform.position;
 
 		var mapTransform = _mapCameraObject.transform;
-		mapTransform.eulerAngles = new Vector3(90, cameraTransform.eulerAngles.y, cameraTransform.eulerAngles.z);
-		mapTransform.localPosition = new Vector3(cameraTransform.localPosition.x, range * Mathf.Tan(45), cameraTransform.localPosition.z);
+		mapTransform.SetPositionAndRotation(
+			new Vector3(cameraPosition.x, cameraPosition.y + range, cameraPosition.z),
+			Quaternion.Euler(90f, cameraTransform.eulerAngles.y, 0f));
 	}
 
 	protected void DrawHostiles(Camera camera, IEnumerable<Player> hostiles, float range)
@@ -139,8 +153,11 @@ internal abstract class BaseMapToggleFeature : ToggleFeature
 
 				default:
 					{
-						var playerColor = feature.GetPlayerColors(hostileType);
-						DrawEnemy(camera, enemy, playerColor.Color);
+						var role = feature.RoleFor(enemy);
+						if (!role.Enabled)
+							continue;
+
+						DrawEnemy(camera, enemy, role.Visible);
 						break;
 					}
 			}
@@ -184,7 +201,35 @@ internal abstract class BaseMapToggleFeature : ToggleFeature
 
 	protected static string GetHeadingAngle(Vector3 direction)
 	{
+		if (direction.sqrMagnitude <= 0.0001f)
+			return string.Empty;
+
 		var heading = Quaternion.LookRotation(direction).eulerAngles.y;
 		return _directions[(int)Mathf.Round(heading % 360 / 45)];
+	}
+
+	[UsedImplicitly]
+	private void OnDestroy()
+	{
+		DisposeMapCamera();
+	}
+
+	private void DisposeMapCamera()
+	{
+		GameWorld.OnDispose -= DisposeMapCamera;
+		var snapshot = GameState.Current;
+		if (snapshot != null)
+		{
+			snapshot.MapMode = false;
+			if (ReferenceEquals(snapshot.MapCamera, _mapCamera))
+				snapshot.MapCamera = null;
+		}
+
+		if (_mapCameraObject != null)
+			Destroy(_mapCameraObject);
+
+		_mapCameraObject = null;
+		_mapCamera = null;
+		_sourceCamera = null;
 	}
 }

@@ -23,6 +23,14 @@ internal class SilentMovement : ToggleFeature
 		if (NoInertia.IsLocal<SilentMovement>(__instance))
 			__result = 0f;
 	}
+
+	[UsedImplicitly]
+	[SuppressMessage("ReSharper", "InconsistentNaming")]
+	protected static void NoiseLevelPostfix(MovementContext __instance, ref int __result)
+	{
+		if (NoInertia.IsLocal<SilentMovement>(__instance))
+			__result = 0;
+	}
 #pragma warning restore IDE0060
 
 	protected override void UpdateWhenEnabled()
@@ -33,8 +41,10 @@ internal class SilentMovement : ToggleFeature
 
 		HarmonyPatchOnce(harmony =>
 		{
+			HarmonyPostfix(harmony, typeof(MovementContext), "get_" + nameof(MovementContext.CovertMovementVolume), nameof(NoisePostfix));
 			HarmonyPostfix(harmony, typeof(MovementContext), "get_" + nameof(MovementContext.CovertEquipmentNoise), nameof(NoisePostfix));
 			HarmonyPostfix(harmony, typeof(MovementContext), "get_" + nameof(MovementContext.CovertMovementVolumeBySpeed), nameof(NoisePostfix));
+			HarmonyPostfix(harmony, typeof(MovementContext), "get_" + nameof(MovementContext.CovertNoiseLevel), nameof(NoiseLevelPostfix));
 		});
 	}
 }

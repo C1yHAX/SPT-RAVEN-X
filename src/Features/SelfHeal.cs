@@ -32,8 +32,11 @@ internal class SelfHeal : TriggerFeature
 
 			if (healthController.IsBodyPartDestroyed(bodyPart))
 				healthController.RestoreBodyPart(bodyPart, 1);
+
+			healthController.RemoveNegativeEffects(bodyPart);
 		}
 
+		healthController.RemoveNegativeEffects(EBodyPart.Common);
 		healthController.RestoreFullHealth();
 	}
 }

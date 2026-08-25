@@ -93,11 +93,11 @@ internal static class RavenTabHelper
 		if (columns < 1)
 			return;
 
-		var fits = Mathf.Max(1, Mathf.FloorToInt(RavenMenu.ContentWidth / (MinColumnWidth + ColumnGap)));
+		var fits = Mathf.Max(1, Mathf.FloorToInt((RavenMenu.ContentWidth + ColumnGap) / (MinColumnWidth + ColumnGap)));
 		var count = Mathf.Min(columns, fits);
 
-		var usable = RavenMenu.ContentWidth - ColumnGap * count;
-		_autoWidth = Mathf.Max(MinColumnWidth, Mathf.Floor(usable / count) - 1f);
+		var usable = RavenMenu.ContentWidth - ColumnGap * (count - 1);
+		_autoWidth = Mathf.Max(1f, Mathf.Floor(usable / count));
 	}
 
 	public static void BeginColumn()
@@ -107,9 +107,16 @@ internal static class RavenTabHelper
 
 	public static void EndColumns()
 	{
+		if (_columnOpen)
+			EndColumn();
+
 		CloseRow();
-		GUILayout.EndVertical();
-		_columnsOpen = false;
+
+		if (_columnsOpen)
+		{
+			GUILayout.EndVertical();
+			_columnsOpen = false;
+		}
 	}
 
 	public static void ForceClose()
@@ -138,11 +145,13 @@ internal static class RavenTabHelper
 
 	public static void BeginColumn(float width)
 	{
-		var available = RavenMenu.ContentWidth;
+		if (_columnOpen)
+			EndColumn();
 
-		width = Mathf.Min(width, available - ColumnGap);
+		var available = Mathf.Max(1f, RavenMenu.ContentWidth);
+		width = Mathf.Clamp(width, 1f, available);
 
-		if (_rowOpen && _rowUsed + width > available)
+		if (_rowOpen && _rowUsed + ColumnGap + width > available)
 			CloseRow();
 
 		if (!_rowOpen)
@@ -152,16 +161,24 @@ internal static class RavenTabHelper
 			_rowUsed = 0f;
 		}
 
-		_rowUsed += width + ColumnGap;
+		if (_rowUsed > 0f)
+		{
+			GUILayout.Space(ColumnGap);
+			_rowUsed += ColumnGap;
+		}
+
+		_rowUsed += width;
 		GUILayout.BeginVertical(GUILayout.Width(width));
 		_columnOpen = true;
 	}
 
 	public static void EndColumn()
 	{
+		if (!_columnOpen)
+			return;
+
 		GUILayout.EndVertical();
 		_columnOpen = false;
-		GUILayout.Space(ColumnGap);
 	}
 
 	private static void CloseRow()

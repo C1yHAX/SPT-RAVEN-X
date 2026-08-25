@@ -1,4 +1,5 @@
-﻿using RavenX.Properties;
+using System.Collections.Generic;
+using RavenX.Properties;
 using JetBrains.Annotations;
 using UnityEngine;
 using EFT;
@@ -15,20 +16,59 @@ internal class NoCollision : ToggleFeature
 
 	public override bool Enabled { get; set; } = false;
 
-	protected override void Update()
-	{
-		base.Update();
+	private readonly Dictionary<Rigidbody, bool> _originals = [];
+	private Player? _player;
+	private float _nextScan;
 
+	protected override void UpdateWhenEnabled()
+	{
 		var player = GameState.Current?.LocalPlayer;
 		if (player == null)
+		{
+			Restore();
+			return;
+		}
+
+		if (!ReferenceEquals(_player, player))
+		{
+			Restore();
+			_player = player;
+		}
+
+		if (_nextScan > Time.unscaledTime)
 			return;
 
-		foreach (var rigidbody in player.GetComponentsInChildren<Rigidbody>())
+		_nextScan = Time.unscaledTime + 0.25f;
+		foreach (var rigidbody in player.GetComponentsInChildren<Rigidbody>(true))
 		{
-			if (rigidbody.detectCollisions == !Enabled)
-				continue;
+			if (!_originals.ContainsKey(rigidbody))
+				_originals.Add(rigidbody, rigidbody.detectCollisions);
 
-			rigidbody.detectCollisions = !Enabled;
+			rigidbody.detectCollisions = false;
 		}
+	}
+
+	protected override void UpdateWhenDisabled()
+	{
+		Restore();
+	}
+
+	[UsedImplicitly]
+	private void OnDestroy()
+	{
+		Restore();
+	}
+
+	private void Restore()
+	{
+		foreach (var pair in _originals)
+		{
+			if (pair.Key != null)
+				pair.Key.detectCollisions = pair.Value;
+		}
+
+		_originals.Clear();
+		_player = null;
+		_nextScan = 0f;
 	}
 }

@@ -42,19 +42,15 @@ internal class Hud : ToggleFeature
 	private readonly StringBuilder _sb = new();
 	protected override void OnGUIWhenEnabled()
 	{
+		if (Event.current.type != EventType.Repaint)
+			return;
+
 		var player = GameState.Current?.LocalPlayer;
 		if (!player.IsValid())
 			return;
 
 		var camera = GameState.Current?.Camera;
 		if (camera == null)
-			return;
-
-		if (player.HandsController == null || player.HandsController.Item is not Weapon weapon)
-			return;
-
-		var mag = weapon.GetCurrentMagazine();
-		if (mag == null)
 			return;
 
 		_sb.Clear();
@@ -64,20 +60,34 @@ internal class Hud : ToggleFeature
 			var forward = camera.transform.forward;
 			forward.y = 0;
 
-			var heading = Quaternion.LookRotation(forward).eulerAngles.y;
-			_sb.Append(_directions[(int)Mathf.Round(heading % 360 / 45)]);
-			_sb.Append(Strings.FeatureHudSeparator);
+			if (forward.sqrMagnitude > 0.0001f)
+			{
+				var heading = Quaternion.LookRotation(forward).eulerAngles.y;
+				_sb.Append(_directions[(int)Mathf.Round(heading % 360 / 45)]);
+			}
 		}
 
-		_sb.Append(string.Format(Strings.FeatureHudWeaponFormat, mag.Count, weapon.ChamberAmmoCount, mag.MaxCount, weapon.SelectedFireMode));
+		if (player.HandsController?.Item is Weapon weapon)
+		{
+			if (_sb.Length > 0)
+				_sb.Append(Strings.FeatureHudSeparator);
+
+			var mag = weapon.GetCurrentMagazine();
+			_sb.Append(string.Format(Strings.FeatureHudWeaponFormat, mag?.Count ?? 0, weapon.ChamberAmmoCount, mag?.MaxCount ?? 0, weapon.SelectedFireMode));
+		}
 
 		if (ShowCoordinates)
 		{
-			_sb.Append(Strings.FeatureHudSeparator);
+			if (_sb.Length > 0)
+				_sb.Append(Strings.FeatureHudSeparator);
+
 			var position = player.Transform.position;
 			_sb.Append(string.Format(Strings.FeatureHudCoordinatesFormat, Mathf.RoundToInt(position.x), Mathf.RoundToInt(position.z)));
 		}
 
-		Render.DrawString(new Vector2(512, Screen.height - 16f), _sb.ToString(), Color);
+		if (_sb.Length == 0)
+			return;
+
+		Render.DrawString(new Vector2(Screen.width / 2f, Screen.height - 16f), _sb.ToString(), Color);
 	}
 }

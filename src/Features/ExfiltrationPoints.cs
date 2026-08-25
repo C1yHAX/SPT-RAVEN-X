@@ -132,8 +132,10 @@ internal class ExfiltrationPoints : PointOfInterests
 		var mask = ect.GetScavExfiltrationMask(profile.Id);
 		var result = new List<ExfiltrationPoint>();
 		var points = ect.ScavExfiltrationPoints;
+		if (points == null)
+			return [];
 
-		for (int i = 0; i < 31; i++)
+		for (var i = 0; i < points.Length && i < 31; i++)
 		{
 			if ((mask & (1 << i)) != 0)
 				result.Add(points[i]);

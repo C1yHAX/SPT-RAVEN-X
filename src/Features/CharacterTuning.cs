@@ -48,6 +48,7 @@ internal class CharacterTuning : ToggleFeature
 	private float _sprintBaseline;
 	private float _jumpBaseline;
 	private float _regenCarry;
+	private static readonly EBodyPart[] _bodyParts = (EBodyPart[])System.Enum.GetValues(typeof(EBodyPart));
 
 	[UsedImplicitly]
 	[SuppressMessage("ReSharper", "InconsistentNaming")]
@@ -101,7 +102,7 @@ internal class CharacterTuning : ToggleFeature
 	{
 		var feature = ActiveFor(__instance);
 		if (feature != null && __0 < 0f)
-			__0 *= feature.EnergyDrain;
+			__0 *= Mathf.Clamp(feature.EnergyDrain, 0f, 2f);
 	}
 
 	[UsedImplicitly]
@@ -110,7 +111,7 @@ internal class CharacterTuning : ToggleFeature
 	{
 		var feature = ActiveFor(__instance);
 		if (feature != null && __0 < 0f)
-			__0 *= feature.HydrationDrain;
+			__0 *= Mathf.Clamp(feature.HydrationDrain, 0f, 2f);
 	}
 #pragma warning restore IDE0060
 
@@ -182,7 +183,7 @@ internal class CharacterTuning : ToggleFeature
 
 		_regenCarry -= amount;
 
-		foreach (EBodyPart bodyPart in System.Enum.GetValues(typeof(EBodyPart)))
+		foreach (var bodyPart in _bodyParts)
 		{
 			if (bodyPart == EBodyPart.Common)
 				continue;
@@ -192,5 +193,10 @@ internal class CharacterTuning : ToggleFeature
 
 			healthController.ChangeHealth(bodyPart, amount, default);
 		}
+	}
+
+	protected override void UpdateWhenDisabled()
+	{
+		_regenCarry = 0f;
 	}
 }

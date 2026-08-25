@@ -95,10 +95,8 @@ internal class Aimbot : HoldFeature
 		if (!localPlayer.IsYourPlayer)
 			return true;
 
-		if (feature.SilentAim)
-			speedFactor = feature.SilentAimSpeedFactor;
-		else if (feature.MagicBullets && feature.MagicBulletBoostSpeed)
-			speedFactor = Mathf.Max(1f, feature.MagicBulletSpeedFactor);
+		var customSpeedFactor = feature.GetShotSpeedFactor();
+		speedFactor *= customSpeedFactor;
 
 		direction = (feature.ResolveAimPoint(feature._silentAimTarget.position, origin, speedFactor) - origin).normalized;
 
@@ -127,10 +125,7 @@ internal class Aimbot : HoldFeature
 			return;
 
 		var feature = FeatureFactory.GetFeature<Aimbot>();
-		if (feature == null || (!feature.SilentAim && !feature.MagicBullets))
-			return;
-
-		if (!feature.MagicBulletExtendFlight)
+		if (feature is not { MagicBullets: true, MagicBulletExtendFlight: true })
 			return;
 
 		if (__instance.Player?.iPlayer is not { IsYourPlayer: true })
@@ -165,36 +160,126 @@ internal class Aimbot : HoldFeature
 	private float _silentAimNextShotTime = 0f;
 	private float _muzzleVelocity = 0f;
 	private Vector3 _targetVelocity = Vector3.zero;
+	private AmmoTemplate? _ammoTemplate;
+	private TrajectoryCalculator? _trajectory;
+	private AmmoTemplate? _trajectoryAmmoTemplate;
+	private float _trajectorySpeed;
+
+	private float GetShotSpeedFactor()
+	{
+		var factor = SilentAim ? Mathf.Clamp(SilentAimSpeedFactor, 0.01f, 300f) : 1f;
+
+		if (MagicBullets && MagicBulletBoostSpeed)
+			factor = Mathf.Max(factor, Mathf.Clamp(MagicBulletSpeedFactor, 1f, 100f));
+
+		return factor;
+	}
 
 	private Vector3 ResolveAimPoint(Vector3 targetPosition, Vector3 origin, float speedFactor)
 	{
 		var speed = _muzzleVelocity * Mathf.Max(0.01f, speedFactor);
-		if (speed <= 0f)
+		if (speed <= 0f || float.IsNaN(speed) || float.IsInfinity(speed))
 			return targetPosition;
 
 		var lead = LeadTarget ? _targetVelocity : Vector3.zero;
-		var drop = CompensateDrop ? -Physics.gravity.y : 0f;
-
-		if (lead == Vector3.zero && drop <= 0f)
+		if (lead == Vector3.zero && !CompensateDrop)
 			return targetPosition;
 
-		var aimPoint = targetPosition;
-
-		for (var i = 0; i < 4; i++)
+		if (!TryPrepareTrajectory(speed))
 		{
-			var travelTime = Vector3.Distance(origin, aimPoint) / speed;
-			aimPoint = targetPosition + lead * travelTime;
-			aimPoint.y += 0.5f * drop * travelTime * travelTime;
+			var travelTime = Vector3.Distance(origin, targetPosition) / speed;
+			var fallback = targetPosition + lead * travelTime;
+			if (CompensateDrop)
+				fallback.y += -0.5f * Physics.gravity.y * travelTime * travelTime;
+			return fallback;
+		}
+
+		var aimPoint = targetPosition;
+		var time = 0f;
+
+		for (var i = 0; i < 3; i++)
+		{
+			aimPoint = targetPosition + lead * time;
+			time = EstimateTravelTime(origin, aimPoint, speed);
+		}
+
+		aimPoint = targetPosition + lead * time;
+		if (CompensateDrop)
+		{
+			Shot.PredictedTrajectoryCalculation(out var position, out _, _trajectory!, time);
+			if (!float.IsNaN(position.y) && !float.IsInfinity(position.y))
+				aimPoint.y -= position.y;
 		}
 
 		return aimPoint;
 	}
+
+	private bool TryPrepareTrajectory(float speed)
+	{
+		if (_ammoTemplate == null || _ammoTemplate.BulletMassGram <= 0f || _ammoTemplate.BulletDiameterMilimeters <= 0f || _ammoTemplate.BallisticCoeficient <= 0f)
+		{
+			ReleaseTrajectory();
+			return false;
+		}
+
+		if (_trajectory != null && ReferenceEquals(_trajectoryAmmoTemplate, _ammoTemplate) && Mathf.Approximately(_trajectorySpeed, speed))
+			return true;
+
+		ReleaseTrajectory();
+		_trajectory = new TrajectoryCalculator();
+		_trajectory.Initialize(Vector3.zero, Vector3.forward * speed, _ammoTemplate.BulletMassGram, _ammoTemplate.BulletDiameterMilimeters, _ammoTemplate.BallisticCoeficient, false);
+		_trajectoryAmmoTemplate = _ammoTemplate;
+		_trajectorySpeed = speed;
+		return true;
+	}
+
+	private float EstimateTravelTime(Vector3 origin, Vector3 target, float speed)
+	{
+		var offset = target - origin;
+		var distance = new Vector2(offset.x, offset.z).magnitude;
+		if (distance <= 0.01f || _trajectory == null)
+			return Vector3.Distance(origin, target) / speed;
+
+		var low = 0f;
+		var high = Mathf.Max(1f, MagicBullets && MagicBulletExtendFlight ? MagicBulletFlightTime : _ammoTemplate?.AmmoLifeTimeSec ?? 1f);
+
+		for (var i = 0; i < 14; i++)
+		{
+			var middle = (low + high) * 0.5f;
+			Shot.PredictedTrajectoryCalculation(out var position, out _, _trajectory, middle);
+			var travelled = new Vector2(position.x, position.z).magnitude;
+			if (float.IsNaN(travelled) || float.IsInfinity(travelled))
+				return Vector3.Distance(origin, target) / speed;
+
+			if (travelled < distance)
+				low = middle;
+			else
+				high = middle;
+		}
+
+		return high;
+	}
+
+	private void ReleaseTrajectory()
+	{
+		if (_trajectory == null)
+			return;
+
+		_trajectory.ClearClass();
+		_trajectory = null;
+		_trajectoryAmmoTemplate = null;
+		_trajectorySpeed = 0f;
+	}
+
+	[UsedImplicitly]
+	private void OnDestroy()
+	{
+		ReleaseTrajectory();
+	}
+
 	protected override void Update()
 	{
 		base.Update();
-
-		if (!SilentAim && !MagicBullets)
-			return;
 
 		HarmonyPatchOnce(harmony =>
 		{
@@ -206,6 +291,9 @@ internal class Aimbot : HoldFeature
 
 		_silentAimTarget = null;
 
+		if (!SilentAim && !MagicBullets)
+			return;
+
 		if (!TryGetNearestTarget(out var player, out var camera, out var nearestTarget))
 			return;
 
@@ -213,9 +301,6 @@ internal class Aimbot : HoldFeature
 			return;
 
 		if (player.HandsController is not Player.FirearmController controller)
-			return;
-
-		if (RequireLineOfSight && !camera.IsTransformVisible(nearestTarget))
 			return;
 
 		_silentAimTarget = nearestTarget;
@@ -236,14 +321,8 @@ internal class Aimbot : HoldFeature
 		if (!TryGetNearestTarget(out var player, out _, out var nearestTarget))
 			return;
 
-		var speedFactor = SilentAim
-			? SilentAimSpeedFactor
-			: MagicBullets && MagicBulletBoostSpeed
-				? MagicBulletSpeedFactor
-				: 1f;
-
 		var origin = player.Fireport.position;
-		AimAtPosition(player, ResolveAimPoint(nearestTarget.position, origin, speedFactor), Smoothness);
+		AimAtPosition(player, ResolveAimPoint(nearestTarget.position, origin, GetShotSpeedFactor()), Smoothness);
 	}
 
 	private bool TryGetNearestTarget([NotNullWhen(true)] out Player? localPlayer, [NotNullWhen(true)] out Camera? camera, [NotNullWhen(true)] out Transform? nearestTarget)
@@ -272,7 +351,8 @@ internal class Aimbot : HoldFeature
 		if (template == null)
 			return false;
 
-		_muzzleVelocity = template.InitialSpeed;
+		_ammoTemplate = template;
+		_muzzleVelocity = weapon.TotalVelocity;
 		_targetVelocity = Vector3.zero;
 
 		Player? nearestHostile = null;
@@ -283,6 +363,9 @@ internal class Aimbot : HoldFeature
 				continue;
 
 			if (!hostile.IsAlive())
+				continue;
+
+			if (hostile.IsFriendlyTo(localPlayer))
 				continue;
 
 			if (!TryGetHeadTransform(hostile, out var hostileTransform))
@@ -296,8 +379,11 @@ internal class Aimbot : HoldFeature
 			if (!IsInFieldOfView(screenPosition))
 				continue;
 
+			if (RequireLineOfSight && !camera.IsTransformVisible(hostileTransform))
+				continue;
+
 			var distance = Vector3.Distance(camera.transform.position, destination);
-			if (distance > MaximumDistance)
+			if (MaximumDistance > 0f && distance > MaximumDistance)
 				continue;
 
 			if (distance >= nearestTargetDistance)
@@ -317,8 +403,10 @@ internal class Aimbot : HoldFeature
 	[UsedImplicitly]
 	protected void OnGUI()
 	{
-		if (!ShowFovCircle || FovRadius <= 0)
+		if (Event.current.type != EventType.Repaint || !ShowFovCircle || FovRadius <= 0)
 			return;
+
+		GUI.depth = 10;
 
 		var player = GameState.Current?.LocalPlayer;
 		if (!player.IsValid())

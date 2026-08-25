@@ -48,8 +48,9 @@ internal class AimbotTab : IRavenTab
 			GUILayout.EndHorizontal();
 
 			RavenWidgets.Spacer(4f);
-			aimbot.MaximumDistance = RavenWidgets.Slider("Max Distance", aimbot.MaximumDistance, 10f, 1500f, $"{aimbot.MaximumDistance:0}m");
-			GUILayout.Label("Nothing past this is touched at all,\nnot even by Magic Bullets.", RavenTheme.MutedLabel);
+			var distance = aimbot.MaximumDistance;
+			aimbot.MaximumDistance = RavenWidgets.Slider("Max Distance", distance, 0f, 1500f, distance <= 0f ? "unlimited" : $"{distance:0}m");
+			GUILayout.Label("Zero allows targets at any distance.\nThe limit also applies to Magic Bullets.", RavenTheme.MutedLabel);
 			RavenWidgets.Spacer(6f);
 			aimbot.Smoothness = RavenWidgets.Slider("Smoothness", aimbot.Smoothness, 0f, 1f, $"{aimbot.Smoothness:0.###}");
 			RavenWidgets.Spacer(6f);

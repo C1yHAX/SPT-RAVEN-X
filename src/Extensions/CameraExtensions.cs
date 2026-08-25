@@ -26,9 +26,9 @@ public static class CameraExtensions
 		origin += (destination - origin).normalized * 0.1f;
 
 		if (!Physics.Linecast(origin, destination, out var hitinfo, _layerMask))
-			return false;
+			return true;
 
-		return hitinfo.transform == transform;
+		return hitinfo.transform != null && hitinfo.transform.root == transform.root;
 	}
 
 	public static Vector2 WorldPointToVisibleScreenPoint(this Camera camera, Vector3 worldPoint)

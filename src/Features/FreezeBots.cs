@@ -25,10 +25,16 @@ internal class FreezeBots : ToggleFeature
 	{
 		var state = GameState.Current;
 		if (state == null || !state.LocalPlayer.IsValid())
-			return;
-
-		foreach (var hostile in state.Hostiles.Where(h => h.IsAlive()))
 		{
+			Restore();
+			return;
+		}
+
+		foreach (var hostile in state.Hostiles)
+		{
+			if (!hostile.IsAlive())
+				continue;
+
 			var owner = hostile.AIData?.BotOwner;
 			if (owner == null || _suspended.ContainsKey(owner))
 				continue;
@@ -43,10 +49,18 @@ internal class FreezeBots : ToggleFeature
 
 	protected override void UpdateWhenDisabled()
 	{
-		if (_suspended.Count == 0)
-			return;
+		Restore();
+	}
 
-		foreach (var entry in _suspended.ToArray())
+	[UsedImplicitly]
+	private void OnDestroy()
+	{
+		Restore();
+	}
+
+	private void Restore()
+	{
+		foreach (var entry in _suspended)
 		{
 			var owner = entry.Key;
 			if (owner == null || owner.BotState == EBotState.Disposed)

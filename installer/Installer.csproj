@@ -10,14 +10,13 @@
 
     <PublishSingleFile>true</PublishSingleFile>
     <SelfContained>true</SelfContained>
-    <PublishTrimmed>true</PublishTrimmed>
-    <TrimMode>partial</TrimMode>	
+    <PublishTrimmed>false</PublishTrimmed>
     <EnableCompressionInSingleFile>true</EnableCompressionInSingleFile>
     <RuntimeIdentifier>win-x64</RuntimeIdentifier>
-    <CETCompat>false</CETCompat> <!-- https://github.com/dotnet/runtime/issues/108589 -->
+    <CETCompat>false</CETCompat>
     <Authors>C1yHAX</Authors>
     <RepositoryUrl>https://github.com/C1yHAX/SPT-RAVEN-X</RepositoryUrl>
-    <Version>3.2.0.0</Version>
+    <Version>3.3.0.0</Version>
     <Copyright>© 2026 C1yHAX</Copyright>
   </PropertyGroup>
 

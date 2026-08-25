@@ -27,9 +27,37 @@ internal abstract class Feature : InputNode, IFeature
 		if (_harmonyId != null)
 			return;
 
-		_harmonyId = GetType().FullName;
-		var harmony = new HarmonyLib.Harmony(_harmonyId);
-		action(harmony);
+		var harmonyId = GetType().FullName ?? GetType().Name;
+		var harmony = new HarmonyLib.Harmony(harmonyId);
+		try
+		{
+			action(harmony);
+			_harmonyId = harmonyId;
+		}
+		catch
+		{
+			try
+			{
+				Unpatch(harmony, harmonyId);
+			}
+			catch
+			{
+			}
+			throw;
+		}
+	}
+
+	private static void Unpatch(HarmonyLib.Harmony harmony, string harmonyId)
+	{
+		var unpatchSelf = HarmonyLib.AccessTools.Method(typeof(HarmonyLib.Harmony), "UnpatchSelf", Type.EmptyTypes);
+		if (unpatchSelf != null)
+		{
+			unpatchSelf.Invoke(harmony, null);
+			return;
+		}
+
+		var unpatchAll = HarmonyLib.AccessTools.Method(typeof(HarmonyLib.Harmony), "UnpatchAll", [typeof(string)]);
+		unpatchAll?.Invoke(harmony, [harmonyId]);
 	}
 
 	public void HarmonyDispatch(HarmonyLib.Harmony harmony, Type originalType, string? originalMethod, string? newPrefixMethod, string? newPostfixMethod, Type[]? parameters = null)
@@ -47,9 +75,6 @@ internal abstract class Feature : InputNode, IFeature
 		var prefix = GetTargetMethod(newPrefixMethod, Properties.Strings.ErrorCannotFindPrefixMethodFormat);
 		var postfix = GetTargetMethod(newPostfixMethod, Properties.Strings.ErrorCannotFindPostfixMethodFormat);
 
-		if (prefix != null && postfix != null)
-			return;
-
 		if (prefix == null && postfix == null)
 			return;
 
@@ -66,7 +91,10 @@ internal abstract class Feature : InputNode, IFeature
 
 		var method = HarmonyLib.AccessTools.Method(GetType(), methodName);
 		if (method == null)
+		{
 			AddConsoleLog(string.Format(errorFormat, methodName).Red());
+			return null;
+		}
 
 		return new HarmonyLib.HarmonyMethod(method);
 	}

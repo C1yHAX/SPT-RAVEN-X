@@ -64,7 +64,7 @@ internal class PlayerTab : IRavenTab
 			RavenWidgets.Spacer(6f);
 			tuning.JumpHeight = RavenWidgets.Slider("Jump Height", tuning.JumpHeight, 0.5f, 5f, $"{tuning.JumpHeight:0.00}x");
 			RavenWidgets.Spacer(6f);
-			tuning.HealthRegen = RavenWidgets.Slider("Health Regen", tuning.HealthRegen, 0f, 25f, tuning.HealthRegen <= 0f ? "off" : $"{tuning.HealthRegen:0} hp/s");
+			tuning.HealthRegen = RavenWidgets.Slider("Health Regen", tuning.HealthRegen, 0f, 25f, tuning.HealthRegen <= 0f ? "off" : $"{tuning.HealthRegen:0} hp/s per part");
 			RavenWidgets.Spacer(6f);
 			tuning.EnergyDrain = RavenWidgets.Slider("Energy Drain", tuning.EnergyDrain, 0f, 2f, $"{tuning.EnergyDrain:0.00}x");
 			RavenWidgets.Spacer(6f);

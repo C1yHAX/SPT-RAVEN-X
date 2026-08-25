@@ -1,8 +1,8 @@
+using System;
 using RavenX.Extensions;
 using RavenX.Properties;
 using JetBrains.Annotations;
 using UnityEngine;
-using EFT;
 
 #nullable enable
 
@@ -16,88 +16,77 @@ internal class Stamina : ToggleFeature
 
 	public override bool Enabled { get; set; } = false;
 
-	private float _aimDrainRate;
-	private float _aimRangeFinderDrainRate;
-	private float _sprintDrainRate;
-	private float _jumpConsumption;
-	private float _proneConsumption;
-
-	private Vector3 _aimConsumptionByPose;
-	private Vector3 _overweightConsumptionByPose;
-	private Vector2 _crouchConsumption;
-	private Vector2 _standupConsumption;
-	private Vector2 _walkConsumption;
-
-	private float _oxygenRestoration;
-	private float _exhaustedMeleeSpeed;
-
-	private float _baseRestorationRate;
-
-	private bool _staminaExhaustionCausesJiggle;
-	private bool _staminaExhaustionRocksCamera;
-	private bool _staminaExhaustionStartsBreathSound;
-
-	private bool _isConfigured = false;
-	private bool _wasReset = true;
+	private object? _parameters;
+	private Action? _restore;
 
 	[UsedImplicitly]
-	protected static bool ConsumePrefix()
+	protected static bool ConsumePrefix(object __instance)
 	{
 		var feature = FeatureFactory.GetFeature<Stamina>();
-		if (feature == null || !feature.Enabled)
+		if (feature is not { Enabled: true })
 			return true;
 
-		return false;
+		var stamina = GameState.Current?.LocalPlayer?.Physical?.Stamina;
+		return !ReferenceEquals(__instance, stamina);
 	}
 
 	protected override void UpdateWhenEnabled()
 	{
 		var player = GameState.Current?.LocalPlayer;
-		if (!player.IsValid())
+		var playerPhysical = player.IsValid() ? player.Physical : null;
+		var parameters = playerPhysical?.StaminaParameters;
+		var stamina = playerPhysical?.Stamina;
+		if (parameters == null || stamina == null)
+		{
+			Restore();
 			return;
-
-		var playerPhysical = player.Physical;
-		if (playerPhysical == null)
-			return;
+		}
 
 		HarmonyPatchOnce(harmony =>
 		{
-			var playerPhysicalStamina = playerPhysical.Stamina;
-			if (playerPhysicalStamina == null)
-				return;
-
-			HarmonyPrefix(harmony, playerPhysicalStamina.GetType(), nameof(playerPhysicalStamina.Consume), nameof(ConsumePrefix));
+			HarmonyPrefix(harmony, stamina.GetType(), nameof(stamina.Consume), nameof(ConsumePrefix));
 		});
 
-		var parameters = playerPhysical.StaminaParameters;
-		if (parameters == null)
-			return;
-
-		if (!_isConfigured)
+		if (!ReferenceEquals(_parameters, parameters))
 		{
-			_aimDrainRate = parameters.AimDrainRate;
-			_aimRangeFinderDrainRate = parameters.AimRangeFinderDrainRate;
-			_sprintDrainRate = parameters.SprintDrainRate;
-			_jumpConsumption = parameters.JumpConsumption;
-			_proneConsumption = parameters.ProneConsumption;
+			Restore();
+			var aimDrainRate = parameters.AimDrainRate;
+			var aimRangeFinderDrainRate = parameters.AimRangeFinderDrainRate;
+			var sprintDrainRate = parameters.SprintDrainRate;
+			var jumpConsumption = parameters.JumpConsumption;
+			var proneConsumption = parameters.ProneConsumption;
+			var aimConsumptionByPose = parameters.AimConsumptionByPose;
+			var overweightConsumptionByPose = parameters.OverweightConsumptionByPose;
+			var crouchConsumption = parameters.CrouchConsumption;
+			var standupConsumption = parameters.StandupConsumption;
+			var walkConsumption = parameters.WalkConsumption;
+			var oxygenRestoration = parameters.OxygenRestoration;
+			var exhaustedMeleeSpeed = parameters.ExhaustedMeleeSpeed;
+			var baseRestorationRate = parameters.BaseRestorationRate;
+			var staminaExhaustionCausesJiggle = parameters.StaminaExhaustionCausesJiggle;
+			var staminaExhaustionRocksCamera = parameters.StaminaExhaustionRocksCamera;
+			var staminaExhaustionStartsBreathSound = parameters.StaminaExhaustionStartsBreathSound;
 
-			_aimConsumptionByPose = parameters.AimConsumptionByPose;
-			_overweightConsumptionByPose = parameters.OverweightConsumptionByPose;
-
-			_crouchConsumption = parameters.CrouchConsumption;
-			_standupConsumption = parameters.StandupConsumption;
-			_walkConsumption = parameters.WalkConsumption;
-
-			_oxygenRestoration = parameters.OxygenRestoration;
-			_exhaustedMeleeSpeed = parameters.ExhaustedMeleeSpeed;
-
-			_baseRestorationRate = parameters.BaseRestorationRate;
-
-			_staminaExhaustionCausesJiggle = parameters.StaminaExhaustionCausesJiggle;
-			_staminaExhaustionRocksCamera = parameters.StaminaExhaustionRocksCamera;
-			_staminaExhaustionStartsBreathSound = parameters.StaminaExhaustionStartsBreathSound;
-
-			_isConfigured = true;
+			_parameters = parameters;
+			_restore = () =>
+			{
+				parameters.AimDrainRate = aimDrainRate;
+				parameters.AimRangeFinderDrainRate = aimRangeFinderDrainRate;
+				parameters.SprintDrainRate = sprintDrainRate;
+				parameters.JumpConsumption = jumpConsumption;
+				parameters.ProneConsumption = proneConsumption;
+				parameters.AimConsumptionByPose = aimConsumptionByPose;
+				parameters.OverweightConsumptionByPose = overweightConsumptionByPose;
+				parameters.CrouchConsumption = crouchConsumption;
+				parameters.StandupConsumption = standupConsumption;
+				parameters.WalkConsumption = walkConsumption;
+				parameters.OxygenRestoration = oxygenRestoration;
+				parameters.ExhaustedMeleeSpeed = exhaustedMeleeSpeed;
+				parameters.BaseRestorationRate = baseRestorationRate;
+				parameters.StaminaExhaustionCausesJiggle = staminaExhaustionCausesJiggle;
+				parameters.StaminaExhaustionRocksCamera = staminaExhaustionRocksCamera;
+				parameters.StaminaExhaustionStartsBreathSound = staminaExhaustionStartsBreathSound;
+			};
 		}
 
 		parameters.AimDrainRate = 0f;
@@ -105,65 +94,34 @@ internal class Stamina : ToggleFeature
 		parameters.SprintDrainRate = 0f;
 		parameters.JumpConsumption = 0f;
 		parameters.ProneConsumption = 0f;
-
 		parameters.AimConsumptionByPose = Vector3.zero;
 		parameters.OverweightConsumptionByPose = Vector3.zero;
-
 		parameters.CrouchConsumption = Vector2.zero;
 		parameters.StandupConsumption = Vector2.zero;
 		parameters.WalkConsumption = Vector2.zero;
-
 		parameters.OxygenRestoration = 10000f;
 		parameters.ExhaustedMeleeSpeed = 10000f;
-
 		parameters.BaseRestorationRate = parameters.Capacity;
-
 		parameters.StaminaExhaustionCausesJiggle = false;
 		parameters.StaminaExhaustionRocksCamera = false;
 		parameters.StaminaExhaustionStartsBreathSound = false;
-
-		_wasReset = false;
 	}
 
 	protected override void UpdateWhenDisabled()
 	{
-		var player = GameState.Current?.LocalPlayer;
-		if (!player.IsValid())
-			return;
+		Restore();
+	}
 
-		var playerPhysical = player.Physical;
-		if (playerPhysical == null)
-			return;
+	[UsedImplicitly]
+	private void OnDestroy()
+	{
+		Restore();
+	}
 
-		var parameters = playerPhysical.StaminaParameters;
-		if (parameters == null)
-			return;
-
-		if (_wasReset)
-			return;
-
-		parameters.AimDrainRate = _aimDrainRate;
-		parameters.AimRangeFinderDrainRate = _aimRangeFinderDrainRate;
-		parameters.SprintDrainRate = _sprintDrainRate;
-		parameters.JumpConsumption = _jumpConsumption;
-		parameters.ProneConsumption = _proneConsumption;
-
-		parameters.AimConsumptionByPose = _aimConsumptionByPose;
-		parameters.OverweightConsumptionByPose = _overweightConsumptionByPose;
-
-		parameters.CrouchConsumption = _crouchConsumption;
-		parameters.StandupConsumption = _standupConsumption;
-		parameters.WalkConsumption = _walkConsumption;
-
-		parameters.OxygenRestoration = _oxygenRestoration;
-		parameters.ExhaustedMeleeSpeed = _exhaustedMeleeSpeed;
-
-		parameters.BaseRestorationRate = _baseRestorationRate;
-
-		parameters.StaminaExhaustionCausesJiggle = _staminaExhaustionCausesJiggle;
-		parameters.StaminaExhaustionRocksCamera = _staminaExhaustionRocksCamera;
-		parameters.StaminaExhaustionStartsBreathSound = _staminaExhaustionStartsBreathSound;
-
-		_wasReset = true;
+	private void Restore()
+	{
+		_restore?.Invoke();
+		_parameters = null;
+		_restore = null;
 	}
 }

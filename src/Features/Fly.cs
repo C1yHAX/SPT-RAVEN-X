@@ -36,6 +36,8 @@ internal class Fly : ToggleFeature
 
 	private bool _wasFlying;
 	private Vector3 _hover;
+	private Player? _activePlayer;
+	private static readonly RaycastHit[] _groundHits = new RaycastHit[32];
 
 	protected override void UpdateWhenEnabled()
 	{
@@ -44,7 +46,17 @@ internal class Fly : ToggleFeature
 		var camera = state?.Camera;
 
 		if (state == null || !player.IsValid() || camera == null)
+		{
+			_wasFlying = false;
+			_activePlayer = null;
 			return;
+		}
+
+		if (!ReferenceEquals(_activePlayer, player))
+		{
+			_wasFlying = false;
+			_activePlayer = player;
+		}
 
 		if (!_wasFlying)
 		{
@@ -52,7 +64,7 @@ internal class Fly : ToggleFeature
 			_hover = player.Transform.position;
 		}
 
-		if (player.IsInventoryOpened || UI.Raven.RavenWidgets.IsCapturingKey)
+		if (player.IsInventoryOpened || UI.Raven.RavenWidgets.IsCapturingKey || FeatureFactory.GetFeature<RavenUI>()?.Enabled == true)
 		{
 			player.Teleport(_hover, false);
 			return;
@@ -75,9 +87,17 @@ internal class Fly : ToggleFeature
 			return;
 
 		_wasFlying = false;
+		var player = _activePlayer;
+		_activePlayer = null;
 
-		if (LandOnExit)
-			Land();
+		if (LandOnExit && player.IsValid())
+			Land(player);
+	}
+
+	[UsedImplicitly]
+	private void OnDestroy()
+	{
+		UpdateWhenDisabled();
 	}
 
 	private Vector3 ReadDirection(Transform view)
@@ -97,17 +117,27 @@ internal class Fly : ToggleFeature
 		return direction == Vector3.zero ? Vector3.zero : direction.normalized;
 	}
 
-	private static void Land()
+	private static void Land(Player player)
 	{
-		var player = GameState.Current?.LocalPlayer;
-		if (!player.IsValid())
-			return;
-
 		var origin = player.Transform.position + Vector3.up * 0.5f;
+		var count = Physics.RaycastNonAlloc(origin, Vector3.down, _groundHits, 500f, Physics.DefaultRaycastLayers, QueryTriggerInteraction.Ignore);
+		var nearestDistance = float.MaxValue;
+		var landingPoint = Vector3.zero;
 
-		if (!Physics.Raycast(origin, Vector3.down, out var hit, 500f, Physics.DefaultRaycastLayers, QueryTriggerInteraction.Ignore))
+		for (var i = 0; i < count; i++)
+		{
+			var hit = _groundHits[i];
+			var hitTransform = hit.collider?.transform;
+			if (hitTransform == null || hitTransform.root == player.Transform.Original.root || hit.distance >= nearestDistance)
+				continue;
+
+			nearestDistance = hit.distance;
+			landingPoint = hit.point;
+		}
+
+		if (nearestDistance == float.MaxValue)
 			return;
 
-		player.Teleport(hit.point + Vector3.up * 0.1f, false);
+		player.Teleport(landingPoint + Vector3.up * 0.1f, false);
 	}
 }

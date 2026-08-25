@@ -56,4 +56,10 @@ internal class NoGrass : ToggleFeature
 		_suppressed.Clear();
 		_nextScan = 0f;
 	}
+
+	[UsedImplicitly]
+	private void OnDestroy()
+	{
+		UpdateWhenDisabled();
+	}
 }

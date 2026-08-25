@@ -1,4 +1,5 @@
-﻿using System;
+using System;
+using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using EFT;
@@ -9,19 +10,32 @@ namespace RavenX.Features;
 
 internal static class FeatureFactory
 {
-	private static GameObject? _gameObject = null;
 	private static readonly Lazy<Type[]> _types = new(() => [.. typeof(FeatureFactory)
 		.Assembly
 		.GetTypes()
 		.Where(t => t.IsSubclassOf(typeof(Feature)) && !t.IsAbstract)]);
 
+	private static Feature[] _features = [];
+	private static ToggleFeature[] _toggleableFeatures = [];
+	private static readonly Dictionary<Type, Feature> _featureIndex = [];
+
 	public static Feature[] RegisterAllFeatures(GameObject gameObject)
 	{
-		_gameObject = gameObject;
+		var features = new List<Feature>(_types.Value.Length);
+		_featureIndex.Clear();
 
-		return [.. GetAllFeatureTypes()
-			.Select(gameObject.GetOrAddComponent)
-			.OfType<Feature>()];
+		foreach (var type in _types.Value)
+		{
+			if (gameObject.GetOrAddComponent(type) is not Feature feature)
+				continue;
+
+			features.Add(feature);
+			_featureIndex[type] = feature;
+		}
+
+		_features = features.ToArray();
+		_toggleableFeatures = [.. _features.OfType<ToggleFeature>()];
+		return _features;
 	}
 
 	public static Type[] GetAllFeatureTypes()
@@ -31,23 +45,16 @@ internal static class FeatureFactory
 
 	public static T? GetFeature<T>() where T : Feature
 	{
-		return GetAllFeatures()
-			.OfType<T>()
-			.FirstOrDefault();
+		return _featureIndex.TryGetValue(typeof(T), out var feature) ? (T)feature : null;
 	}
 
 	public static Feature[] GetAllFeatures()
 	{
-		if (_gameObject == null)
-			return [];
-
-		return [.. GetAllFeatureTypes()
-			.Select(_gameObject.GetComponent)
-			.OfType<Feature>()];
+		return _features;
 	}
 
 	public static ToggleFeature[] GetAllToggleableFeatures()
 	{
-		return [.. GetAllFeatures().OfType<ToggleFeature>()];
+		return _toggleableFeatures;
 	}
 }

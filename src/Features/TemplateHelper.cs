@@ -13,6 +13,8 @@ internal class TemplateHelper
 {
 
 	private static readonly Dictionary<string, ItemTemplate> _templates = [];
+	private static ItemFactory? _source;
+	internal static int Revision { get; private set; }
 
 	private static void UpdateTemplates()
 	{
@@ -20,17 +22,18 @@ internal class TemplateHelper
 		if (!Singleton<ItemFactory>.Instantiated)
 			return;
 
-		var mongoTemplates = Singleton<ItemFactory>
-			.Instance
-			.ItemTemplates;
+		var factory = Singleton<ItemFactory>.Instance;
+		var mongoTemplates = factory.ItemTemplates;
 
-		if (_templates.Count == mongoTemplates.Count)
+		if (ReferenceEquals(_source, factory) && _templates.Count == mongoTemplates.Count)
 			return;
 
+		_templates.Clear();
 		foreach (var kv in mongoTemplates)
-		{
-			_templates.Add(kv.Key.ToString(), kv.Value);
-		}
+			_templates[kv.Key.ToString()] = kv.Value;
+
+		_source = factory;
+		Revision++;
 #endif
 	}
 

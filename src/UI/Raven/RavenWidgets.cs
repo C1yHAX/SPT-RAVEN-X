@@ -9,13 +9,16 @@ namespace RavenX.UI.Raven;
 
 public static class RavenWidgets
 {
-
-	private static readonly List<Action> _deferred = [];
+	private static readonly List<Action> _overlays = [];
+	private static readonly List<Action> _nextLayout = [];
+	private static readonly HashSet<int> _pendingClicks = [];
+	private static readonly Dictionary<int, object> _pendingValues = [];
 	private static readonly Dictionary<object, int> _dropdownPicks = [];
 	private static GUIStyle? _scratch;
 	private static object? _openDropdown;
 	private static GUIStyle? _rowStyle;
 	private static GUIStyle? _rowStyleMuted;
+	private static bool _drawingDropdown;
 
 	public static Vector2 LayoutOrigin { get; set; } = Vector2.zero;
 
@@ -29,21 +32,53 @@ public static class RavenWidgets
 
 	public static void BeginFrame()
 	{
-		_deferred.Clear();
+		_overlays.Clear();
+
+		if (Event.current.type != EventType.Layout || _nextLayout.Count == 0)
+			return;
+
+		var actions = _nextLayout.ToArray();
+		_nextLayout.Clear();
+
+		foreach (var action in actions)
+			action();
 	}
 
 	public static void EndFrame()
 	{
+		for (var i = 0; i < _overlays.Count; i++)
+			_overlays[i]();
 
-		for (var i = 0; i < _deferred.Count; i++)
-			_deferred[i]();
+		_overlays.Clear();
 
-		_deferred.Clear();
+		if (Event.current.type != EventType.Layout)
+			return;
+
+		_pendingClicks.Clear();
+		_pendingValues.Clear();
+	}
+
+	public static void RunNextLayout(Action action)
+	{
+		_nextLayout.Add(action);
 	}
 
 	public static void CloseDropdowns()
 	{
 		_openDropdown = null;
+	}
+
+	public static void ResetInteraction()
+	{
+		_openDropdown = null;
+		_capturing = null;
+		_overlays.Clear();
+		_nextLayout.Clear();
+		_pendingClicks.Clear();
+		_pendingValues.Clear();
+		_dropdownPicks.Clear();
+		GUIUtility.hotControl = 0;
+		GUIUtility.keyboardControl = 0;
 	}
 
 	public static void Fill(Rect rect, Color color)
@@ -69,13 +104,36 @@ public static class RavenWidgets
 		_scratch.Draw(rect, GUIContent.none, false, false, false, false);
 	}
 
-	private static bool Clicked(Rect rect)
+	private static bool Clicked(Rect rect, int id, bool allowWithDropdown = false)
 	{
 		var e = Event.current;
+
+		if (e.type == EventType.Layout)
+			return _pendingClicks.Remove(id);
+
 		if (e.type != EventType.MouseDown || e.button != 0 || !rect.Contains(e.mousePosition))
 			return false;
 
+		if (_openDropdown != null && !_drawingDropdown && !allowWithDropdown)
+			return false;
+
+		_pendingClicks.Add(id);
 		e.Use();
+		return false;
+	}
+
+	public static bool Click(Rect rect)
+	{
+		return Clicked(rect, GUIUtility.GetControlID(FocusType.Passive));
+	}
+
+	private static bool TryTakeValue<T>(int id, ref T value)
+	{
+		if (Event.current.type != EventType.Layout || !_pendingValues.TryGetValue(id, out var pending) || pending is not T next)
+			return false;
+
+		_pendingValues.Remove(id);
+		value = next;
 		return true;
 	}
 
@@ -97,13 +155,14 @@ public static class RavenWidgets
 	public static bool Checkbox(bool value, string label, Color? swatch = null)
 	{
 		var rect = GUILayoutUtility.GetRect(GUIContent.none, RavenTheme.Label, GUILayout.Height(RavenTheme.RowHeight));
+		var id = GUIUtility.GetControlID(FocusType.Passive);
 
 		const float switchWidth = 30f;
 		const float switchHeight = 15f;
 
 		var toggle = new Rect(rect.x, rect.y + (rect.height - switchHeight) / 2f, switchWidth, switchHeight);
 
-		if (Clicked(rect))
+		if (Clicked(rect, id))
 			value = !value;
 
 		DrawSwitch(toggle, value);
@@ -129,7 +188,9 @@ public static class RavenWidgets
 
 	public static bool SwitchAt(Rect rect, bool value)
 	{
-		if (Clicked(rect))
+		var id = GUIUtility.GetControlID(FocusType.Passive);
+
+		if (Clicked(rect, id))
 			value = !value;
 
 		DrawSwitch(rect, value);
@@ -172,8 +233,9 @@ public static class RavenWidgets
 		var id = GUIUtility.GetControlID(FocusType.Passive);
 		var e = Event.current;
 		var hit = new Rect(track.x, track.y - 8f, track.width, track.height + 16f);
+		TryTakeValue(id, ref value);
 
-		if (e.type == EventType.MouseDown && e.button == 0 && hit.Contains(e.mousePosition))
+		if (_openDropdown == null && e.type == EventType.MouseDown && e.button == 0 && hit.Contains(e.mousePosition))
 		{
 			GUIUtility.hotControl = id;
 			e.Use();
@@ -187,7 +249,7 @@ public static class RavenWidgets
 		if (GUIUtility.hotControl == id && (e.type is EventType.MouseDrag or EventType.MouseDown))
 		{
 			var t = Mathf.Clamp01((e.mousePosition.x - track.x) / Mathf.Max(1f, track.width));
-			value = Mathf.Lerp(min, max, t);
+			_pendingValues[id] = Mathf.Lerp(min, max, t);
 			e.Use();
 		}
 
@@ -218,8 +280,9 @@ public static class RavenWidgets
 		}
 
 		var isOpen = ReferenceEquals(_openDropdown, key);
+		var id = GUIUtility.GetControlID(FocusType.Passive);
 
-		if (Clicked(rect))
+		if (Clicked(rect, id, isOpen))
 		{
 			_openDropdown = isOpen ? null : key;
 			isOpen = !isOpen;
@@ -236,7 +299,7 @@ public static class RavenWidgets
 
 		var captured = new Rect(rect.x + LayoutOrigin.x, rect.y + LayoutOrigin.y, rect.width, rect.height);
 		var selected = index;
-		_deferred.Add(() =>
+		_overlays.Add(() =>
 		{
 			var choice = DrawDropdownList(captured, options, selected);
 			if (choice < 0)
@@ -264,21 +327,34 @@ public static class RavenWidgets
 		Rounded(list, RavenTheme.ControlRadius, RavenTheme.ControlBackground, RavenTheme.Accent);
 
 		var picked = -1;
-		for (var i = 0; i < options.Length; i++)
+		_drawingDropdown = true;
+
+		try
 		{
-			var item = new Rect(list.x + 3f, list.y + 3f + i * itemHeight, list.width - 6f, itemHeight);
+			for (var i = 0; i < options.Length; i++)
+			{
+				var item = new Rect(list.x + 3f, list.y + 3f + i * itemHeight, list.width - 6f, itemHeight);
+				var id = GUIUtility.GetControlID(FocusType.Passive);
 
-			if (Hovered(item))
-				Rounded(item, 3f, RavenTheme.AccentTrack, RavenTheme.AccentTrack);
+				if (Hovered(item))
+					Rounded(item, 3f, RavenTheme.AccentTrack, RavenTheme.AccentTrack);
 
-			GUI.Label(new Rect(item.x + 7f, item.y, item.width - 14f, item.height), options[i], RowLabel(i == index));
+				GUI.Label(new Rect(item.x + 7f, item.y, item.width - 14f, item.height), options[i], RowLabel(i == index));
 
-			if (Clicked(item))
-				picked = i;
+				if (Clicked(item, id, true))
+					picked = i;
+			}
+		}
+		finally
+		{
+			_drawingDropdown = false;
 		}
 
 		if (Event.current.type == EventType.MouseDown && !list.Contains(Event.current.mousePosition) && !anchor.Contains(Event.current.mousePosition))
+		{
 			_openDropdown = null;
+			Event.current.Use();
+		}
 
 		return picked;
 	}
@@ -298,21 +374,31 @@ public static class RavenWidgets
 	public static string TextField(string value, string placeholder = "", float height = 26f)
 	{
 		var rect = GUILayoutUtility.GetRect(GUIContent.none, RavenTheme.Label, GUILayout.Height(height));
+		var id = GUIUtility.GetControlID(FocusType.Passive);
+		TryTakeValue(id, ref value);
 		Rounded(rect, RavenTheme.ControlRadius, RavenTheme.ControlBackground, RavenTheme.ControlBorder);
 
 		var inner = new Rect(rect.x + 8f, rect.y, rect.width - 16f, rect.height);
-		var result = GUI.TextField(inner, value, RavenTheme.TextInput);
+		var previousEnabled = GUI.enabled;
+		if (_openDropdown != null && Event.current.type == EventType.MouseDown)
+			GUI.enabled = false;
 
-		if (placeholder.Length > 0 && result.Length == 0)
+		var result = GUI.TextField(inner, value, RavenTheme.TextInput);
+		GUI.enabled = previousEnabled;
+
+		if (Event.current.type != EventType.Layout && result != value)
+			_pendingValues[id] = result;
+
+		if (placeholder.Length > 0 && value.Length == 0)
 			GUI.Label(inner, placeholder, RavenTheme.MutedLabel);
 
-		return result;
+		return value;
 	}
 
 	public static bool SmallButton(string caption, float width = 54f)
 	{
 		var rect = GUILayoutUtility.GetRect(width, 20f, GUILayout.Width(width), GUILayout.Height(20f));
-		var clicked = Clicked(rect);
+		var clicked = Clicked(rect, GUIUtility.GetControlID(FocusType.Passive));
 
 		Rounded(rect, 3f, Hovered(rect) ? RavenTheme.AccentTrack : RavenTheme.ControlBackground, RavenTheme.ControlBorder);
 		GUI.Label(rect, caption, RavenTheme.SmallButton);
@@ -331,10 +417,12 @@ public static class RavenWidgets
 
 		var rect = GUILayoutUtility.GetRect(104f, 24f, GUILayout.Width(104f), GUILayout.Height(24f));
 		GUILayout.EndHorizontal();
+		var id = GUIUtility.GetControlID(FocusType.Passive);
+		TryTakeValue(id, ref current);
 
 		var listening = ReferenceEquals(_capturing, key);
 
-		if (Clicked(rect))
+		if (Clicked(rect, id))
 		{
 			_capturing = listening ? null : key;
 			listening = !listening;
@@ -346,7 +434,7 @@ public static class RavenWidgets
 
 			if (e.type == EventType.KeyDown && e.keyCode != KeyCode.None)
 			{
-				current = e.keyCode == KeyCode.Escape ? KeyCode.None : e.keyCode;
+				_pendingValues[id] = e.keyCode == KeyCode.Escape ? KeyCode.None : e.keyCode;
 				_capturing = null;
 				listening = false;
 				e.Use();
@@ -385,8 +473,9 @@ public static class RavenWidgets
 		{
 			var rect = new Rect(row.x + i * width + 2f, row.y, width - 4f, row.height);
 			var active = i == index;
+			var id = GUIUtility.GetControlID(FocusType.Passive);
 
-			if (Clicked(rect))
+			if (Clicked(rect, id))
 				index = i;
 
 			Rounded(rect, RavenTheme.ControlRadius,
@@ -426,8 +515,9 @@ public static class RavenWidgets
 			}
 
 			var rect = new Rect(x, y, width, area.height);
+			var id = GUIUtility.GetControlID(FocusType.Passive);
 
-			if (Clicked(rect))
+			if (Clicked(rect, id))
 				index = i;
 
 			GUI.contentColor = i == index
@@ -456,10 +546,27 @@ public static class RavenWidgets
 	public static bool OutlineButton(string caption, float width = 78f)
 	{
 		var rect = GUILayoutUtility.GetRect(width, 28f, GUILayout.Width(width), GUILayout.Height(28f));
-		var clicked = Clicked(rect);
+		var clicked = Clicked(rect, GUIUtility.GetControlID(FocusType.Passive));
 
 		Rounded(rect, RavenTheme.ControlRadius, new Color(0f, 0f, 0f, 0f), Hovered(rect) ? RavenTheme.AccentHover : RavenTheme.Accent);
 		GUI.Label(rect, caption, RavenTheme.OutlineButton);
+
+		return clicked;
+	}
+
+	public static bool LayoutButton(string caption, GUIStyle style, params GUILayoutOption[] options)
+	{
+		var id = GUIUtility.GetControlID(FocusType.Passive);
+		var clicked = Event.current.type == EventType.Layout && _pendingClicks.Remove(id);
+		var previousEnabled = GUI.enabled;
+
+		if (_openDropdown != null && Event.current.type == EventType.MouseDown)
+			GUI.enabled = false;
+
+		if (GUILayout.Button(caption, style, options))
+			_pendingClicks.Add(id);
+
+		GUI.enabled = previousEnabled;
 
 		return clicked;
 	}

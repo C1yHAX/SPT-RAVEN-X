@@ -65,7 +65,7 @@ internal class Weather : TriggerFeature
 			return;
 
 		sky.Components.Time.GameDateTime = null;
-		sky.Cycle.Hour = Hour;
+		sky.Cycle.Hour = Mathf.Repeat(Hour, 24f);
 	}
 
 	public static void ToClearWeather(bool changeTime = true)
@@ -74,11 +74,15 @@ internal class Weather : TriggerFeature
 		if (weatherController != null)
 		{
 			var weatherDebug = weatherController.WeatherDebug;
-			weatherDebug.Enabled = true;
-			weatherDebug.CloudDensity = -0.7f;
-			weatherDebug.Fog = 0.004f;
-			weatherDebug.LightningThunderProbability = 0f;
-			weatherDebug.Rain = 0f;
+			if (weatherDebug != null)
+			{
+				weatherDebug.Enabled = true;
+				weatherDebug.CloudDensity = -0.7f;
+				weatherDebug.Fog = 0.004f;
+				weatherDebug.LightningThunderProbability = 0f;
+				weatherDebug.Rain = 0f;
+				weatherDebug.WindMagnitude = 0f;
+			}
 		}
 
 		if (!changeTime)

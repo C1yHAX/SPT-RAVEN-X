@@ -795,9 +795,6 @@ Colors are stored as an array of 'RGBA' floats</value>
   <data name="PropertyShowBoxes" xml:space="preserve">
     <value>Show boxes</value>
   </data>
-  <data name="PropertyShowCharms" xml:space="preserve">
-    <value>Show charms</value>
-  </data>
   <data name="PropertyShowCompass" xml:space="preserve">
     <value>Show compass</value>
   </data>
@@ -905,9 +902,6 @@ Colors are stored as an array of 'RGBA' floats</value>
   </data>
   <data name="PropertyX" xml:space="preserve">
     <value>X</value>
-  </data>
-  <data name="PropertyXRayVision" xml:space="preserve">
-    <value>XRay-Vision</value>
   </data>
   <data name="PropertyY" xml:space="preserve">
     <value>Y</value>
