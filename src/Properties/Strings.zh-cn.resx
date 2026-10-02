@@ -1831,4 +1831,7 @@
     <value>设为 0 表示不限距离。
 该上限同样作用于「魔法子弹」。</value>
   </data>
+  <data name="Menu_HUD_256778e6" xml:space="preserve">
+    <value>抬头显示</value>
+  </data>
 </root>

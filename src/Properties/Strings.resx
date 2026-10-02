@@ -1830,4 +1830,7 @@ and no ricochet or deviation.</value>
     <value>Zero allows targets at any distance.
 The limit also applies to Magic Bullets.</value>
   </data>
+  <data name="Menu_HUD_256778e6" xml:space="preserve">
+    <value>HUD</value>
+  </data>
 </root>

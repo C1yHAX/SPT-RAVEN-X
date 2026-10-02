@@ -1,5 +1,15 @@
 # Changelog
 
+## 1.4.1
+
+### Fixed
+
+- **HUD is translated in Chinese** (抬头显示). It was the only label in that card
+  left in English while Radar, Map and Crosshair around it were translated.
+
+The INSERT label stays English on purpose: it names the keyboard key, and that
+key is labelled Insert on a Chinese keyboard too.
+
 ## 1.4.0
 
 ### Added

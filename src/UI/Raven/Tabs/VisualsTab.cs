@@ -329,7 +329,7 @@ internal class VisualsTab : IRavenTab
 			RavenTabHelper.FeatureCheckbox<Grenades>(RavenText.L("Grenades ESP"));
 			RavenTabHelper.FeatureCheckbox<Hits>(RavenText.L("Hit Markers"));
 			RavenTabHelper.FeatureCheckbox<CrossHair>(RavenText.L("Crosshair"));
-			RavenTabHelper.FeatureCheckbox<Hud>("HUD");
+			RavenTabHelper.FeatureCheckbox<Hud>(RavenText.L("HUD"));
 			RavenTabHelper.FeatureCheckbox<Radar>(RavenText.L("Radar"));
 			RavenTabHelper.FeatureCheckbox<Map>(RavenText.L("Map"));
 			RavenTabHelper.FeatureCheckbox<NightVision>(RavenText.L("Night Vision"));
