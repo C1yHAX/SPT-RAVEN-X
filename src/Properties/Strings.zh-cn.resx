@@ -959,4 +959,876 @@
   <data name="PropertyElevationAdjustment" xml:space="preserve">
     <value>高度调节</value>
   </data>
+  <data name="Menu_Actions_e65fb504" xml:space="preserve">
+    <value>操作</value>
+  </data>
+  <data name="Menu_ActiveFeatures_86fb6a62" xml:space="preserve">
+    <value>已启用功能</value>
+  </data>
+  <data name="Menu_ADD_7d7558d4" xml:space="preserve">
+    <value>添加</value>
+  </data>
+  <data name="Menu_Aim_9abce996" xml:space="preserve">
+    <value>瞄准</value>
+  </data>
+  <data name="Menu_Aimbot_14fe76c7" xml:space="preserve">
+    <value>自瞄</value>
+  </data>
+  <data name="Menu_AirDrop_0f31f85c" xml:space="preserve">
+    <value>空投</value>
+  </data>
+  <data name="Menu_All_75afe364" xml:space="preserve">
+    <value>全部</value>
+  </data>
+  <data name="Menu_AllItems_787d6ff0" xml:space="preserve">
+    <value>全部物品</value>
+  </data>
+  <data name="Menu_ALLITEMS_e1812cd0" xml:space="preserve">
+    <value>全部物品</value>
+  </data>
+  <data name="Menu_ALLOFF_39fd9eb1" xml:space="preserve">
+    <value>全部关闭</value>
+  </data>
+  <data name="Menu_ALLON_cb920cd5" xml:space="preserve">
+    <value>全部开启</value>
+  </data>
+  <data name="Menu_AlsoListWhatIsInside_a4fe5780" xml:space="preserve">
+    <value>同时列出内部物品</value>
+  </data>
+  <data name="Menu_AnyHitYouLandIsLethalNeverAppliesToYours_7a161720" xml:space="preserve">
+    <value>你命中的任何一击都是致命的。
+对自己无效。</value>
+  </data>
+  <data name="Menu_APPLY_760e025b" xml:space="preserve">
+    <value>应用</value>
+  </data>
+  <data name="Menu_Apply_ca77bbdb" xml:space="preserve">
+    <value>应用</value>
+  </data>
+  <data name="Menu_BendOwnShots_dd59f9bb" xml:space="preserve">
+    <value>弯曲自己的子弹</value>
+  </data>
+  <data name="Menu_Bodies_db4d0409" xml:space="preserve">
+    <value>尸体</value>
+  </data>
+  <data name="Menu_BoostMuzzleSpeed_3a2139c6" xml:space="preserve">
+    <value>提升初速</value>
+  </data>
+  <data name="Menu_BoostSpeed_69094ecf" xml:space="preserve">
+    <value>提升速度</value>
+  </data>
+  <data name="Menu_Bots_48630a97" xml:space="preserve">
+    <value>AI</value>
+  </data>
+  <data name="Menu_BotsAlreadyHuntingYouKeepTheirTargetUnti_3b8dc3e1" xml:space="preserve">
+    <value>已经在追击你的 AI 会保持目标，
+直到失去你的踪迹。</value>
+  </data>
+  <data name="Menu_BotSpawn_8d202a81" xml:space="preserve">
+    <value>生成 AI</value>
+  </data>
+  <data name="Menu_BoxThickness_4dfa8b60" xml:space="preserve">
+    <value>方框粗细</value>
+  </data>
+  <data name="Menu_Call_341dd0c9" xml:space="preserve">
+    <value>呼叫</value>
+  </data>
+  <data name="Menu_Camera_e74c7b6e" xml:space="preserve">
+    <value>相机</value>
+  </data>
+  <data name="Menu_CameraOffset_ef51137d" xml:space="preserve">
+    <value>相机偏移</value>
+  </data>
+  <data name="Menu_CameraPositionNotAvailableYet_81d5ece5" xml:space="preserve">
+    <value>相机位置尚不可用。</value>
+  </data>
+  <data name="Menu_Catalogue_90a12396" xml:space="preserve">
+    <value>图鉴</value>
+  </data>
+  <data name="Menu_Categories_f075e98d" xml:space="preserve">
+    <value>分类</value>
+  </data>
+  <data name="Menu_Chams_ede15999" xml:space="preserve">
+    <value>染色透视</value>
+  </data>
+  <data name="Menu_CircleThickness_1925b673" xml:space="preserve">
+    <value>圆圈粗细</value>
+  </data>
+  <data name="Menu_CLEAR_06b44bc2" xml:space="preserve">
+    <value>清空</value>
+  </data>
+  <data name="Menu_ClearWeather_d8aad08e" xml:space="preserve">
+    <value>晴朗天气</value>
+  </data>
+  <data name="Menu_ClickABindThenPressAKeyEscapeClearsItRig_8cdda327" xml:space="preserve">
+    <value>点击一项后按下按键。Escape 清除，右键取消。</value>
+  </data>
+  <data name="Menu_Clouds_79d12c97" xml:space="preserve">
+    <value>云量</value>
+  </data>
+  <data name="Menu_ColourMarksTheRoleBlockedLimbsUseADimmed_c8291f86" xml:space="preserve">
+    <value>颜色标示身份。被遮挡的肢体
+使用较暗的同色。</value>
+  </data>
+  <data name="Menu_CompensateDrop_038dbfa3" xml:space="preserve">
+    <value>补偿弹道下坠</value>
+  </data>
+  <data name="Menu_Config_6a12e0e7" xml:space="preserve">
+    <value>配置</value>
+  </data>
+  <data name="Menu_Containers_01776d71" xml:space="preserve">
+    <value>容器</value>
+  </data>
+  <data name="Menu_Corpse_55c5accd" xml:space="preserve">
+    <value>尸体</value>
+  </data>
+  <data name="Menu_Crosshair_49f3f003" xml:space="preserve">
+    <value>准星</value>
+  </data>
+  <data name="Menu_CustomFireRate_2e29c358" xml:space="preserve">
+    <value>自定义射速</value>
+  </data>
+  <data name="Menu_CustomReach_23679ba1" xml:space="preserve">
+    <value>自定义交互距离</value>
+  </data>
+  <data name="Menu_Details_0ec24245" xml:space="preserve">
+    <value>详情</value>
+  </data>
+  <data name="Menu_Diagnostics_e9a81397" xml:space="preserve">
+    <value>诊断</value>
+  </data>
+  <data name="Menu_Difficulty_8520a210" xml:space="preserve">
+    <value>难度</value>
+  </data>
+  <data name="Menu_Distance_d3d96082" xml:space="preserve">
+    <value>距离</value>
+  </data>
+  <data name="Menu_DUMP_c6897287" xml:space="preserve">
+    <value>导出</value>
+  </data>
+  <data name="Menu_Easy_6c33113b" xml:space="preserve">
+    <value>简单</value>
+  </data>
+  <data name="Menu_ElevationAdjustment_8e414e37" xml:space="preserve">
+    <value>弹道高度修正</value>
+  </data>
+  <data name="Menu_Enable_8614a9ee" xml:space="preserve">
+    <value>启用</value>
+  </data>
+  <data name="Menu_EnableShowInfoToSeeThese_d1082e70" xml:space="preserve">
+    <value>启用「显示信息」后可见。</value>
+  </data>
+  <data name="Menu_EnergyDrain_1f6e3307" xml:space="preserve">
+    <value>能量消耗</value>
+  </data>
+  <data name="Menu_Ergonomics_86bcdf07" xml:space="preserve">
+    <value>人体工程学</value>
+  </data>
+  <data name="Menu_ErgonomicsDrivesAimSpeedAndSwayWeightFee_169d63af" xml:space="preserve">
+    <value>人体工程学影响举枪速度和晃动。
+重量影响耐力消耗。</value>
+  </data>
+  <data name="Menu_ESPRoles_7f47ad5a" xml:space="preserve">
+    <value>透视身份</value>
+  </data>
+  <data name="Menu_Events_003420a4" xml:space="preserve">
+    <value>事件</value>
+  </data>
+  <data name="Menu_EverythingExamined_c40ad921" xml:space="preserve">
+    <value>全部已检视</value>
+  </data>
+  <data name="Menu_ExaminedMarksItemsAsInspectedInstantRese_f9aafdac" xml:space="preserve">
+    <value>「已检视」将物品标记为已查看。
+「即时研究」取消搜索等待。</value>
+  </data>
+  <data name="Menu_ExfilESP_a2234a03" xml:space="preserve">
+    <value>撤离点透视</value>
+  </data>
+  <data name="Menu_Exfils_9e01c494" xml:space="preserve">
+    <value>撤离点</value>
+  </data>
+  <data name="Menu_ExtendFlightTime_5fb1acfa" xml:space="preserve">
+    <value>延长飞行时间</value>
+  </data>
+  <data name="Menu_ExtractionPoints_4ad3e4ff" xml:space="preserve">
+    <value>撤离点</value>
+  </data>
+  <data name="Menu_Faction_08aebcfb" xml:space="preserve">
+    <value>阵营</value>
+  </data>
+  <data name="Menu_FastSpeed_515846e8" xml:space="preserve">
+    <value>快速</value>
+  </data>
+  <data name="Menu_FeatureUnavailable_c1f568b3" xml:space="preserve">
+    <value>功能不可用</value>
+  </data>
+  <data name="Menu_FieldOfView_7ffdacb9" xml:space="preserve">
+    <value>视野范围</value>
+  </data>
+  <data name="Menu_FilePresent_786fd968" xml:space="preserve">
+    <value>文件已存在</value>
+  </data>
+  <data name="Menu_Filters_0b3aa6ec" xml:space="preserve">
+    <value>筛选</value>
+  </data>
+  <data name="Menu_FireRate_d3b00101" xml:space="preserve">
+    <value>射速</value>
+  </data>
+  <data name="Menu_FiresOnceAtYourCurrentPosition_37cc48b1" xml:space="preserve">
+    <value>在你当前位置发射一次。</value>
+  </data>
+  <data name="Menu_Firing_12dc69ea" xml:space="preserve">
+    <value>射击</value>
+  </data>
+  <data name="Menu_FlightTime_05899410" xml:space="preserve">
+    <value>飞行时间</value>
+  </data>
+  <data name="Menu_Fly_227bfa82" xml:space="preserve">
+    <value>飞行</value>
+  </data>
+  <data name="Menu_FlySpeed_a020da59" xml:space="preserve">
+    <value>飞行速度</value>
+  </data>
+  <data name="Menu_Fog_047e09df" xml:space="preserve">
+    <value>雾</value>
+  </data>
+  <data name="Menu_ForceFullAuto_d269c518" xml:space="preserve">
+    <value>强制全自动</value>
+  </data>
+  <data name="Menu_FOVChanger_58fa29c2" xml:space="preserve">
+    <value>视野调整</value>
+  </data>
+  <data name="Menu_FOVRadius_304b59ea" xml:space="preserve">
+    <value>视野半径</value>
+  </data>
+  <data name="Menu_FreeCamera_e9aca0ea" xml:space="preserve">
+    <value>自由相机</value>
+  </data>
+  <data name="Menu_FreezeAI_cbd96824" xml:space="preserve">
+    <value>冻结 AI</value>
+  </data>
+  <data name="Menu_Friendly_1d9e429e" xml:space="preserve">
+    <value>友方</value>
+  </data>
+  <data name="Menu_FullScreen_08c844c0" xml:space="preserve">
+    <value>全屏</value>
+  </data>
+  <data name="Menu_Gain_9b80731e" xml:space="preserve">
+    <value>增益</value>
+  </data>
+  <data name="Menu_Gather_2614cfaa" xml:space="preserve">
+    <value>集合</value>
+  </data>
+  <data name="Menu_Gear_fb334b4e" xml:space="preserve">
+    <value>装备</value>
+  </data>
+  <data name="Menu_GhostMode_0d35eaa3" xml:space="preserve">
+    <value>幽灵模式</value>
+  </data>
+  <data name="Menu_GiveTheSpotANameFirst_4296bb7f" xml:space="preserve">
+    <value>请先为该位置命名。</value>
+  </data>
+  <data name="Menu_GodMode_1f294500" xml:space="preserve">
+    <value>无敌模式</value>
+  </data>
+  <data name="Menu_Grain_3b1d78ec" xml:space="preserve">
+    <value>噪点</value>
+  </data>
+  <data name="Menu_GrenadesESP_9f46da52" xml:space="preserve">
+    <value>手雷透视</value>
+  </data>
+  <data name="Menu_Group_0574902c" xml:space="preserve">
+    <value>分组</value>
+  </data>
+  <data name="Menu_HandbookNotLoadedYetOpenItOnceInTheMainM_699cde73" xml:space="preserve">
+    <value>图鉴尚未加载。
+请先在主菜单中打开一次。</value>
+  </data>
+  <data name="Menu_Handling_3d29c1d4" xml:space="preserve">
+    <value>操控</value>
+  </data>
+  <data name="Menu_HandlingOverride_dae5f164" xml:space="preserve">
+    <value>操控覆写</value>
+  </data>
+  <data name="Menu_Hard_64efa7fc" xml:space="preserve">
+    <value>困难</value>
+  </data>
+  <data name="Menu_Heal_ba97377b" xml:space="preserve">
+    <value>治疗</value>
+  </data>
+  <data name="Menu_HealthRegen_58455632" xml:space="preserve">
+    <value>生命恢复</value>
+  </data>
+  <data name="Menu_HealthValue_c58c8a42" xml:space="preserve">
+    <value>生命数值</value>
+  </data>
+  <data name="Menu_HideWorldMarkersInScopes_ccc7b28e" xml:space="preserve">
+    <value>瞄准镜内隐藏世界标记</value>
+  </data>
+  <data name="Menu_HitMarkers_fb10a8f5" xml:space="preserve">
+    <value>命中标记</value>
+  </data>
+  <data name="Menu_HoldKey_de6b2837" xml:space="preserve">
+    <value>按住键</value>
+  </data>
+  <data name="Menu_Hotspots_25356efd" xml:space="preserve">
+    <value>标记点</value>
+  </data>
+  <data name="Menu_HPBar_95c95100" xml:space="preserve">
+    <value>血条</value>
+  </data>
+  <data name="Menu_HydrationDrain_4f865627" xml:space="preserve">
+    <value>水分消耗</value>
+  </data>
+  <data name="Menu_Impossible_30593af8" xml:space="preserve">
+    <value>极难</value>
+  </data>
+  <data name="Menu_InRaid_1e8e1056" xml:space="preserve">
+    <value>战局中</value>
+  </data>
+  <data name="Menu_InstantKill_57445cfa" xml:space="preserve">
+    <value>瞬杀</value>
+  </data>
+  <data name="Menu_InstantResearch_b3ade7f3" xml:space="preserve">
+    <value>即时研究</value>
+  </data>
+  <data name="Menu_Intensity_53b4f9aa" xml:space="preserve">
+    <value>强度</value>
+  </data>
+  <data name="Menu_Interaction_28fa9ceb" xml:space="preserve">
+    <value>交互</value>
+  </data>
+  <data name="Menu_ItemDatabaseNotLoadedYet_4bb2ff41" xml:space="preserve">
+    <value>物品数据库尚未加载。</value>
+  </data>
+  <data name="Menu_Items_e036382f" xml:space="preserve">
+    <value>物品</value>
+  </data>
+  <data name="Menu_JumpHeight_31b15dc8" xml:space="preserve">
+    <value>跳跃高度</value>
+  </data>
+  <data name="Menu_KeepFoodWater_c8bc3a7d" xml:space="preserve">
+    <value>保持饥饿与水分</value>
+  </data>
+  <data name="Menu_KeepsTheRoundAlivePastTheAmmoSOwnExpiryR_e33e62b1" xml:space="preserve">
+    <value>让子弹超过弹药自身的
+存活时间，从而提升射程。</value>
+  </data>
+  <data name="Menu_KeyBindings_c967ae0a" xml:space="preserve">
+    <value>按键绑定</value>
+  </data>
+  <data name="Menu_Kill_2beedcb9" xml:space="preserve">
+    <value>击杀</value>
+  </data>
+  <data name="Menu_KillAll_8fd35b7e" xml:space="preserve">
+    <value>全部击杀</value>
+  </data>
+  <data name="Menu_LandWhenDisabled_ba7a2124" xml:space="preserve">
+    <value>关闭时着地</value>
+  </data>
+  <data name="Menu_LeadMovingTargets_9c2d3f99" xml:space="preserve">
+    <value>预判移动目标</value>
+  </data>
+  <data name="Menu_LeaveAt1xHigherSpeedsBleedOffToDragAndCu_c2968a47" xml:space="preserve">
+    <value>建议保持 1x。速度越高，
+空气阻力损耗越大，射程反而更短。</value>
+  </data>
+  <data name="Menu_LiveEntities_77e521f2" xml:space="preserve">
+    <value>活动实体</value>
+  </data>
+  <data name="Menu_LiveItems_8ce879b7" xml:space="preserve">
+    <value>场上物品</value>
+  </data>
+  <data name="Menu_LivingAI_990b52e6" xml:space="preserve">
+    <value>存活 AI</value>
+  </data>
+  <data name="Menu_LOAD_e3f88de9" xml:space="preserve">
+    <value>载入</value>
+  </data>
+  <data name="Menu_Loaded_25f1fb0a" xml:space="preserve">
+    <value>已载入。</value>
+  </data>
+  <data name="Menu_LoadFailed_56c297d8" xml:space="preserve">
+    <value>载入失败。</value>
+  </data>
+  <data name="Menu_LookSensitivity_5c813329" xml:space="preserve">
+    <value>视角灵敏度</value>
+  </data>
+  <data name="Menu_Loot_649603d7" xml:space="preserve">
+    <value>物资</value>
+  </data>
+  <data name="Menu_LootESP_c5b39e2b" xml:space="preserve">
+    <value>物资透视</value>
+  </data>
+  <data name="Menu_LootInRaid_8ea2ffe6" xml:space="preserve">
+    <value>战局中的物资</value>
+  </data>
+  <data name="Menu_LootWorldESP_3ae34ec9" xml:space="preserve">
+    <value>物资与场景透视</value>
+  </data>
+  <data name="Menu_MagicBullets_e1c8aa1d" xml:space="preserve">
+    <value>魔法子弹</value>
+  </data>
+  <data name="Menu_Map_44a7f051" xml:space="preserve">
+    <value>地图</value>
+  </data>
+  <data name="Menu_MarkersDrawThroughWalls_02634180" xml:space="preserve">
+    <value>标记会穿透墙壁显示。</value>
+  </data>
+  <data name="Menu_MaxAllSkills_3bbc2ba8" xml:space="preserve">
+    <value>技能全满</value>
+  </data>
+  <data name="Menu_MaxDistance_375c8074" xml:space="preserve">
+    <value>最大距离</value>
+  </data>
+  <data name="Menu_MaximumDistance_b5d33acc" xml:space="preserve">
+    <value>最大距离</value>
+  </data>
+  <data name="Menu_MaximumDurability_9afc0154" xml:space="preserve">
+    <value>耐久度全满</value>
+  </data>
+  <data name="Menu_Misc_df71ca29" xml:space="preserve">
+    <value>杂项</value>
+  </data>
+  <data name="Menu_MortarStrike_bc555bde" xml:space="preserve">
+    <value>迫击炮打击</value>
+  </data>
+  <data name="Menu_Movement_e27f8f78" xml:space="preserve">
+    <value>移动</value>
+  </data>
+  <data name="Menu_MoveSpeed_842a6757" xml:space="preserve">
+    <value>移动速度</value>
+  </data>
+  <data name="Menu_MuzzleBoost_f11dfc9f" xml:space="preserve">
+    <value>初速倍率</value>
+  </data>
+  <data name="Menu_Names_7355c12f" xml:space="preserve">
+    <value>名称</value>
+  </data>
+  <data name="Menu_NeedsShowSkeletonToBeVisible_c302b580" xml:space="preserve">
+    <value>需要开启「显示骨骼」才可见。</value>
+  </data>
+  <data name="Menu_NightVision_8e473df7" xml:space="preserve">
+    <value>夜视</value>
+  </data>
+  <data name="Menu_NobodyElseAlive_1f94d470" xml:space="preserve">
+    <value>没有其他存活目标。</value>
+  </data>
+  <data name="Menu_NoBotTypeMatches_14811886" xml:space="preserve">
+    <value>没有匹配的 AI 类型。</value>
+  </data>
+  <data name="Menu_NoCollision_5e5d8fae" xml:space="preserve">
+    <value>无碰撞</value>
+  </data>
+  <data name="Menu_NoFallDamage_2d56112c" xml:space="preserve">
+    <value>无坠落伤害</value>
+  </data>
+  <data name="Menu_NoFlash_759ea1dc" xml:space="preserve">
+    <value>无闪光</value>
+  </data>
+  <data name="Menu_NoGroundDetail_29afa9e2" xml:space="preserve">
+    <value>无地面细节</value>
+  </data>
+  <data name="Menu_NoInertia_e34447f8" xml:space="preserve">
+    <value>无惯性</value>
+  </data>
+  <data name="Menu_NoItemMatches_83c946ae" xml:space="preserve">
+    <value>没有匹配的物品。</value>
+  </data>
+  <data name="Menu_NoMalfunctions_58fa8d85" xml:space="preserve">
+    <value>无故障</value>
+  </data>
+  <data name="Menu_NoOverheat_2d97a6b6" xml:space="preserve">
+    <value>无过热</value>
+  </data>
+  <data name="Menu_NoRecoil_fffa76f0" xml:space="preserve">
+    <value>无后坐力</value>
+  </data>
+  <data name="Menu_Normal_58de2772" xml:space="preserve">
+    <value>普通</value>
+  </data>
+  <data name="Menu_NoRoleMatches_f4775007" xml:space="preserve">
+    <value>没有匹配的身份。</value>
+  </data>
+  <data name="Menu_NoSway_1bea25ce" xml:space="preserve">
+    <value>无晃动</value>
+  </data>
+  <data name="Menu_NothingEnabled_66e5adcf" xml:space="preserve">
+    <value>未启用任何项目。</value>
+  </data>
+  <data name="Menu_NothingLootableFound_e87302ce" xml:space="preserve">
+    <value>未找到可拾取的物品。</value>
+  </data>
+  <data name="Menu_NothingMatches_f8e003c3" xml:space="preserve">
+    <value>没有匹配项。</value>
+  </data>
+  <data name="Menu_NothingSavedOnThisMapYet_fa70b850" xml:space="preserve">
+    <value>此地图尚未保存任何位置。</value>
+  </data>
+  <data name="Menu_NothingTracked_bad570ce" xml:space="preserve">
+    <value>未追踪任何物品。</value>
+  </data>
+  <data name="Menu_NotInARaid_81d66b80" xml:space="preserve">
+    <value>当前不在战局中。</value>
+  </data>
+  <data name="Menu_NotSavedYet_8662a2eb" xml:space="preserve">
+    <value>尚未保存</value>
+  </data>
+  <data name="Menu_NoVisor_49a4e2dd" xml:space="preserve">
+    <value>无面罩遮挡</value>
+  </data>
+  <data name="Menu_ObjectMarkers_5231af65" xml:space="preserve">
+    <value>物体标记</value>
+  </data>
+  <data name="Menu_OffBendsShotsThroughCoverPairItWithWallP_107f03db" xml:space="preserve">
+    <value>关闭时子弹会穿过掩体弯曲。
+建议与「穿墙射击」搭配使用。</value>
+  </data>
+  <data name="Menu_OffDropsThemAheadOfYou_b6081beb" xml:space="preserve">
+    <value>关闭时会投放在你前方。</value>
+  </data>
+  <data name="Menu_OffLetsTheMapDecideWhichCanBeHundredsOfM_923b659d" xml:space="preserve">
+    <value>关闭时由地图决定，
+可能在数百米之外。</value>
+  </data>
+  <data name="Menu_OnlyShow_6049fb8c" xml:space="preserve">
+    <value>仅显示</value>
+  </data>
+  <data name="Menu_Opacity_de1f0406" xml:space="preserve">
+    <value>不透明度</value>
+  </data>
+  <data name="Menu_Open_538b10e9" xml:space="preserve">
+    <value>打开</value>
+  </data>
+  <data name="Menu_OpenDoorsReaders_7249de26" xml:space="preserve">
+    <value>打开门与读卡器</value>
+  </data>
+  <data name="Menu_Other_6e38ff95" xml:space="preserve">
+    <value>其他</value>
+  </data>
+  <data name="Menu_OtherESP_1218f7a5" xml:space="preserve">
+    <value>其他透视</value>
+  </data>
+  <data name="Menu_Penetration_5dea1dd2" xml:space="preserve">
+    <value>穿透</value>
+  </data>
+  <data name="Menu_PerLimbVisibility_a0371c19" xml:space="preserve">
+    <value>逐肢体可见性</value>
+  </data>
+  <data name="Menu_PlaceAtDistance_8755910c" xml:space="preserve">
+    <value>按距离放置</value>
+  </data>
+  <data name="Menu_Player_1c70fc20" xml:space="preserve">
+    <value>玩家</value>
+  </data>
+  <data name="Menu_PlayersESP_27cc8b31" xml:space="preserve">
+    <value>玩家透视</value>
+  </data>
+  <data name="Menu_PriceFrom_7596ca1a" xml:space="preserve">
+    <value>价格下限</value>
+  </data>
+  <data name="Menu_PricesAreLoadingItemsWithoutAPriceStayHi_12daca62" xml:space="preserve">
+    <value>价格加载中。没有价格的物品暂不显示。</value>
+  </data>
+  <data name="Menu_PriceTo_99e8d4e3" xml:space="preserve">
+    <value>价格上限</value>
+  </data>
+  <data name="Menu_QuestESP_7e6084ed" xml:space="preserve">
+    <value>任务透视</value>
+  </data>
+  <data name="Menu_QuickThrow_754ad5fc" xml:space="preserve">
+    <value>快速投掷</value>
+  </data>
+  <data name="Menu_Radar_4b896fbb" xml:space="preserve">
+    <value>雷达</value>
+  </data>
+  <data name="Menu_RadarRange_0014a1ee" xml:space="preserve">
+    <value>雷达范围</value>
+  </data>
+  <data name="Menu_Rain_09d001f3" xml:space="preserve">
+    <value>雨</value>
+  </data>
+  <data name="Menu_RandomDirection_662d727b" xml:space="preserve">
+    <value>随机方向</value>
+  </data>
+  <data name="Menu_Rarity_940e7baa" xml:space="preserve">
+    <value>稀有度</value>
+  </data>
+  <data name="Menu_Readout_651966ff" xml:space="preserve">
+    <value>信息显示</value>
+  </data>
+  <data name="Menu_RedirectsTheRoundsYouFireNeverPullsTheTr_a8e8ac22" xml:space="preserve">
+    <value>改变你射出的子弹方向。
+绝不会代替你扣动扳机。</value>
+  </data>
+  <data name="Menu_Reduction_941d9ab2" xml:space="preserve">
+    <value>削减量</value>
+  </data>
+  <data name="Menu_RemoveNegativeEffects_81954ce6" xml:space="preserve">
+    <value>清除负面效果</value>
+  </data>
+  <data name="Menu_Render_350cf42d" xml:space="preserve">
+    <value>渲染</value>
+  </data>
+  <data name="Menu_RequireLineOfSight_d621b662" xml:space="preserve">
+    <value>需要视线</value>
+  </data>
+  <data name="Menu_Results_9cf82695" xml:space="preserve">
+    <value>结果</value>
+  </data>
+  <data name="Menu_Run_8d57e66a" xml:space="preserve">
+    <value>执行</value>
+  </data>
+  <data name="Menu_SAVE_ca52e188" xml:space="preserve">
+    <value>保存</value>
+  </data>
+  <data name="Menu_Saved_ae0ab8fe" xml:space="preserve">
+    <value>已保存。</value>
+  </data>
+  <data name="Menu_SavedSpots_cac393b5" xml:space="preserve">
+    <value>已保存位置</value>
+  </data>
+  <data name="Menu_SaveFailed_e6b82899" xml:space="preserve">
+    <value>保存失败。</value>
+  </data>
+  <data name="Menu_SAVEHERE_749085c6" xml:space="preserve">
+    <value>保存此处</value>
+  </data>
+  <data name="Menu_SavePosition_b502890b" xml:space="preserve">
+    <value>保存位置</value>
+  </data>
+  <data name="Menu_SecondColourMarksThePartsThatAreBehindCo_e08d587e" xml:space="preserve">
+    <value>第二种颜色标示
+处于掩体后的部位。</value>
+  </data>
+  <data name="Menu_SelectAnItemOnTheLeft_8d63cc52" xml:space="preserve">
+    <value>请在左侧选择一个物品。</value>
+  </data>
+  <data name="Menu_SelfHeal_65d72b0b" xml:space="preserve">
+    <value>自我治疗</value>
+  </data>
+  <data name="Menu_SetErgonomics_11e45e3b" xml:space="preserve">
+    <value>设定人体工程学</value>
+  </data>
+  <data name="Menu_SETTIME_a1b5c930" xml:space="preserve">
+    <value>设定时间</value>
+  </data>
+  <data name="Menu_Settings_4b058728" xml:space="preserve">
+    <value>设置</value>
+  </data>
+  <data name="Menu_ShootThroughWallsWithMaximumPenetrationA_06d8e17c" xml:space="preserve">
+    <value>以最大穿透力穿墙射击，
+无跳弹和偏移。</value>
+  </data>
+  <data name="Menu_ShotDelay_7ebf07ce" xml:space="preserve">
+    <value>射击间隔</value>
+  </data>
+  <data name="Menu_ShowBlocked_527ee214" xml:space="preserve">
+    <value>显示被遮挡</value>
+  </data>
+  <data name="Menu_ShowBoxes_ad7fcae1" xml:space="preserve">
+    <value>显示方框</value>
+  </data>
+  <data name="Menu_ShowEligible_44c95059" xml:space="preserve">
+    <value>显示可用</value>
+  </data>
+  <data name="Menu_ShowFOVCircle_8a194899" xml:space="preserve">
+    <value>显示视野圆圈</value>
+  </data>
+  <data name="Menu_ShowInfo_72d03a68" xml:space="preserve">
+    <value>显示信息</value>
+  </data>
+  <data name="Menu_ShowNotEligible_2e3d064a" xml:space="preserve">
+    <value>显示不可用</value>
+  </data>
+  <data name="Menu_ShowPrices_7c0b6576" xml:space="preserve">
+    <value>显示价格</value>
+  </data>
+  <data name="Menu_ShowShootable_90678a3f" xml:space="preserve">
+    <value>显示可射击</value>
+  </data>
+  <data name="Menu_ShowSkeleton_7a9623cb" xml:space="preserve">
+    <value>显示骨骼</value>
+  </data>
+  <data name="Menu_SilentAim_ac9467f5" xml:space="preserve">
+    <value>静默瞄准</value>
+  </data>
+  <data name="Menu_SilentMovement_b6c51fc1" xml:space="preserve">
+    <value>静音移动</value>
+  </data>
+  <data name="Menu_SkeletonThickness_93188ed4" xml:space="preserve">
+    <value>骨骼粗细</value>
+  </data>
+  <data name="Menu_SliderNeedsCustomFireRateOn_59ace707" xml:space="preserve">
+    <value>需先开启「自定义射速」。</value>
+  </data>
+  <data name="Menu_Smoothness_e3111550" xml:space="preserve">
+    <value>平滑度</value>
+  </data>
+  <data name="Menu_SnapLines_27f18d12" xml:space="preserve">
+    <value>连线</value>
+  </data>
+  <data name="Menu_SnapLineThickness_ec441167" xml:space="preserve">
+    <value>连线粗细</value>
+  </data>
+  <data name="Menu_SPAWN_1cd75bf8" xml:space="preserve">
+    <value>生成</value>
+  </data>
+  <data name="Menu_Spawn_c6929d38" xml:space="preserve">
+    <value>生成</value>
+  </data>
+  <data name="Menu_SpawnBot_ced5b6d5" xml:space="preserve">
+    <value>生成 AI</value>
+  </data>
+  <data name="Menu_SpawnDistance_dea991c3" xml:space="preserve">
+    <value>生成距离</value>
+  </data>
+  <data name="Menu_SpawningNeedsAnActiveRaid_dea89a60" xml:space="preserve">
+    <value>生成需要在战局中进行。</value>
+  </data>
+  <data name="Menu_SpeedBoostHold_0cac99f9" xml:space="preserve">
+    <value>加速（按住）</value>
+  </data>
+  <data name="Menu_SpeedFactor_89d33463" xml:space="preserve">
+    <value>速度倍率</value>
+  </data>
+  <data name="Menu_SprintSpeed_ee6ff56a" xml:space="preserve">
+    <value>冲刺速度</value>
+  </data>
+  <data name="Menu_StanceSpeed_b94a5d3a" xml:space="preserve">
+    <value>姿态切换速度</value>
+  </data>
+  <data name="Menu_StashesAirdrops_3411c8f6" xml:space="preserve">
+    <value>藏匿点与空投</value>
+  </data>
+  <data name="Menu_Status_005ef20f" xml:space="preserve">
+    <value>状态</value>
+  </data>
+  <data name="Menu_SummonTrain_fd5877b4" xml:space="preserve">
+    <value>召唤列车</value>
+  </data>
+  <data name="Menu_Survival_c06582cf" xml:space="preserve">
+    <value>生存</value>
+  </data>
+  <data name="Menu_TACTICALSYSTEM_7abdb895" xml:space="preserve">
+    <value>战术系统</value>
+  </data>
+  <data name="Menu_TagsTheIndividualItems_09ee6e04" xml:space="preserve">
+    <value>标记单个物品。</value>
+  </data>
+  <data name="Menu_TagsTheObjectItselfNotItsContents_8f1d1ccc" xml:space="preserve">
+    <value>标记物体本身，而非其内容物。</value>
+  </data>
+  <data name="Menu_TeleportAllToMe_bcba7d30" xml:space="preserve">
+    <value>全部传送到我这里</value>
+  </data>
+  <data name="Menu_TeleportFailed_fefddb1f" xml:space="preserve">
+    <value>传送失败。</value>
+  </data>
+  <data name="Menu_TELEPORTHERE_a60106cc" xml:space="preserve">
+    <value>传送到此</value>
+  </data>
+  <data name="Menu_TeleportKey_6f798591" xml:space="preserve">
+    <value>传送按键</value>
+  </data>
+  <data name="Menu_Text_3e142d5e" xml:space="preserve">
+    <value>文字</value>
+  </data>
+  <data name="Menu_TextOutline_397bcee4" xml:space="preserve">
+    <value>文字描边</value>
+  </data>
+  <data name="Menu_TextSize_ac31f063" xml:space="preserve">
+    <value>文字大小</value>
+  </data>
+  <data name="Menu_ThermalVision_8ae367a8" xml:space="preserve">
+    <value>热成像</value>
+  </data>
+  <data name="Menu_TheTwoPriceLimitsAreAppliedFromLowToHigh_2b77078b" xml:space="preserve">
+    <value>两个价格上下限会自动按从低到高排列。</value>
+  </data>
+  <data name="Menu_ThisMapReportsNoExtractionPoints_136ce51f" xml:space="preserve">
+    <value>此地图未报告任何撤离点。</value>
+  </data>
+  <data name="Menu_Throw_2033e7cf" xml:space="preserve">
+    <value>投掷</value>
+  </data>
+  <data name="Menu_Throwables_e92ac918" xml:space="preserve">
+    <value>投掷物</value>
+  </data>
+  <data name="Menu_Thunder_f280d631" xml:space="preserve">
+    <value>雷暴</value>
+  </data>
+  <data name="Menu_TimeOfDay_c8b59713" xml:space="preserve">
+    <value>时间</value>
+  </data>
+  <data name="Menu_TimeWeather_30ffec9a" xml:space="preserve">
+    <value>时间与天气</value>
+  </data>
+  <data name="Menu_ToggleMenu_a5ccd1b0" xml:space="preserve">
+    <value>开关菜单</value>
+  </data>
+  <data name="Menu_TRACK_267a0edc" xml:space="preserve">
+    <value>追踪</value>
+  </data>
+  <data name="Menu_TrackAutoWishlist_8167c3ae" xml:space="preserve">
+    <value>追踪自动心愿单</value>
+  </data>
+  <data name="Menu_Tracked_752f538d" xml:space="preserve">
+    <value>已追踪</value>
+  </data>
+  <data name="Menu_TrackedItems_83085779" xml:space="preserve">
+    <value>已追踪物品</value>
+  </data>
+  <data name="Menu_TrackWishlist_f8c05d2b" xml:space="preserve">
+    <value>追踪心愿单</value>
+  </data>
+  <data name="Menu_Tuning_d4667194" xml:space="preserve">
+    <value>调校</value>
+  </data>
+  <data name="Menu_Type_d155d06d" xml:space="preserve">
+    <value>类型</value>
+  </data>
+  <data name="Menu_UnlimitedAmmo_e211496e" xml:space="preserve">
+    <value>无限弹药</value>
+  </data>
+  <data name="Menu_UnlimitedStamina_c26b6c25" xml:space="preserve">
+    <value>无限耐力</value>
+  </data>
+  <data name="Menu_UNTRACK_876ec349" xml:space="preserve">
+    <value>取消追踪</value>
+  </data>
+  <data name="Menu_VaultSpeed_7ac55468" xml:space="preserve">
+    <value>翻越速度</value>
+  </data>
+  <data name="Menu_Visuals_3391c15e" xml:space="preserve">
+    <value>视觉</value>
+  </data>
+  <data name="Menu_VitalsOnly_edfc16d4" xml:space="preserve">
+    <value>仅要害</value>
+  </data>
+  <data name="Menu_WalkSpeed_5da7e5bb" xml:space="preserve">
+    <value>行走速度</value>
+  </data>
+  <data name="Menu_WallShoot_5467f0fa" xml:space="preserve">
+    <value>穿墙射击</value>
+  </data>
+  <data name="Menu_Weapon_b7c10361" xml:space="preserve">
+    <value>武器</value>
+  </data>
+  <data name="Menu_Weightless_96866f0c" xml:space="preserve">
+    <value>无重量</value>
+  </data>
+  <data name="Menu_Wind_94413d27" xml:space="preserve">
+    <value>风</value>
+  </data>
+  <data name="Menu_World_dd60ed33" xml:space="preserve">
+    <value>场景</value>
+  </data>
+  <data name="Menu_WritesSceneAndObjectDumpsForAnalysis_95df331b" xml:space="preserve">
+    <value>导出场景与物体信息以供分析。</value>
+  </data>
+  <data name="Menu_ZeroAllowsTargetsAtAnyDistanceTheLimitAl_1c21eefb" xml:space="preserve">
+    <value>设为 0 表示不限距离。
+该上限同样作用于「魔法子弹」。</value>
+  </data>
 </root>

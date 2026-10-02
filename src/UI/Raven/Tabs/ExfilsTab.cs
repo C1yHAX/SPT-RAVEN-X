@@ -11,7 +11,7 @@ namespace RavenX.UI.Raven.Tabs;
 
 internal class ExfilsTab : IRavenTab
 {
-	public string Title => "Exfils";
+	public string Title => RavenText.L("Exfils");
 
 	private string _status = string.Empty;
 
@@ -28,14 +28,14 @@ internal class ExfilsTab : IRavenTab
 
 	private void DrawListCard()
 	{
-		using (RavenMenu.Card("Extraction Points"))
+		using (RavenMenu.Card(RavenText.L("Extraction Points")))
 		{
 			var player = GameState.Current?.LocalPlayer;
 			var world = Singleton<GameWorld>.Instance;
 
 			if (!player.IsValid() || world?.ExfiltrationController == null)
 			{
-				GUILayout.Label("Not in a raid.", RavenTheme.MutedLabel);
+				GUILayout.Label(RavenText.L("Not in a raid."), RavenTheme.MutedLabel);
 				return;
 			}
 
@@ -45,7 +45,7 @@ internal class ExfilsTab : IRavenTab
 			var points = ExfiltrationPoints.GetExfiltrationPoints(side, world);
 			if (points == null || points.Length == 0)
 			{
-				GUILayout.Label("This map reports no extraction points.", RavenTheme.MutedLabel);
+				GUILayout.Label(RavenText.L("This map reports no extraction points."), RavenTheme.MutedLabel);
 				return;
 			}
 

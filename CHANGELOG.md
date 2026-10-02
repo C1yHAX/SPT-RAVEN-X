@@ -1,5 +1,20 @@
 # Changelog
 
+## 1.4.0
+
+### Added
+
+- **The menu is translatable.** Until now only the console commands and feature
+  names were localised, so the menu itself stayed English whichever language was
+  installed. All 286 of its labels, hints and buttons now go through the resource
+  system.
+- **Chinese, French and Japanese cover the whole menu**, with Tarkov terms rather
+  than literal wording.
+- **German added** as a fourth language, 553 entries.
+
+Reported by a Chinese-speaking player, who also offered to proofread. The brand
+name, the INSERT key label and HUD stay English on purpose.
+
 ## 1.3.0
 
 ### Added

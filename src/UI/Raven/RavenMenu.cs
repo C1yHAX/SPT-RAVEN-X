@@ -16,7 +16,7 @@ public interface IRavenTab
 
 public class RavenMenu
 {
-	public const string Version = "v1.3.0";
+	public const string Version = "v1.4.0";
 
 	private readonly List<IRavenTab> _tabs = [];
 	private Rect _window = new(90, 60, 980, 660);
@@ -222,12 +222,12 @@ public class RavenMenu
 		var headWidth = RavenTheme.Title.CalcSize(new GUIContent(head)).x;
 		GUI.Label(new Rect(header.x + 66f, header.y + 10f, 320f, 28f), head, RavenTheme.Title);
 		GUI.Label(new Rect(header.x + 66f + headWidth, header.y + 10f, 60f, 28f), "X", RavenTheme.TitleAccent);
-		GUI.Label(new Rect(header.x + 68f, header.y + 34f, 320f, 14f), "TACTICAL SYSTEM", RavenTheme.Subtitle);
+		GUI.Label(new Rect(header.x + 68f, header.y + 34f, 320f, 14f), RavenText.L("TACTICAL SYSTEM"), RavenTheme.Subtitle);
 
 		var toggle = new Rect(header.xMax - 116f, header.y + 11f, 90f, 26f);
 		RavenWidgets.Rounded(toggle, RavenTheme.ControlRadius, new Color(0f, 0f, 0f, 0f), RavenTheme.Accent);
 		GUI.Label(toggle, "INSERT", RavenTheme.OutlineButton);
-		GUI.Label(new Rect(toggle.x, toggle.yMax + 1f, 90f, 14f), "Toggle Menu", RavenTheme.SubtitleCentered);
+		GUI.Label(new Rect(toggle.x, toggle.yMax + 1f, 90f, 14f), RavenText.L("Toggle Menu"), RavenTheme.SubtitleCentered);
 	}
 
 	private static void DrawLogo(Rect rect)

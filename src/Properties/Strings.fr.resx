@@ -958,4 +958,876 @@ Les couleurs sont stockées sous la forme d'un tableau de valeurs flottantes 'RG
   <data name="PropertyElevationAdjustment" xml:space="preserve">
     <value>Ajustement de l'élévation</value>
   </data>
+  <data name="Menu_Actions_e65fb504" xml:space="preserve">
+    <value>Actions</value>
+  </data>
+  <data name="Menu_ActiveFeatures_86fb6a62" xml:space="preserve">
+    <value>Fonctions actives</value>
+  </data>
+  <data name="Menu_ADD_7d7558d4" xml:space="preserve">
+    <value>AJOUTER</value>
+  </data>
+  <data name="Menu_Aim_9abce996" xml:space="preserve">
+    <value>Visée</value>
+  </data>
+  <data name="Menu_Aimbot_14fe76c7" xml:space="preserve">
+    <value>Visée auto</value>
+  </data>
+  <data name="Menu_AirDrop_0f31f85c" xml:space="preserve">
+    <value>Largage</value>
+  </data>
+  <data name="Menu_All_75afe364" xml:space="preserve">
+    <value>Tous</value>
+  </data>
+  <data name="Menu_AllItems_787d6ff0" xml:space="preserve">
+    <value>Tous les objets</value>
+  </data>
+  <data name="Menu_ALLITEMS_e1812cd0" xml:space="preserve">
+    <value>TOUS LES OBJETS</value>
+  </data>
+  <data name="Menu_ALLOFF_39fd9eb1" xml:space="preserve">
+    <value>TOUT DÉSACTIVER</value>
+  </data>
+  <data name="Menu_ALLON_cb920cd5" xml:space="preserve">
+    <value>TOUT ACTIVER</value>
+  </data>
+  <data name="Menu_AlsoListWhatIsInside_a4fe5780" xml:space="preserve">
+    <value>Lister aussi le contenu</value>
+  </data>
+  <data name="Menu_AnyHitYouLandIsLethalNeverAppliesToYours_7a161720" xml:space="preserve">
+    <value>Chaque coup au but est mortel.
+Ne s'applique jamais à vous.</value>
+  </data>
+  <data name="Menu_APPLY_760e025b" xml:space="preserve">
+    <value>APPLIQUER</value>
+  </data>
+  <data name="Menu_Apply_ca77bbdb" xml:space="preserve">
+    <value>Appliquer</value>
+  </data>
+  <data name="Menu_BendOwnShots_dd59f9bb" xml:space="preserve">
+    <value>Courber ses propres tirs</value>
+  </data>
+  <data name="Menu_Bodies_db4d0409" xml:space="preserve">
+    <value>Corps</value>
+  </data>
+  <data name="Menu_BoostMuzzleSpeed_3a2139c6" xml:space="preserve">
+    <value>Augmenter la vitesse initiale</value>
+  </data>
+  <data name="Menu_BoostSpeed_69094ecf" xml:space="preserve">
+    <value>Augmenter la vitesse</value>
+  </data>
+  <data name="Menu_Bots_48630a97" xml:space="preserve">
+    <value>Bots</value>
+  </data>
+  <data name="Menu_BotsAlreadyHuntingYouKeepTheirTargetUnti_3b8dc3e1" xml:space="preserve">
+    <value>Les bots qui vous traquent gardent leur cible
+jusqu'à ce qu'ils vous perdent.</value>
+  </data>
+  <data name="Menu_BotSpawn_8d202a81" xml:space="preserve">
+    <value>Apparition de bots</value>
+  </data>
+  <data name="Menu_BoxThickness_4dfa8b60" xml:space="preserve">
+    <value>Épaisseur du cadre</value>
+  </data>
+  <data name="Menu_Call_341dd0c9" xml:space="preserve">
+    <value>Appeler</value>
+  </data>
+  <data name="Menu_Camera_e74c7b6e" xml:space="preserve">
+    <value>Caméra</value>
+  </data>
+  <data name="Menu_CameraOffset_ef51137d" xml:space="preserve">
+    <value>Décalage de caméra</value>
+  </data>
+  <data name="Menu_CameraPositionNotAvailableYet_81d5ece5" xml:space="preserve">
+    <value>Position de la caméra indisponible.</value>
+  </data>
+  <data name="Menu_Catalogue_90a12396" xml:space="preserve">
+    <value>Catalogue</value>
+  </data>
+  <data name="Menu_Categories_f075e98d" xml:space="preserve">
+    <value>Catégories</value>
+  </data>
+  <data name="Menu_Chams_ede15999" xml:space="preserve">
+    <value>Chams</value>
+  </data>
+  <data name="Menu_CircleThickness_1925b673" xml:space="preserve">
+    <value>Épaisseur du cercle</value>
+  </data>
+  <data name="Menu_CLEAR_06b44bc2" xml:space="preserve">
+    <value>EFFACER</value>
+  </data>
+  <data name="Menu_ClearWeather_d8aad08e" xml:space="preserve">
+    <value>Temps dégagé</value>
+  </data>
+  <data name="Menu_ClickABindThenPressAKeyEscapeClearsItRig_8cdda327" xml:space="preserve">
+    <value>Cliquez sur une touche, puis appuyez. Échap efface, clic droit annule.</value>
+  </data>
+  <data name="Menu_Clouds_79d12c97" xml:space="preserve">
+    <value>Nuages</value>
+  </data>
+  <data name="Menu_ColourMarksTheRoleBlockedLimbsUseADimmed_c8291f86" xml:space="preserve">
+    <value>La couleur indique le rôle. Les membres masqués
+utilisent une teinte assombrie.</value>
+  </data>
+  <data name="Menu_CompensateDrop_038dbfa3" xml:space="preserve">
+    <value>Compenser la chute</value>
+  </data>
+  <data name="Menu_Config_6a12e0e7" xml:space="preserve">
+    <value>Config</value>
+  </data>
+  <data name="Menu_Containers_01776d71" xml:space="preserve">
+    <value>Conteneurs</value>
+  </data>
+  <data name="Menu_Corpse_55c5accd" xml:space="preserve">
+    <value>Cadavre</value>
+  </data>
+  <data name="Menu_Crosshair_49f3f003" xml:space="preserve">
+    <value>Réticule</value>
+  </data>
+  <data name="Menu_CustomFireRate_2e29c358" xml:space="preserve">
+    <value>Cadence personnalisée</value>
+  </data>
+  <data name="Menu_CustomReach_23679ba1" xml:space="preserve">
+    <value>Portée personnalisée</value>
+  </data>
+  <data name="Menu_Details_0ec24245" xml:space="preserve">
+    <value>Détails</value>
+  </data>
+  <data name="Menu_Diagnostics_e9a81397" xml:space="preserve">
+    <value>Diagnostics</value>
+  </data>
+  <data name="Menu_Difficulty_8520a210" xml:space="preserve">
+    <value>Difficulté</value>
+  </data>
+  <data name="Menu_Distance_d3d96082" xml:space="preserve">
+    <value>Distance</value>
+  </data>
+  <data name="Menu_DUMP_c6897287" xml:space="preserve">
+    <value>EXPORTER</value>
+  </data>
+  <data name="Menu_Easy_6c33113b" xml:space="preserve">
+    <value>Facile</value>
+  </data>
+  <data name="Menu_ElevationAdjustment_8e414e37" xml:space="preserve">
+    <value>Correction d'élévation</value>
+  </data>
+  <data name="Menu_Enable_8614a9ee" xml:space="preserve">
+    <value>Activer</value>
+  </data>
+  <data name="Menu_EnableShowInfoToSeeThese_d1082e70" xml:space="preserve">
+    <value>Activez Afficher les infos pour les voir.</value>
+  </data>
+  <data name="Menu_EnergyDrain_1f6e3307" xml:space="preserve">
+    <value>Perte d'énergie</value>
+  </data>
+  <data name="Menu_Ergonomics_86bcdf07" xml:space="preserve">
+    <value>Ergonomie</value>
+  </data>
+  <data name="Menu_ErgonomicsDrivesAimSpeedAndSwayWeightFee_169d63af" xml:space="preserve">
+    <value>L'ergonomie régit la vitesse de visée et le tremblement.
+Le poids influe sur l'endurance.</value>
+  </data>
+  <data name="Menu_ESPRoles_7f47ad5a" xml:space="preserve">
+    <value>Rôles ESP</value>
+  </data>
+  <data name="Menu_Events_003420a4" xml:space="preserve">
+    <value>Événements</value>
+  </data>
+  <data name="Menu_EverythingExamined_c40ad921" xml:space="preserve">
+    <value>Tout examiné</value>
+  </data>
+  <data name="Menu_ExaminedMarksItemsAsInspectedInstantRese_f9aafdac" xml:space="preserve">
+    <value>Examiné marque les objets comme inspectés.
+Recherche instantanée supprime l'attente.</value>
+  </data>
+  <data name="Menu_ExfilESP_a2234a03" xml:space="preserve">
+    <value>ESP d'extraction</value>
+  </data>
+  <data name="Menu_Exfils_9e01c494" xml:space="preserve">
+    <value>Extractions</value>
+  </data>
+  <data name="Menu_ExtendFlightTime_5fb1acfa" xml:space="preserve">
+    <value>Prolonger le temps de vol</value>
+  </data>
+  <data name="Menu_ExtractionPoints_4ad3e4ff" xml:space="preserve">
+    <value>Points d'extraction</value>
+  </data>
+  <data name="Menu_Faction_08aebcfb" xml:space="preserve">
+    <value>Faction</value>
+  </data>
+  <data name="Menu_FastSpeed_515846e8" xml:space="preserve">
+    <value>Vitesse rapide</value>
+  </data>
+  <data name="Menu_FeatureUnavailable_c1f568b3" xml:space="preserve">
+    <value>Fonction indisponible</value>
+  </data>
+  <data name="Menu_FieldOfView_7ffdacb9" xml:space="preserve">
+    <value>Champ de vision</value>
+  </data>
+  <data name="Menu_FilePresent_786fd968" xml:space="preserve">
+    <value>Fichier présent</value>
+  </data>
+  <data name="Menu_Filters_0b3aa6ec" xml:space="preserve">
+    <value>Filtres</value>
+  </data>
+  <data name="Menu_FireRate_d3b00101" xml:space="preserve">
+    <value>Cadence de tir</value>
+  </data>
+  <data name="Menu_FiresOnceAtYourCurrentPosition_37cc48b1" xml:space="preserve">
+    <value>Tire une fois sur votre position actuelle.</value>
+  </data>
+  <data name="Menu_Firing_12dc69ea" xml:space="preserve">
+    <value>Tir</value>
+  </data>
+  <data name="Menu_FlightTime_05899410" xml:space="preserve">
+    <value>Temps de vol</value>
+  </data>
+  <data name="Menu_Fly_227bfa82" xml:space="preserve">
+    <value>Vol</value>
+  </data>
+  <data name="Menu_FlySpeed_a020da59" xml:space="preserve">
+    <value>Vitesse de vol</value>
+  </data>
+  <data name="Menu_Fog_047e09df" xml:space="preserve">
+    <value>Brouillard</value>
+  </data>
+  <data name="Menu_ForceFullAuto_d269c518" xml:space="preserve">
+    <value>Forcer le tir automatique</value>
+  </data>
+  <data name="Menu_FOVChanger_58fa29c2" xml:space="preserve">
+    <value>Réglage du champ de vision</value>
+  </data>
+  <data name="Menu_FOVRadius_304b59ea" xml:space="preserve">
+    <value>Rayon du champ de vision</value>
+  </data>
+  <data name="Menu_FreeCamera_e9aca0ea" xml:space="preserve">
+    <value>Caméra libre</value>
+  </data>
+  <data name="Menu_FreezeAI_cbd96824" xml:space="preserve">
+    <value>Figer l'IA</value>
+  </data>
+  <data name="Menu_Friendly_1d9e429e" xml:space="preserve">
+    <value>Allié</value>
+  </data>
+  <data name="Menu_FullScreen_08c844c0" xml:space="preserve">
+    <value>Plein écran</value>
+  </data>
+  <data name="Menu_Gain_9b80731e" xml:space="preserve">
+    <value>Gain</value>
+  </data>
+  <data name="Menu_Gather_2614cfaa" xml:space="preserve">
+    <value>Rassembler</value>
+  </data>
+  <data name="Menu_Gear_fb334b4e" xml:space="preserve">
+    <value>Équipement</value>
+  </data>
+  <data name="Menu_GhostMode_0d35eaa3" xml:space="preserve">
+    <value>Mode fantôme</value>
+  </data>
+  <data name="Menu_GiveTheSpotANameFirst_4296bb7f" xml:space="preserve">
+    <value>Donnez d'abord un nom à l'endroit.</value>
+  </data>
+  <data name="Menu_GodMode_1f294500" xml:space="preserve">
+    <value>Mode invincible</value>
+  </data>
+  <data name="Menu_Grain_3b1d78ec" xml:space="preserve">
+    <value>Grain</value>
+  </data>
+  <data name="Menu_GrenadesESP_9f46da52" xml:space="preserve">
+    <value>ESP des grenades</value>
+  </data>
+  <data name="Menu_Group_0574902c" xml:space="preserve">
+    <value>Groupe</value>
+  </data>
+  <data name="Menu_HandbookNotLoadedYetOpenItOnceInTheMainM_699cde73" xml:space="preserve">
+    <value>Le catalogue n'est pas encore chargé.
+Ouvrez-le une fois dans le menu principal.</value>
+  </data>
+  <data name="Menu_Handling_3d29c1d4" xml:space="preserve">
+    <value>Maniabilité</value>
+  </data>
+  <data name="Menu_HandlingOverride_dae5f164" xml:space="preserve">
+    <value>Maniabilité forcée</value>
+  </data>
+  <data name="Menu_Hard_64efa7fc" xml:space="preserve">
+    <value>Difficile</value>
+  </data>
+  <data name="Menu_Heal_ba97377b" xml:space="preserve">
+    <value>Soigner</value>
+  </data>
+  <data name="Menu_HealthRegen_58455632" xml:space="preserve">
+    <value>Régénération de santé</value>
+  </data>
+  <data name="Menu_HealthValue_c58c8a42" xml:space="preserve">
+    <value>Valeur de santé</value>
+  </data>
+  <data name="Menu_HideWorldMarkersInScopes_ccc7b28e" xml:space="preserve">
+    <value>Masquer les marqueurs dans les lunettes</value>
+  </data>
+  <data name="Menu_HitMarkers_fb10a8f5" xml:space="preserve">
+    <value>Marqueurs de touche</value>
+  </data>
+  <data name="Menu_HoldKey_de6b2837" xml:space="preserve">
+    <value>Touche à maintenir</value>
+  </data>
+  <data name="Menu_Hotspots_25356efd" xml:space="preserve">
+    <value>Points marqués</value>
+  </data>
+  <data name="Menu_HPBar_95c95100" xml:space="preserve">
+    <value>Barre de vie</value>
+  </data>
+  <data name="Menu_HydrationDrain_4f865627" xml:space="preserve">
+    <value>Perte d'hydratation</value>
+  </data>
+  <data name="Menu_Impossible_30593af8" xml:space="preserve">
+    <value>Impossible</value>
+  </data>
+  <data name="Menu_InRaid_1e8e1056" xml:space="preserve">
+    <value>En raid</value>
+  </data>
+  <data name="Menu_InstantKill_57445cfa" xml:space="preserve">
+    <value>Mise à mort instantanée</value>
+  </data>
+  <data name="Menu_InstantResearch_b3ade7f3" xml:space="preserve">
+    <value>Recherche instantanée</value>
+  </data>
+  <data name="Menu_Intensity_53b4f9aa" xml:space="preserve">
+    <value>Intensité</value>
+  </data>
+  <data name="Menu_Interaction_28fa9ceb" xml:space="preserve">
+    <value>Interaction</value>
+  </data>
+  <data name="Menu_ItemDatabaseNotLoadedYet_4bb2ff41" xml:space="preserve">
+    <value>Base de données d'objets non chargée.</value>
+  </data>
+  <data name="Menu_Items_e036382f" xml:space="preserve">
+    <value>Objets</value>
+  </data>
+  <data name="Menu_JumpHeight_31b15dc8" xml:space="preserve">
+    <value>Hauteur de saut</value>
+  </data>
+  <data name="Menu_KeepFoodWater_c8bc3a7d" xml:space="preserve">
+    <value>Maintenir faim et soif</value>
+  </data>
+  <data name="Menu_KeepsTheRoundAlivePastTheAmmoSOwnExpiryR_e33e62b1" xml:space="preserve">
+    <value>Garde la balle active au-delà de
+sa durée normale. Augmente la portée.</value>
+  </data>
+  <data name="Menu_KeyBindings_c967ae0a" xml:space="preserve">
+    <value>Raccourcis clavier</value>
+  </data>
+  <data name="Menu_Kill_2beedcb9" xml:space="preserve">
+    <value>Tuer</value>
+  </data>
+  <data name="Menu_KillAll_8fd35b7e" xml:space="preserve">
+    <value>Tuer tout</value>
+  </data>
+  <data name="Menu_LandWhenDisabled_ba7a2124" xml:space="preserve">
+    <value>Atterrir à la désactivation</value>
+  </data>
+  <data name="Menu_LeadMovingTargets_9c2d3f99" xml:space="preserve">
+    <value>Anticiper les cibles mobiles</value>
+  </data>
+  <data name="Menu_LeaveAt1xHigherSpeedsBleedOffToDragAndCu_c2968a47" xml:space="preserve">
+    <value>Laissez à 1x. Des vitesses plus élevées
+se perdent en traînée et réduisent la portée.</value>
+  </data>
+  <data name="Menu_LiveEntities_77e521f2" xml:space="preserve">
+    <value>Entités actives</value>
+  </data>
+  <data name="Menu_LiveItems_8ce879b7" xml:space="preserve">
+    <value>Objets présents</value>
+  </data>
+  <data name="Menu_LivingAI_990b52e6" xml:space="preserve">
+    <value>IA vivante</value>
+  </data>
+  <data name="Menu_LOAD_e3f88de9" xml:space="preserve">
+    <value>CHARGER</value>
+  </data>
+  <data name="Menu_Loaded_25f1fb0a" xml:space="preserve">
+    <value>Chargé.</value>
+  </data>
+  <data name="Menu_LoadFailed_56c297d8" xml:space="preserve">
+    <value>Échec du chargement.</value>
+  </data>
+  <data name="Menu_LookSensitivity_5c813329" xml:space="preserve">
+    <value>Sensibilité de visée</value>
+  </data>
+  <data name="Menu_Loot_649603d7" xml:space="preserve">
+    <value>Butin</value>
+  </data>
+  <data name="Menu_LootESP_c5b39e2b" xml:space="preserve">
+    <value>ESP du butin</value>
+  </data>
+  <data name="Menu_LootInRaid_8ea2ffe6" xml:space="preserve">
+    <value>Butin en raid</value>
+  </data>
+  <data name="Menu_LootWorldESP_3ae34ec9" xml:space="preserve">
+    <value>ESP butin et monde</value>
+  </data>
+  <data name="Menu_MagicBullets_e1c8aa1d" xml:space="preserve">
+    <value>Balles magiques</value>
+  </data>
+  <data name="Menu_Map_44a7f051" xml:space="preserve">
+    <value>Carte</value>
+  </data>
+  <data name="Menu_MarkersDrawThroughWalls_02634180" xml:space="preserve">
+    <value>Les marqueurs traversent les murs.</value>
+  </data>
+  <data name="Menu_MaxAllSkills_3bbc2ba8" xml:space="preserve">
+    <value>Maximiser les compétences</value>
+  </data>
+  <data name="Menu_MaxDistance_375c8074" xml:space="preserve">
+    <value>Distance max</value>
+  </data>
+  <data name="Menu_MaximumDistance_b5d33acc" xml:space="preserve">
+    <value>Distance maximale</value>
+  </data>
+  <data name="Menu_MaximumDurability_9afc0154" xml:space="preserve">
+    <value>Durabilité maximale</value>
+  </data>
+  <data name="Menu_Misc_df71ca29" xml:space="preserve">
+    <value>Divers</value>
+  </data>
+  <data name="Menu_MortarStrike_bc555bde" xml:space="preserve">
+    <value>Frappe de mortier</value>
+  </data>
+  <data name="Menu_Movement_e27f8f78" xml:space="preserve">
+    <value>Déplacement</value>
+  </data>
+  <data name="Menu_MoveSpeed_842a6757" xml:space="preserve">
+    <value>Vitesse de déplacement</value>
+  </data>
+  <data name="Menu_MuzzleBoost_f11dfc9f" xml:space="preserve">
+    <value>Boost de vitesse initiale</value>
+  </data>
+  <data name="Menu_Names_7355c12f" xml:space="preserve">
+    <value>Noms</value>
+  </data>
+  <data name="Menu_NeedsShowSkeletonToBeVisible_c302b580" xml:space="preserve">
+    <value>Nécessite Afficher le squelette.</value>
+  </data>
+  <data name="Menu_NightVision_8e473df7" xml:space="preserve">
+    <value>Vision nocturne</value>
+  </data>
+  <data name="Menu_NobodyElseAlive_1f94d470" xml:space="preserve">
+    <value>Personne d'autre en vie.</value>
+  </data>
+  <data name="Menu_NoBotTypeMatches_14811886" xml:space="preserve">
+    <value>Aucun type de bot correspondant.</value>
+  </data>
+  <data name="Menu_NoCollision_5e5d8fae" xml:space="preserve">
+    <value>Sans collision</value>
+  </data>
+  <data name="Menu_NoFallDamage_2d56112c" xml:space="preserve">
+    <value>Sans dégâts de chute</value>
+  </data>
+  <data name="Menu_NoFlash_759ea1dc" xml:space="preserve">
+    <value>Sans éblouissement</value>
+  </data>
+  <data name="Menu_NoGroundDetail_29afa9e2" xml:space="preserve">
+    <value>Sans détail de sol</value>
+  </data>
+  <data name="Menu_NoInertia_e34447f8" xml:space="preserve">
+    <value>Sans inertie</value>
+  </data>
+  <data name="Menu_NoItemMatches_83c946ae" xml:space="preserve">
+    <value>Aucun objet correspondant.</value>
+  </data>
+  <data name="Menu_NoMalfunctions_58fa8d85" xml:space="preserve">
+    <value>Sans enrayage</value>
+  </data>
+  <data name="Menu_NoOverheat_2d97a6b6" xml:space="preserve">
+    <value>Sans surchauffe</value>
+  </data>
+  <data name="Menu_NoRecoil_fffa76f0" xml:space="preserve">
+    <value>Sans recul</value>
+  </data>
+  <data name="Menu_Normal_58de2772" xml:space="preserve">
+    <value>Normal</value>
+  </data>
+  <data name="Menu_NoRoleMatches_f4775007" xml:space="preserve">
+    <value>Aucun rôle correspondant.</value>
+  </data>
+  <data name="Menu_NoSway_1bea25ce" xml:space="preserve">
+    <value>Sans tremblement</value>
+  </data>
+  <data name="Menu_NothingEnabled_66e5adcf" xml:space="preserve">
+    <value>Rien d'activé.</value>
+  </data>
+  <data name="Menu_NothingLootableFound_e87302ce" xml:space="preserve">
+    <value>Aucun butin trouvé.</value>
+  </data>
+  <data name="Menu_NothingMatches_f8e003c3" xml:space="preserve">
+    <value>Aucune correspondance.</value>
+  </data>
+  <data name="Menu_NothingSavedOnThisMapYet_fa70b850" xml:space="preserve">
+    <value>Rien d'enregistré sur cette carte.</value>
+  </data>
+  <data name="Menu_NothingTracked_bad570ce" xml:space="preserve">
+    <value>Rien de suivi.</value>
+  </data>
+  <data name="Menu_NotInARaid_81d66b80" xml:space="preserve">
+    <value>Pas en raid.</value>
+  </data>
+  <data name="Menu_NotSavedYet_8662a2eb" xml:space="preserve">
+    <value>Pas encore enregistré</value>
+  </data>
+  <data name="Menu_NoVisor_49a4e2dd" xml:space="preserve">
+    <value>Sans visière</value>
+  </data>
+  <data name="Menu_ObjectMarkers_5231af65" xml:space="preserve">
+    <value>Marqueurs d'objets</value>
+  </data>
+  <data name="Menu_OffBendsShotsThroughCoverPairItWithWallP_107f03db" xml:space="preserve">
+    <value>Désactivé, les tirs traversent les couverts.
+À combiner avec la pénétration des murs.</value>
+  </data>
+  <data name="Menu_OffDropsThemAheadOfYou_b6081beb" xml:space="preserve">
+    <value>Désactivé, les largue devant vous.</value>
+  </data>
+  <data name="Menu_OffLetsTheMapDecideWhichCanBeHundredsOfM_923b659d" xml:space="preserve">
+    <value>Désactivé, la carte décide, ce qui peut être
+à des centaines de mètres.</value>
+  </data>
+  <data name="Menu_OnlyShow_6049fb8c" xml:space="preserve">
+    <value>Afficher uniquement</value>
+  </data>
+  <data name="Menu_Opacity_de1f0406" xml:space="preserve">
+    <value>Opacité</value>
+  </data>
+  <data name="Menu_Open_538b10e9" xml:space="preserve">
+    <value>Ouvrir</value>
+  </data>
+  <data name="Menu_OpenDoorsReaders_7249de26" xml:space="preserve">
+    <value>Ouvrir portes et lecteurs</value>
+  </data>
+  <data name="Menu_Other_6e38ff95" xml:space="preserve">
+    <value>Autre</value>
+  </data>
+  <data name="Menu_OtherESP_1218f7a5" xml:space="preserve">
+    <value>Autres ESP</value>
+  </data>
+  <data name="Menu_Penetration_5dea1dd2" xml:space="preserve">
+    <value>Pénétration</value>
+  </data>
+  <data name="Menu_PerLimbVisibility_a0371c19" xml:space="preserve">
+    <value>Visibilité par membre</value>
+  </data>
+  <data name="Menu_PlaceAtDistance_8755910c" xml:space="preserve">
+    <value>Placer à distance</value>
+  </data>
+  <data name="Menu_Player_1c70fc20" xml:space="preserve">
+    <value>Joueur</value>
+  </data>
+  <data name="Menu_PlayersESP_27cc8b31" xml:space="preserve">
+    <value>ESP des joueurs</value>
+  </data>
+  <data name="Menu_PriceFrom_7596ca1a" xml:space="preserve">
+    <value>Prix à partir de</value>
+  </data>
+  <data name="Menu_PricesAreLoadingItemsWithoutAPriceStayHi_12daca62" xml:space="preserve">
+    <value>Chargement des prix. Les objets sans prix restent masqués.</value>
+  </data>
+  <data name="Menu_PriceTo_99e8d4e3" xml:space="preserve">
+    <value>Prix jusqu'à</value>
+  </data>
+  <data name="Menu_QuestESP_7e6084ed" xml:space="preserve">
+    <value>ESP des quêtes</value>
+  </data>
+  <data name="Menu_QuickThrow_754ad5fc" xml:space="preserve">
+    <value>Lancer rapide</value>
+  </data>
+  <data name="Menu_Radar_4b896fbb" xml:space="preserve">
+    <value>Radar</value>
+  </data>
+  <data name="Menu_RadarRange_0014a1ee" xml:space="preserve">
+    <value>Portée du radar</value>
+  </data>
+  <data name="Menu_Rain_09d001f3" xml:space="preserve">
+    <value>Pluie</value>
+  </data>
+  <data name="Menu_RandomDirection_662d727b" xml:space="preserve">
+    <value>Direction aléatoire</value>
+  </data>
+  <data name="Menu_Rarity_940e7baa" xml:space="preserve">
+    <value>Rareté</value>
+  </data>
+  <data name="Menu_Readout_651966ff" xml:space="preserve">
+    <value>Informations</value>
+  </data>
+  <data name="Menu_RedirectsTheRoundsYouFireNeverPullsTheTr_a8e8ac22" xml:space="preserve">
+    <value>Redirige les balles que vous tirez.
+N'appuie jamais sur la détente à votre place.</value>
+  </data>
+  <data name="Menu_Reduction_941d9ab2" xml:space="preserve">
+    <value>Réduction</value>
+  </data>
+  <data name="Menu_RemoveNegativeEffects_81954ce6" xml:space="preserve">
+    <value>Supprimer les effets négatifs</value>
+  </data>
+  <data name="Menu_Render_350cf42d" xml:space="preserve">
+    <value>Rendu</value>
+  </data>
+  <data name="Menu_RequireLineOfSight_d621b662" xml:space="preserve">
+    <value>Exiger une ligne de vue</value>
+  </data>
+  <data name="Menu_Results_9cf82695" xml:space="preserve">
+    <value>Résultats</value>
+  </data>
+  <data name="Menu_Run_8d57e66a" xml:space="preserve">
+    <value>Exécuter</value>
+  </data>
+  <data name="Menu_SAVE_ca52e188" xml:space="preserve">
+    <value>ENREGISTRER</value>
+  </data>
+  <data name="Menu_Saved_ae0ab8fe" xml:space="preserve">
+    <value>Enregistré.</value>
+  </data>
+  <data name="Menu_SavedSpots_cac393b5" xml:space="preserve">
+    <value>Positions enregistrées</value>
+  </data>
+  <data name="Menu_SaveFailed_e6b82899" xml:space="preserve">
+    <value>Échec de l'enregistrement.</value>
+  </data>
+  <data name="Menu_SAVEHERE_749085c6" xml:space="preserve">
+    <value>ENREGISTRER ICI</value>
+  </data>
+  <data name="Menu_SavePosition_b502890b" xml:space="preserve">
+    <value>Enregistrer la position</value>
+  </data>
+  <data name="Menu_SecondColourMarksThePartsThatAreBehindCo_e08d587e" xml:space="preserve">
+    <value>La seconde couleur marque les parties
+situées derrière un obstacle.</value>
+  </data>
+  <data name="Menu_SelectAnItemOnTheLeft_8d63cc52" xml:space="preserve">
+    <value>Sélectionnez un objet à gauche.</value>
+  </data>
+  <data name="Menu_SelfHeal_65d72b0b" xml:space="preserve">
+    <value>Auto-soin</value>
+  </data>
+  <data name="Menu_SetErgonomics_11e45e3b" xml:space="preserve">
+    <value>Définir l'ergonomie</value>
+  </data>
+  <data name="Menu_SETTIME_a1b5c930" xml:space="preserve">
+    <value>DÉFINIR L'HEURE</value>
+  </data>
+  <data name="Menu_Settings_4b058728" xml:space="preserve">
+    <value>Paramètres</value>
+  </data>
+  <data name="Menu_ShootThroughWallsWithMaximumPenetrationA_06d8e17c" xml:space="preserve">
+    <value>Tire à travers les murs avec une pénétration maximale,
+sans ricochet ni déviation.</value>
+  </data>
+  <data name="Menu_ShotDelay_7ebf07ce" xml:space="preserve">
+    <value>Délai entre tirs</value>
+  </data>
+  <data name="Menu_ShowBlocked_527ee214" xml:space="preserve">
+    <value>Afficher les bloqués</value>
+  </data>
+  <data name="Menu_ShowBoxes_ad7fcae1" xml:space="preserve">
+    <value>Afficher les cadres</value>
+  </data>
+  <data name="Menu_ShowEligible_44c95059" xml:space="preserve">
+    <value>Afficher les disponibles</value>
+  </data>
+  <data name="Menu_ShowFOVCircle_8a194899" xml:space="preserve">
+    <value>Afficher le cercle de visée</value>
+  </data>
+  <data name="Menu_ShowInfo_72d03a68" xml:space="preserve">
+    <value>Afficher les infos</value>
+  </data>
+  <data name="Menu_ShowNotEligible_2e3d064a" xml:space="preserve">
+    <value>Afficher les indisponibles</value>
+  </data>
+  <data name="Menu_ShowPrices_7c0b6576" xml:space="preserve">
+    <value>Afficher les prix</value>
+  </data>
+  <data name="Menu_ShowShootable_90678a3f" xml:space="preserve">
+    <value>Afficher les cibles atteignables</value>
+  </data>
+  <data name="Menu_ShowSkeleton_7a9623cb" xml:space="preserve">
+    <value>Afficher le squelette</value>
+  </data>
+  <data name="Menu_SilentAim_ac9467f5" xml:space="preserve">
+    <value>Visée silencieuse</value>
+  </data>
+  <data name="Menu_SilentMovement_b6c51fc1" xml:space="preserve">
+    <value>Déplacement silencieux</value>
+  </data>
+  <data name="Menu_SkeletonThickness_93188ed4" xml:space="preserve">
+    <value>Épaisseur du squelette</value>
+  </data>
+  <data name="Menu_SliderNeedsCustomFireRateOn_59ace707" xml:space="preserve">
+    <value>Nécessite Cadence personnalisée activée.</value>
+  </data>
+  <data name="Menu_Smoothness_e3111550" xml:space="preserve">
+    <value>Fluidité</value>
+  </data>
+  <data name="Menu_SnapLines_27f18d12" xml:space="preserve">
+    <value>Lignes de repère</value>
+  </data>
+  <data name="Menu_SnapLineThickness_ec441167" xml:space="preserve">
+    <value>Épaisseur des lignes</value>
+  </data>
+  <data name="Menu_SPAWN_1cd75bf8" xml:space="preserve">
+    <value>APPARAÎTRE</value>
+  </data>
+  <data name="Menu_Spawn_c6929d38" xml:space="preserve">
+    <value>Faire apparaître</value>
+  </data>
+  <data name="Menu_SpawnBot_ced5b6d5" xml:space="preserve">
+    <value>Faire apparaître un bot</value>
+  </data>
+  <data name="Menu_SpawnDistance_dea991c3" xml:space="preserve">
+    <value>Distance d'apparition</value>
+  </data>
+  <data name="Menu_SpawningNeedsAnActiveRaid_dea89a60" xml:space="preserve">
+    <value>L'apparition nécessite un raid actif.</value>
+  </data>
+  <data name="Menu_SpeedBoostHold_0cac99f9" xml:space="preserve">
+    <value>Accélération (maintenir)</value>
+  </data>
+  <data name="Menu_SpeedFactor_89d33463" xml:space="preserve">
+    <value>Facteur de vitesse</value>
+  </data>
+  <data name="Menu_SprintSpeed_ee6ff56a" xml:space="preserve">
+    <value>Vitesse de sprint</value>
+  </data>
+  <data name="Menu_StanceSpeed_b94a5d3a" xml:space="preserve">
+    <value>Vitesse de posture</value>
+  </data>
+  <data name="Menu_StashesAirdrops_3411c8f6" xml:space="preserve">
+    <value>Caches et largages</value>
+  </data>
+  <data name="Menu_Status_005ef20f" xml:space="preserve">
+    <value>Statut</value>
+  </data>
+  <data name="Menu_SummonTrain_fd5877b4" xml:space="preserve">
+    <value>Appeler le train</value>
+  </data>
+  <data name="Menu_Survival_c06582cf" xml:space="preserve">
+    <value>Survie</value>
+  </data>
+  <data name="Menu_TACTICALSYSTEM_7abdb895" xml:space="preserve">
+    <value>SYSTÈME TACTIQUE</value>
+  </data>
+  <data name="Menu_TagsTheIndividualItems_09ee6e04" xml:space="preserve">
+    <value>Marque les objets individuels.</value>
+  </data>
+  <data name="Menu_TagsTheObjectItselfNotItsContents_8f1d1ccc" xml:space="preserve">
+    <value>Marque l'objet lui-même, pas son contenu.</value>
+  </data>
+  <data name="Menu_TeleportAllToMe_bcba7d30" xml:space="preserve">
+    <value>Téléporter tout vers moi</value>
+  </data>
+  <data name="Menu_TeleportFailed_fefddb1f" xml:space="preserve">
+    <value>Échec de la téléportation.</value>
+  </data>
+  <data name="Menu_TELEPORTHERE_a60106cc" xml:space="preserve">
+    <value>TÉLÉPORTER ICI</value>
+  </data>
+  <data name="Menu_TeleportKey_6f798591" xml:space="preserve">
+    <value>Touche de téléportation</value>
+  </data>
+  <data name="Menu_Text_3e142d5e" xml:space="preserve">
+    <value>Texte</value>
+  </data>
+  <data name="Menu_TextOutline_397bcee4" xml:space="preserve">
+    <value>Contour du texte</value>
+  </data>
+  <data name="Menu_TextSize_ac31f063" xml:space="preserve">
+    <value>Taille du texte</value>
+  </data>
+  <data name="Menu_ThermalVision_8ae367a8" xml:space="preserve">
+    <value>Vision thermique</value>
+  </data>
+  <data name="Menu_TheTwoPriceLimitsAreAppliedFromLowToHigh_2b77078b" xml:space="preserve">
+    <value>Les deux limites de prix sont appliquées du plus bas au plus haut.</value>
+  </data>
+  <data name="Menu_ThisMapReportsNoExtractionPoints_136ce51f" xml:space="preserve">
+    <value>Cette carte ne signale aucun point d'extraction.</value>
+  </data>
+  <data name="Menu_Throw_2033e7cf" xml:space="preserve">
+    <value>Lancer</value>
+  </data>
+  <data name="Menu_Throwables_e92ac918" xml:space="preserve">
+    <value>Objets lançables</value>
+  </data>
+  <data name="Menu_Thunder_f280d631" xml:space="preserve">
+    <value>Orage</value>
+  </data>
+  <data name="Menu_TimeOfDay_c8b59713" xml:space="preserve">
+    <value>Heure du jour</value>
+  </data>
+  <data name="Menu_TimeWeather_30ffec9a" xml:space="preserve">
+    <value>Heure et météo</value>
+  </data>
+  <data name="Menu_ToggleMenu_a5ccd1b0" xml:space="preserve">
+    <value>Ouvrir/fermer le menu</value>
+  </data>
+  <data name="Menu_TRACK_267a0edc" xml:space="preserve">
+    <value>SUIVRE</value>
+  </data>
+  <data name="Menu_TrackAutoWishlist_8167c3ae" xml:space="preserve">
+    <value>Suivre la liste auto</value>
+  </data>
+  <data name="Menu_Tracked_752f538d" xml:space="preserve">
+    <value>Suivi</value>
+  </data>
+  <data name="Menu_TrackedItems_83085779" xml:space="preserve">
+    <value>Objets suivis</value>
+  </data>
+  <data name="Menu_TrackWishlist_f8c05d2b" xml:space="preserve">
+    <value>Suivre la liste de souhaits</value>
+  </data>
+  <data name="Menu_Tuning_d4667194" xml:space="preserve">
+    <value>Réglages</value>
+  </data>
+  <data name="Menu_Type_d155d06d" xml:space="preserve">
+    <value>Type</value>
+  </data>
+  <data name="Menu_UnlimitedAmmo_e211496e" xml:space="preserve">
+    <value>Munitions illimitées</value>
+  </data>
+  <data name="Menu_UnlimitedStamina_c26b6c25" xml:space="preserve">
+    <value>Endurance illimitée</value>
+  </data>
+  <data name="Menu_UNTRACK_876ec349" xml:space="preserve">
+    <value>NE PLUS SUIVRE</value>
+  </data>
+  <data name="Menu_VaultSpeed_7ac55468" xml:space="preserve">
+    <value>Vitesse de franchissement</value>
+  </data>
+  <data name="Menu_Visuals_3391c15e" xml:space="preserve">
+    <value>Visuels</value>
+  </data>
+  <data name="Menu_VitalsOnly_edfc16d4" xml:space="preserve">
+    <value>Zones vitales uniquement</value>
+  </data>
+  <data name="Menu_WalkSpeed_5da7e5bb" xml:space="preserve">
+    <value>Vitesse de marche</value>
+  </data>
+  <data name="Menu_WallShoot_5467f0fa" xml:space="preserve">
+    <value>Tir à travers les murs</value>
+  </data>
+  <data name="Menu_Weapon_b7c10361" xml:space="preserve">
+    <value>Arme</value>
+  </data>
+  <data name="Menu_Weightless_96866f0c" xml:space="preserve">
+    <value>Sans poids</value>
+  </data>
+  <data name="Menu_Wind_94413d27" xml:space="preserve">
+    <value>Vent</value>
+  </data>
+  <data name="Menu_World_dd60ed33" xml:space="preserve">
+    <value>Monde</value>
+  </data>
+  <data name="Menu_WritesSceneAndObjectDumpsForAnalysis_95df331b" xml:space="preserve">
+    <value>Écrit des dumps de scène et d'objets pour analyse.</value>
+  </data>
+  <data name="Menu_ZeroAllowsTargetsAtAnyDistanceTheLimitAl_1c21eefb" xml:space="preserve">
+    <value>Zéro autorise les cibles à toute distance.
+La limite s'applique aussi aux balles magiques.</value>
+  </data>
 </root>

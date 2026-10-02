@@ -10,7 +10,7 @@ namespace RavenX.UI.Raven.Tabs;
 
 internal class ConfigTab : IRavenTab
 {
-	public string Title => "Config";
+	public string Title => RavenText.L("Config");
 
 	private string _status = string.Empty;
 
@@ -31,27 +31,27 @@ internal class ConfigTab : IRavenTab
 
 	private void DrawSettingsCard()
 	{
-		using (RavenMenu.Card("Settings"))
+		using (RavenMenu.Card(RavenText.L("Settings")))
 		{
 			var path = Context.ConfigFile;
 
 			GUILayout.Label(Path.GetFileName(path), RavenTheme.Label);
 			GUILayout.Label(Path.GetDirectoryName(path) ?? string.Empty, RavenTheme.MutedLabel);
-			GUILayout.Label(File.Exists(path) ? "File present" : "Not saved yet", RavenTheme.MutedLabel);
+			GUILayout.Label(File.Exists(path) ? RavenText.L("File present") : RavenText.L("Not saved yet"), RavenTheme.MutedLabel);
 
 			RavenWidgets.Spacer(10f);
 
 			GUILayout.BeginHorizontal();
-			var save = RavenWidgets.OutlineButton("SAVE", 90f);
+			var save = RavenWidgets.OutlineButton(RavenText.L("SAVE"), 90f);
 			GUILayout.Space(8f);
-			var load = RavenWidgets.OutlineButton("LOAD", 90f);
+			var load = RavenWidgets.OutlineButton(RavenText.L("LOAD"), 90f);
 			GUILayout.EndHorizontal();
 
 			if (save)
-				_status = ConfigurationManager.Save(path, Context.Features.Value) ? "Saved." : "Save failed.";
+				_status = ConfigurationManager.Save(path, Context.Features.Value) ? RavenText.L("Saved.") : RavenText.L("Save failed.");
 
 			if (load)
-				_status = ConfigurationManager.Load(path, Context.Features.Value) ? "Loaded." : "Load failed.";
+				_status = ConfigurationManager.Load(path, Context.Features.Value) ? RavenText.L("Loaded.") : RavenText.L("Load failed.");
 
 			if (_status.Length > 0)
 			{
@@ -63,9 +63,9 @@ internal class ConfigTab : IRavenTab
 
 	private static void DrawBindingsCard()
 	{
-		using (RavenMenu.Card("Key Bindings"))
+		using (RavenMenu.Card(RavenText.L("Key Bindings")))
 		{
-			GUILayout.Label("Click a bind, then press a key. Escape clears it, right-click cancels.", RavenTheme.MutedLabel);
+			GUILayout.Label(RavenText.L("Click a bind, then press a key. Escape clears it, right-click cancels."), RavenTheme.MutedLabel);
 			RavenWidgets.Spacer(8f);
 
 			foreach (var feature in Context.Features.Value)

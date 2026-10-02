@@ -11,7 +11,7 @@ namespace RavenX.UI.Raven.Tabs;
 
 internal class MiscTab : IRavenTab
 {
-	public string Title => "Misc";
+	public string Title => RavenText.L("Misc");
 
 	private string _status = string.Empty;
 
@@ -32,12 +32,12 @@ internal class MiscTab : IRavenTab
 
 	private void DrawDiagnosticsCard()
 	{
-		using (RavenMenu.Card("Diagnostics"))
+		using (RavenMenu.Card(RavenText.L("Diagnostics")))
 		{
-			GUILayout.Label("Writes scene and object dumps for analysis.", RavenTheme.MutedLabel);
+			GUILayout.Label(RavenText.L("Writes scene and object dumps for analysis."), RavenTheme.MutedLabel);
 			RavenWidgets.Spacer(8f);
 
-			if (RavenWidgets.OutlineButton("DUMP", 90f))
+			if (RavenWidgets.OutlineButton(RavenText.L("DUMP"), 90f))
 			{
 
 				new Dump().Execute();
@@ -54,7 +54,7 @@ internal class MiscTab : IRavenTab
 
 	private static void DrawActiveCard()
 	{
-		using (RavenMenu.Card("Active Features"))
+		using (RavenMenu.Card(RavenText.L("Active Features")))
 		{
 			var toggles = Context.ToggleableFeatures.Value
 				.Where(f => f.Enabled)
@@ -63,7 +63,7 @@ internal class MiscTab : IRavenTab
 
 			if (toggles.Length == 0)
 			{
-				GUILayout.Label("Nothing enabled.", RavenTheme.MutedLabel);
+				GUILayout.Label(RavenText.L("Nothing enabled."), RavenTheme.MutedLabel);
 				return;
 			}
 

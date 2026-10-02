@@ -958,4 +958,876 @@
   <data name="PropertyElevationAdjustment" xml:space="preserve">
     <value>仰角補正</value>
   </data>
+  <data name="Menu_Actions_e65fb504" xml:space="preserve">
+    <value>操作</value>
+  </data>
+  <data name="Menu_ActiveFeatures_86fb6a62" xml:space="preserve">
+    <value>有効な機能</value>
+  </data>
+  <data name="Menu_ADD_7d7558d4" xml:space="preserve">
+    <value>追加</value>
+  </data>
+  <data name="Menu_Aim_9abce996" xml:space="preserve">
+    <value>エイム</value>
+  </data>
+  <data name="Menu_Aimbot_14fe76c7" xml:space="preserve">
+    <value>エイムボット</value>
+  </data>
+  <data name="Menu_AirDrop_0f31f85c" xml:space="preserve">
+    <value>エアドロップ</value>
+  </data>
+  <data name="Menu_All_75afe364" xml:space="preserve">
+    <value>すべて</value>
+  </data>
+  <data name="Menu_AllItems_787d6ff0" xml:space="preserve">
+    <value>すべてのアイテム</value>
+  </data>
+  <data name="Menu_ALLITEMS_e1812cd0" xml:space="preserve">
+    <value>すべてのアイテム</value>
+  </data>
+  <data name="Menu_ALLOFF_39fd9eb1" xml:space="preserve">
+    <value>すべてオフ</value>
+  </data>
+  <data name="Menu_ALLON_cb920cd5" xml:space="preserve">
+    <value>すべてオン</value>
+  </data>
+  <data name="Menu_AlsoListWhatIsInside_a4fe5780" xml:space="preserve">
+    <value>中身も一覧に表示</value>
+  </data>
+  <data name="Menu_AnyHitYouLandIsLethalNeverAppliesToYours_7a161720" xml:space="preserve">
+    <value>命中した攻撃はすべて致命傷になります。
+自分自身には適用されません。</value>
+  </data>
+  <data name="Menu_APPLY_760e025b" xml:space="preserve">
+    <value>適用</value>
+  </data>
+  <data name="Menu_Apply_ca77bbdb" xml:space="preserve">
+    <value>適用</value>
+  </data>
+  <data name="Menu_BendOwnShots_dd59f9bb" xml:space="preserve">
+    <value>自分の弾を曲げる</value>
+  </data>
+  <data name="Menu_Bodies_db4d0409" xml:space="preserve">
+    <value>死体</value>
+  </data>
+  <data name="Menu_BoostMuzzleSpeed_3a2139c6" xml:space="preserve">
+    <value>初速を上げる</value>
+  </data>
+  <data name="Menu_BoostSpeed_69094ecf" xml:space="preserve">
+    <value>速度を上げる</value>
+  </data>
+  <data name="Menu_Bots_48630a97" xml:space="preserve">
+    <value>ボット</value>
+  </data>
+  <data name="Menu_BotsAlreadyHuntingYouKeepTheirTargetUnti_3b8dc3e1" xml:space="preserve">
+    <value>すでにあなたを追っているボットは、
+見失うまで目標を保持します。</value>
+  </data>
+  <data name="Menu_BotSpawn_8d202a81" xml:space="preserve">
+    <value>ボット生成</value>
+  </data>
+  <data name="Menu_BoxThickness_4dfa8b60" xml:space="preserve">
+    <value>ボックスの太さ</value>
+  </data>
+  <data name="Menu_Call_341dd0c9" xml:space="preserve">
+    <value>呼び出し</value>
+  </data>
+  <data name="Menu_Camera_e74c7b6e" xml:space="preserve">
+    <value>カメラ</value>
+  </data>
+  <data name="Menu_CameraOffset_ef51137d" xml:space="preserve">
+    <value>カメラオフセット</value>
+  </data>
+  <data name="Menu_CameraPositionNotAvailableYet_81d5ece5" xml:space="preserve">
+    <value>カメラ位置はまだ取得できません。</value>
+  </data>
+  <data name="Menu_Catalogue_90a12396" xml:space="preserve">
+    <value>カタログ</value>
+  </data>
+  <data name="Menu_Categories_f075e98d" xml:space="preserve">
+    <value>カテゴリ</value>
+  </data>
+  <data name="Menu_Chams_ede15999" xml:space="preserve">
+    <value>チャム</value>
+  </data>
+  <data name="Menu_CircleThickness_1925b673" xml:space="preserve">
+    <value>円の太さ</value>
+  </data>
+  <data name="Menu_CLEAR_06b44bc2" xml:space="preserve">
+    <value>クリア</value>
+  </data>
+  <data name="Menu_ClearWeather_d8aad08e" xml:space="preserve">
+    <value>晴天</value>
+  </data>
+  <data name="Menu_ClickABindThenPressAKeyEscapeClearsItRig_8cdda327" xml:space="preserve">
+    <value>項目をクリックしてからキーを押します。Escape で解除、右クリックで取消。</value>
+  </data>
+  <data name="Menu_Clouds_79d12c97" xml:space="preserve">
+    <value>雲</value>
+  </data>
+  <data name="Menu_ColourMarksTheRoleBlockedLimbsUseADimmed_c8291f86" xml:space="preserve">
+    <value>色は役割を示します。遮蔽された部位は
+暗い色合いで表示されます。</value>
+  </data>
+  <data name="Menu_CompensateDrop_038dbfa3" xml:space="preserve">
+    <value>落下を補正</value>
+  </data>
+  <data name="Menu_Config_6a12e0e7" xml:space="preserve">
+    <value>設定</value>
+  </data>
+  <data name="Menu_Containers_01776d71" xml:space="preserve">
+    <value>コンテナ</value>
+  </data>
+  <data name="Menu_Corpse_55c5accd" xml:space="preserve">
+    <value>死体</value>
+  </data>
+  <data name="Menu_Crosshair_49f3f003" xml:space="preserve">
+    <value>クロスヘア</value>
+  </data>
+  <data name="Menu_CustomFireRate_2e29c358" xml:space="preserve">
+    <value>射撃レート変更</value>
+  </data>
+  <data name="Menu_CustomReach_23679ba1" xml:space="preserve">
+    <value>リーチ変更</value>
+  </data>
+  <data name="Menu_Details_0ec24245" xml:space="preserve">
+    <value>詳細</value>
+  </data>
+  <data name="Menu_Diagnostics_e9a81397" xml:space="preserve">
+    <value>診断</value>
+  </data>
+  <data name="Menu_Difficulty_8520a210" xml:space="preserve">
+    <value>難易度</value>
+  </data>
+  <data name="Menu_Distance_d3d96082" xml:space="preserve">
+    <value>距離</value>
+  </data>
+  <data name="Menu_DUMP_c6897287" xml:space="preserve">
+    <value>ダンプ</value>
+  </data>
+  <data name="Menu_Easy_6c33113b" xml:space="preserve">
+    <value>イージー</value>
+  </data>
+  <data name="Menu_ElevationAdjustment_8e414e37" xml:space="preserve">
+    <value>仰角補正</value>
+  </data>
+  <data name="Menu_Enable_8614a9ee" xml:space="preserve">
+    <value>有効</value>
+  </data>
+  <data name="Menu_EnableShowInfoToSeeThese_d1082e70" xml:space="preserve">
+    <value>「情報を表示」を有効にすると表示されます。</value>
+  </data>
+  <data name="Menu_EnergyDrain_1f6e3307" xml:space="preserve">
+    <value>エネルギー消費</value>
+  </data>
+  <data name="Menu_Ergonomics_86bcdf07" xml:space="preserve">
+    <value>エルゴノミクス</value>
+  </data>
+  <data name="Menu_ErgonomicsDrivesAimSpeedAndSwayWeightFee_169d63af" xml:space="preserve">
+    <value>エルゴノミクスは構え速度と揺れに影響します。
+重量はスタミナ消費に影響します。</value>
+  </data>
+  <data name="Menu_ESPRoles_7f47ad5a" xml:space="preserve">
+    <value>ESP 役割</value>
+  </data>
+  <data name="Menu_Events_003420a4" xml:space="preserve">
+    <value>イベント</value>
+  </data>
+  <data name="Menu_EverythingExamined_c40ad921" xml:space="preserve">
+    <value>すべて確認済み</value>
+  </data>
+  <data name="Menu_ExaminedMarksItemsAsInspectedInstantRese_f9aafdac" xml:space="preserve">
+    <value>「確認済み」はアイテムを検分済みにします。
+「即時リサーチ」は待ち時間をなくします。</value>
+  </data>
+  <data name="Menu_ExfilESP_a2234a03" xml:space="preserve">
+    <value>脱出地点 ESP</value>
+  </data>
+  <data name="Menu_Exfils_9e01c494" xml:space="preserve">
+    <value>脱出地点</value>
+  </data>
+  <data name="Menu_ExtendFlightTime_5fb1acfa" xml:space="preserve">
+    <value>飛行時間を延長</value>
+  </data>
+  <data name="Menu_ExtractionPoints_4ad3e4ff" xml:space="preserve">
+    <value>脱出地点</value>
+  </data>
+  <data name="Menu_Faction_08aebcfb" xml:space="preserve">
+    <value>陣営</value>
+  </data>
+  <data name="Menu_FastSpeed_515846e8" xml:space="preserve">
+    <value>高速</value>
+  </data>
+  <data name="Menu_FeatureUnavailable_c1f568b3" xml:space="preserve">
+    <value>この機能は利用できません</value>
+  </data>
+  <data name="Menu_FieldOfView_7ffdacb9" xml:space="preserve">
+    <value>視野</value>
+  </data>
+  <data name="Menu_FilePresent_786fd968" xml:space="preserve">
+    <value>ファイルあり</value>
+  </data>
+  <data name="Menu_Filters_0b3aa6ec" xml:space="preserve">
+    <value>フィルター</value>
+  </data>
+  <data name="Menu_FireRate_d3b00101" xml:space="preserve">
+    <value>連射速度</value>
+  </data>
+  <data name="Menu_FiresOnceAtYourCurrentPosition_37cc48b1" xml:space="preserve">
+    <value>現在地に一度だけ着弾します。</value>
+  </data>
+  <data name="Menu_Firing_12dc69ea" xml:space="preserve">
+    <value>射撃</value>
+  </data>
+  <data name="Menu_FlightTime_05899410" xml:space="preserve">
+    <value>飛行時間</value>
+  </data>
+  <data name="Menu_Fly_227bfa82" xml:space="preserve">
+    <value>フライ</value>
+  </data>
+  <data name="Menu_FlySpeed_a020da59" xml:space="preserve">
+    <value>飛行速度</value>
+  </data>
+  <data name="Menu_Fog_047e09df" xml:space="preserve">
+    <value>霧</value>
+  </data>
+  <data name="Menu_ForceFullAuto_d269c518" xml:space="preserve">
+    <value>フルオート強制</value>
+  </data>
+  <data name="Menu_FOVChanger_58fa29c2" xml:space="preserve">
+    <value>FOV 変更</value>
+  </data>
+  <data name="Menu_FOVRadius_304b59ea" xml:space="preserve">
+    <value>FOV 半径</value>
+  </data>
+  <data name="Menu_FreeCamera_e9aca0ea" xml:space="preserve">
+    <value>フリーカメラ</value>
+  </data>
+  <data name="Menu_FreezeAI_cbd96824" xml:space="preserve">
+    <value>AI を停止</value>
+  </data>
+  <data name="Menu_Friendly_1d9e429e" xml:space="preserve">
+    <value>味方</value>
+  </data>
+  <data name="Menu_FullScreen_08c844c0" xml:space="preserve">
+    <value>全画面</value>
+  </data>
+  <data name="Menu_Gain_9b80731e" xml:space="preserve">
+    <value>ゲイン</value>
+  </data>
+  <data name="Menu_Gather_2614cfaa" xml:space="preserve">
+    <value>集合</value>
+  </data>
+  <data name="Menu_Gear_fb334b4e" xml:space="preserve">
+    <value>装備</value>
+  </data>
+  <data name="Menu_GhostMode_0d35eaa3" xml:space="preserve">
+    <value>ゴーストモード</value>
+  </data>
+  <data name="Menu_GiveTheSpotANameFirst_4296bb7f" xml:space="preserve">
+    <value>先に地点名を入力してください。</value>
+  </data>
+  <data name="Menu_GodMode_1f294500" xml:space="preserve">
+    <value>ゴッドモード</value>
+  </data>
+  <data name="Menu_Grain_3b1d78ec" xml:space="preserve">
+    <value>グレイン</value>
+  </data>
+  <data name="Menu_GrenadesESP_9f46da52" xml:space="preserve">
+    <value>グレネード ESP</value>
+  </data>
+  <data name="Menu_Group_0574902c" xml:space="preserve">
+    <value>グループ</value>
+  </data>
+  <data name="Menu_HandbookNotLoadedYetOpenItOnceInTheMainM_699cde73" xml:space="preserve">
+    <value>図鑑がまだ読み込まれていません。
+メインメニューで一度開いてください。</value>
+  </data>
+  <data name="Menu_Handling_3d29c1d4" xml:space="preserve">
+    <value>取り回し</value>
+  </data>
+  <data name="Menu_HandlingOverride_dae5f164" xml:space="preserve">
+    <value>取り回しの上書き</value>
+  </data>
+  <data name="Menu_Hard_64efa7fc" xml:space="preserve">
+    <value>ハード</value>
+  </data>
+  <data name="Menu_Heal_ba97377b" xml:space="preserve">
+    <value>回復</value>
+  </data>
+  <data name="Menu_HealthRegen_58455632" xml:space="preserve">
+    <value>体力回復</value>
+  </data>
+  <data name="Menu_HealthValue_c58c8a42" xml:space="preserve">
+    <value>体力の数値</value>
+  </data>
+  <data name="Menu_HideWorldMarkersInScopes_ccc7b28e" xml:space="preserve">
+    <value>スコープ内でマーカーを隠す</value>
+  </data>
+  <data name="Menu_HitMarkers_fb10a8f5" xml:space="preserve">
+    <value>ヒットマーカー</value>
+  </data>
+  <data name="Menu_HoldKey_de6b2837" xml:space="preserve">
+    <value>長押しキー</value>
+  </data>
+  <data name="Menu_Hotspots_25356efd" xml:space="preserve">
+    <value>ホットスポット</value>
+  </data>
+  <data name="Menu_HPBar_95c95100" xml:space="preserve">
+    <value>HP バー</value>
+  </data>
+  <data name="Menu_HydrationDrain_4f865627" xml:space="preserve">
+    <value>水分消費</value>
+  </data>
+  <data name="Menu_Impossible_30593af8" xml:space="preserve">
+    <value>インポッシブル</value>
+  </data>
+  <data name="Menu_InRaid_1e8e1056" xml:space="preserve">
+    <value>レイド中</value>
+  </data>
+  <data name="Menu_InstantKill_57445cfa" xml:space="preserve">
+    <value>即死</value>
+  </data>
+  <data name="Menu_InstantResearch_b3ade7f3" xml:space="preserve">
+    <value>即時リサーチ</value>
+  </data>
+  <data name="Menu_Intensity_53b4f9aa" xml:space="preserve">
+    <value>強さ</value>
+  </data>
+  <data name="Menu_Interaction_28fa9ceb" xml:space="preserve">
+    <value>インタラクト</value>
+  </data>
+  <data name="Menu_ItemDatabaseNotLoadedYet_4bb2ff41" xml:space="preserve">
+    <value>アイテムデータベースが未読み込みです。</value>
+  </data>
+  <data name="Menu_Items_e036382f" xml:space="preserve">
+    <value>アイテム</value>
+  </data>
+  <data name="Menu_JumpHeight_31b15dc8" xml:space="preserve">
+    <value>ジャンプ力</value>
+  </data>
+  <data name="Menu_KeepFoodWater_c8bc3a7d" xml:space="preserve">
+    <value>空腹と水分を維持</value>
+  </data>
+  <data name="Menu_KeepsTheRoundAlivePastTheAmmoSOwnExpiryR_e33e62b1" xml:space="preserve">
+    <value>弾薬本来の寿命を超えて弾を
+維持し、射程を伸ばします。</value>
+  </data>
+  <data name="Menu_KeyBindings_c967ae0a" xml:space="preserve">
+    <value>キー割り当て</value>
+  </data>
+  <data name="Menu_Kill_2beedcb9" xml:space="preserve">
+    <value>キル</value>
+  </data>
+  <data name="Menu_KillAll_8fd35b7e" xml:space="preserve">
+    <value>全員キル</value>
+  </data>
+  <data name="Menu_LandWhenDisabled_ba7a2124" xml:space="preserve">
+    <value>無効化時に着地</value>
+  </data>
+  <data name="Menu_LeadMovingTargets_9c2d3f99" xml:space="preserve">
+    <value>移動目標を先読み</value>
+  </data>
+  <data name="Menu_LeaveAt1xHigherSpeedsBleedOffToDragAndCu_c2968a47" xml:space="preserve">
+    <value>1x のままを推奨。速度を上げるほど
+空気抵抗で失速し射程が縮みます。</value>
+  </data>
+  <data name="Menu_LiveEntities_77e521f2" xml:space="preserve">
+    <value>アクティブな対象</value>
+  </data>
+  <data name="Menu_LiveItems_8ce879b7" xml:space="preserve">
+    <value>現存アイテム</value>
+  </data>
+  <data name="Menu_LivingAI_990b52e6" xml:space="preserve">
+    <value>生存中の AI</value>
+  </data>
+  <data name="Menu_LOAD_e3f88de9" xml:space="preserve">
+    <value>読み込み</value>
+  </data>
+  <data name="Menu_Loaded_25f1fb0a" xml:space="preserve">
+    <value>読み込みました。</value>
+  </data>
+  <data name="Menu_LoadFailed_56c297d8" xml:space="preserve">
+    <value>読み込みに失敗しました。</value>
+  </data>
+  <data name="Menu_LookSensitivity_5c813329" xml:space="preserve">
+    <value>視点感度</value>
+  </data>
+  <data name="Menu_Loot_649603d7" xml:space="preserve">
+    <value>戦利品</value>
+  </data>
+  <data name="Menu_LootESP_c5b39e2b" xml:space="preserve">
+    <value>戦利品 ESP</value>
+  </data>
+  <data name="Menu_LootInRaid_8ea2ffe6" xml:space="preserve">
+    <value>レイド内の戦利品</value>
+  </data>
+  <data name="Menu_LootWorldESP_3ae34ec9" xml:space="preserve">
+    <value>戦利品・ワールド ESP</value>
+  </data>
+  <data name="Menu_MagicBullets_e1c8aa1d" xml:space="preserve">
+    <value>マジックバレット</value>
+  </data>
+  <data name="Menu_Map_44a7f051" xml:space="preserve">
+    <value>マップ</value>
+  </data>
+  <data name="Menu_MarkersDrawThroughWalls_02634180" xml:space="preserve">
+    <value>マーカーは壁を透過して表示されます。</value>
+  </data>
+  <data name="Menu_MaxAllSkills_3bbc2ba8" xml:space="preserve">
+    <value>全スキル最大</value>
+  </data>
+  <data name="Menu_MaxDistance_375c8074" xml:space="preserve">
+    <value>最大距離</value>
+  </data>
+  <data name="Menu_MaximumDistance_b5d33acc" xml:space="preserve">
+    <value>最大距離</value>
+  </data>
+  <data name="Menu_MaximumDurability_9afc0154" xml:space="preserve">
+    <value>耐久度を最大に</value>
+  </data>
+  <data name="Menu_Misc_df71ca29" xml:space="preserve">
+    <value>その他</value>
+  </data>
+  <data name="Menu_MortarStrike_bc555bde" xml:space="preserve">
+    <value>迫撃砲攻撃</value>
+  </data>
+  <data name="Menu_Movement_e27f8f78" xml:space="preserve">
+    <value>移動</value>
+  </data>
+  <data name="Menu_MoveSpeed_842a6757" xml:space="preserve">
+    <value>移動速度</value>
+  </data>
+  <data name="Menu_MuzzleBoost_f11dfc9f" xml:space="preserve">
+    <value>初速倍率</value>
+  </data>
+  <data name="Menu_Names_7355c12f" xml:space="preserve">
+    <value>名前</value>
+  </data>
+  <data name="Menu_NeedsShowSkeletonToBeVisible_c302b580" xml:space="preserve">
+    <value>「骨格を表示」が必要です。</value>
+  </data>
+  <data name="Menu_NightVision_8e473df7" xml:space="preserve">
+    <value>暗視</value>
+  </data>
+  <data name="Menu_NobodyElseAlive_1f94d470" xml:space="preserve">
+    <value>他に生存者はいません。</value>
+  </data>
+  <data name="Menu_NoBotTypeMatches_14811886" xml:space="preserve">
+    <value>一致するボットタイプがありません。</value>
+  </data>
+  <data name="Menu_NoCollision_5e5d8fae" xml:space="preserve">
+    <value>当たり判定なし</value>
+  </data>
+  <data name="Menu_NoFallDamage_2d56112c" xml:space="preserve">
+    <value>落下ダメージなし</value>
+  </data>
+  <data name="Menu_NoFlash_759ea1dc" xml:space="preserve">
+    <value>フラッシュなし</value>
+  </data>
+  <data name="Menu_NoGroundDetail_29afa9e2" xml:space="preserve">
+    <value>地面ディテールなし</value>
+  </data>
+  <data name="Menu_NoInertia_e34447f8" xml:space="preserve">
+    <value>慣性なし</value>
+  </data>
+  <data name="Menu_NoItemMatches_83c946ae" xml:space="preserve">
+    <value>一致するアイテムがありません。</value>
+  </data>
+  <data name="Menu_NoMalfunctions_58fa8d85" xml:space="preserve">
+    <value>故障なし</value>
+  </data>
+  <data name="Menu_NoOverheat_2d97a6b6" xml:space="preserve">
+    <value>オーバーヒートなし</value>
+  </data>
+  <data name="Menu_NoRecoil_fffa76f0" xml:space="preserve">
+    <value>反動なし</value>
+  </data>
+  <data name="Menu_Normal_58de2772" xml:space="preserve">
+    <value>ノーマル</value>
+  </data>
+  <data name="Menu_NoRoleMatches_f4775007" xml:space="preserve">
+    <value>一致する役割がありません。</value>
+  </data>
+  <data name="Menu_NoSway_1bea25ce" xml:space="preserve">
+    <value>揺れなし</value>
+  </data>
+  <data name="Menu_NothingEnabled_66e5adcf" xml:space="preserve">
+    <value>有効な項目はありません。</value>
+  </data>
+  <data name="Menu_NothingLootableFound_e87302ce" xml:space="preserve">
+    <value>回収可能なものが見つかりません。</value>
+  </data>
+  <data name="Menu_NothingMatches_f8e003c3" xml:space="preserve">
+    <value>一致するものがありません。</value>
+  </data>
+  <data name="Menu_NothingSavedOnThisMapYet_fa70b850" xml:space="preserve">
+    <value>このマップにはまだ保存がありません。</value>
+  </data>
+  <data name="Menu_NothingTracked_bad570ce" xml:space="preserve">
+    <value>追跡中の項目はありません。</value>
+  </data>
+  <data name="Menu_NotInARaid_81d66b80" xml:space="preserve">
+    <value>レイド中ではありません。</value>
+  </data>
+  <data name="Menu_NotSavedYet_8662a2eb" xml:space="preserve">
+    <value>未保存</value>
+  </data>
+  <data name="Menu_NoVisor_49a4e2dd" xml:space="preserve">
+    <value>バイザーなし</value>
+  </data>
+  <data name="Menu_ObjectMarkers_5231af65" xml:space="preserve">
+    <value>オブジェクトマーカー</value>
+  </data>
+  <data name="Menu_OffBendsShotsThroughCoverPairItWithWallP_107f03db" xml:space="preserve">
+    <value>オフにすると遮蔽物越しに弾が曲がります。
+「壁抜き射撃」との併用を推奨。</value>
+  </data>
+  <data name="Menu_OffDropsThemAheadOfYou_b6081beb" xml:space="preserve">
+    <value>オフにすると自分の前方に投下します。</value>
+  </data>
+  <data name="Menu_OffLetsTheMapDecideWhichCanBeHundredsOfM_923b659d" xml:space="preserve">
+    <value>オフの場合はマップ任せになり、
+数百メートル先になることもあります。</value>
+  </data>
+  <data name="Menu_OnlyShow_6049fb8c" xml:space="preserve">
+    <value>次のみ表示</value>
+  </data>
+  <data name="Menu_Opacity_de1f0406" xml:space="preserve">
+    <value>不透明度</value>
+  </data>
+  <data name="Menu_Open_538b10e9" xml:space="preserve">
+    <value>開く</value>
+  </data>
+  <data name="Menu_OpenDoorsReaders_7249de26" xml:space="preserve">
+    <value>ドアとリーダーを開く</value>
+  </data>
+  <data name="Menu_Other_6e38ff95" xml:space="preserve">
+    <value>その他</value>
+  </data>
+  <data name="Menu_OtherESP_1218f7a5" xml:space="preserve">
+    <value>その他の ESP</value>
+  </data>
+  <data name="Menu_Penetration_5dea1dd2" xml:space="preserve">
+    <value>貫通</value>
+  </data>
+  <data name="Menu_PerLimbVisibility_a0371c19" xml:space="preserve">
+    <value>部位ごとの可視判定</value>
+  </data>
+  <data name="Menu_PlaceAtDistance_8755910c" xml:space="preserve">
+    <value>指定距離に配置</value>
+  </data>
+  <data name="Menu_Player_1c70fc20" xml:space="preserve">
+    <value>プレイヤー</value>
+  </data>
+  <data name="Menu_PlayersESP_27cc8b31" xml:space="preserve">
+    <value>プレイヤー ESP</value>
+  </data>
+  <data name="Menu_PriceFrom_7596ca1a" xml:space="preserve">
+    <value>価格の下限</value>
+  </data>
+  <data name="Menu_PricesAreLoadingItemsWithoutAPriceStayHi_12daca62" xml:space="preserve">
+    <value>価格を読み込み中です。価格不明のアイテムは非表示のままです。</value>
+  </data>
+  <data name="Menu_PriceTo_99e8d4e3" xml:space="preserve">
+    <value>価格の上限</value>
+  </data>
+  <data name="Menu_QuestESP_7e6084ed" xml:space="preserve">
+    <value>クエスト ESP</value>
+  </data>
+  <data name="Menu_QuickThrow_754ad5fc" xml:space="preserve">
+    <value>クイック投擲</value>
+  </data>
+  <data name="Menu_Radar_4b896fbb" xml:space="preserve">
+    <value>レーダー</value>
+  </data>
+  <data name="Menu_RadarRange_0014a1ee" xml:space="preserve">
+    <value>レーダー範囲</value>
+  </data>
+  <data name="Menu_Rain_09d001f3" xml:space="preserve">
+    <value>雨</value>
+  </data>
+  <data name="Menu_RandomDirection_662d727b" xml:space="preserve">
+    <value>ランダムな方向</value>
+  </data>
+  <data name="Menu_Rarity_940e7baa" xml:space="preserve">
+    <value>レアリティ</value>
+  </data>
+  <data name="Menu_Readout_651966ff" xml:space="preserve">
+    <value>表示項目</value>
+  </data>
+  <data name="Menu_RedirectsTheRoundsYouFireNeverPullsTheTr_a8e8ac22" xml:space="preserve">
+    <value>あなたが撃った弾の軌道を変えます。
+引き金を代わりに引くことはありません。</value>
+  </data>
+  <data name="Menu_Reduction_941d9ab2" xml:space="preserve">
+    <value>軽減量</value>
+  </data>
+  <data name="Menu_RemoveNegativeEffects_81954ce6" xml:space="preserve">
+    <value>デバフを除去</value>
+  </data>
+  <data name="Menu_Render_350cf42d" xml:space="preserve">
+    <value>描画</value>
+  </data>
+  <data name="Menu_RequireLineOfSight_d621b662" xml:space="preserve">
+    <value>視線を必要とする</value>
+  </data>
+  <data name="Menu_Results_9cf82695" xml:space="preserve">
+    <value>検索結果</value>
+  </data>
+  <data name="Menu_Run_8d57e66a" xml:space="preserve">
+    <value>実行</value>
+  </data>
+  <data name="Menu_SAVE_ca52e188" xml:space="preserve">
+    <value>保存</value>
+  </data>
+  <data name="Menu_Saved_ae0ab8fe" xml:space="preserve">
+    <value>保存しました。</value>
+  </data>
+  <data name="Menu_SavedSpots_cac393b5" xml:space="preserve">
+    <value>保存した地点</value>
+  </data>
+  <data name="Menu_SaveFailed_e6b82899" xml:space="preserve">
+    <value>保存に失敗しました。</value>
+  </data>
+  <data name="Menu_SAVEHERE_749085c6" xml:space="preserve">
+    <value>ここを保存</value>
+  </data>
+  <data name="Menu_SavePosition_b502890b" xml:space="preserve">
+    <value>位置を保存</value>
+  </data>
+  <data name="Menu_SecondColourMarksThePartsThatAreBehindCo_e08d587e" xml:space="preserve">
+    <value>2 色目は遮蔽物の裏にある
+部分を示します。</value>
+  </data>
+  <data name="Menu_SelectAnItemOnTheLeft_8d63cc52" xml:space="preserve">
+    <value>左側でアイテムを選択してください。</value>
+  </data>
+  <data name="Menu_SelfHeal_65d72b0b" xml:space="preserve">
+    <value>自己回復</value>
+  </data>
+  <data name="Menu_SetErgonomics_11e45e3b" xml:space="preserve">
+    <value>エルゴノミクスを設定</value>
+  </data>
+  <data name="Menu_SETTIME_a1b5c930" xml:space="preserve">
+    <value>時刻を設定</value>
+  </data>
+  <data name="Menu_Settings_4b058728" xml:space="preserve">
+    <value>設定</value>
+  </data>
+  <data name="Menu_ShootThroughWallsWithMaximumPenetrationA_06d8e17c" xml:space="preserve">
+    <value>最大貫通力で壁を撃ち抜きます。
+跳弾や偏差は発生しません。</value>
+  </data>
+  <data name="Menu_ShotDelay_7ebf07ce" xml:space="preserve">
+    <value>射撃間隔</value>
+  </data>
+  <data name="Menu_ShowBlocked_527ee214" xml:space="preserve">
+    <value>遮蔽中を表示</value>
+  </data>
+  <data name="Menu_ShowBoxes_ad7fcae1" xml:space="preserve">
+    <value>ボックスを表示</value>
+  </data>
+  <data name="Menu_ShowEligible_44c95059" xml:space="preserve">
+    <value>利用可を表示</value>
+  </data>
+  <data name="Menu_ShowFOVCircle_8a194899" xml:space="preserve">
+    <value>FOV 円を表示</value>
+  </data>
+  <data name="Menu_ShowInfo_72d03a68" xml:space="preserve">
+    <value>情報を表示</value>
+  </data>
+  <data name="Menu_ShowNotEligible_2e3d064a" xml:space="preserve">
+    <value>利用不可を表示</value>
+  </data>
+  <data name="Menu_ShowPrices_7c0b6576" xml:space="preserve">
+    <value>価格を表示</value>
+  </data>
+  <data name="Menu_ShowShootable_90678a3f" xml:space="preserve">
+    <value>射線が通る対象を表示</value>
+  </data>
+  <data name="Menu_ShowSkeleton_7a9623cb" xml:space="preserve">
+    <value>骨格を表示</value>
+  </data>
+  <data name="Menu_SilentAim_ac9467f5" xml:space="preserve">
+    <value>サイレントエイム</value>
+  </data>
+  <data name="Menu_SilentMovement_b6c51fc1" xml:space="preserve">
+    <value>静音移動</value>
+  </data>
+  <data name="Menu_SkeletonThickness_93188ed4" xml:space="preserve">
+    <value>骨格の太さ</value>
+  </data>
+  <data name="Menu_SliderNeedsCustomFireRateOn_59ace707" xml:space="preserve">
+    <value>「射撃レート変更」を有効にしてください。</value>
+  </data>
+  <data name="Menu_Smoothness_e3111550" xml:space="preserve">
+    <value>スムーズさ</value>
+  </data>
+  <data name="Menu_SnapLines_27f18d12" xml:space="preserve">
+    <value>スナップライン</value>
+  </data>
+  <data name="Menu_SnapLineThickness_ec441167" xml:space="preserve">
+    <value>スナップラインの太さ</value>
+  </data>
+  <data name="Menu_SPAWN_1cd75bf8" xml:space="preserve">
+    <value>スポーン</value>
+  </data>
+  <data name="Menu_Spawn_c6929d38" xml:space="preserve">
+    <value>スポーン</value>
+  </data>
+  <data name="Menu_SpawnBot_ced5b6d5" xml:space="preserve">
+    <value>ボットを生成</value>
+  </data>
+  <data name="Menu_SpawnDistance_dea991c3" xml:space="preserve">
+    <value>生成距離</value>
+  </data>
+  <data name="Menu_SpawningNeedsAnActiveRaid_dea89a60" xml:space="preserve">
+    <value>生成にはレイド中である必要があります。</value>
+  </data>
+  <data name="Menu_SpeedBoostHold_0cac99f9" xml:space="preserve">
+    <value>加速（長押し）</value>
+  </data>
+  <data name="Menu_SpeedFactor_89d33463" xml:space="preserve">
+    <value>速度倍率</value>
+  </data>
+  <data name="Menu_SprintSpeed_ee6ff56a" xml:space="preserve">
+    <value>スプリント速度</value>
+  </data>
+  <data name="Menu_StanceSpeed_b94a5d3a" xml:space="preserve">
+    <value>姿勢変更速度</value>
+  </data>
+  <data name="Menu_StashesAirdrops_3411c8f6" xml:space="preserve">
+    <value>隠し場所とエアドロップ</value>
+  </data>
+  <data name="Menu_Status_005ef20f" xml:space="preserve">
+    <value>状態</value>
+  </data>
+  <data name="Menu_SummonTrain_fd5877b4" xml:space="preserve">
+    <value>列車を呼ぶ</value>
+  </data>
+  <data name="Menu_Survival_c06582cf" xml:space="preserve">
+    <value>サバイバル</value>
+  </data>
+  <data name="Menu_TACTICALSYSTEM_7abdb895" xml:space="preserve">
+    <value>タクティカルシステム</value>
+  </data>
+  <data name="Menu_TagsTheIndividualItems_09ee6e04" xml:space="preserve">
+    <value>個々のアイテムを表示します。</value>
+  </data>
+  <data name="Menu_TagsTheObjectItselfNotItsContents_8f1d1ccc" xml:space="preserve">
+    <value>中身ではなくオブジェクト自体を表示します。</value>
+  </data>
+  <data name="Menu_TeleportAllToMe_bcba7d30" xml:space="preserve">
+    <value>全員を自分の位置へ</value>
+  </data>
+  <data name="Menu_TeleportFailed_fefddb1f" xml:space="preserve">
+    <value>テレポートに失敗しました。</value>
+  </data>
+  <data name="Menu_TELEPORTHERE_a60106cc" xml:space="preserve">
+    <value>ここへテレポート</value>
+  </data>
+  <data name="Menu_TeleportKey_6f798591" xml:space="preserve">
+    <value>テレポートキー</value>
+  </data>
+  <data name="Menu_Text_3e142d5e" xml:space="preserve">
+    <value>テキスト</value>
+  </data>
+  <data name="Menu_TextOutline_397bcee4" xml:space="preserve">
+    <value>テキストの縁取り</value>
+  </data>
+  <data name="Menu_TextSize_ac31f063" xml:space="preserve">
+    <value>文字サイズ</value>
+  </data>
+  <data name="Menu_ThermalVision_8ae367a8" xml:space="preserve">
+    <value>サーマル</value>
+  </data>
+  <data name="Menu_TheTwoPriceLimitsAreAppliedFromLowToHigh_2b77078b" xml:space="preserve">
+    <value>2 つの価格の上下限は自動的に低い順に適用されます。</value>
+  </data>
+  <data name="Menu_ThisMapReportsNoExtractionPoints_136ce51f" xml:space="preserve">
+    <value>このマップには脱出地点がありません。</value>
+  </data>
+  <data name="Menu_Throw_2033e7cf" xml:space="preserve">
+    <value>投擲</value>
+  </data>
+  <data name="Menu_Throwables_e92ac918" xml:space="preserve">
+    <value>投擲物</value>
+  </data>
+  <data name="Menu_Thunder_f280d631" xml:space="preserve">
+    <value>雷</value>
+  </data>
+  <data name="Menu_TimeOfDay_c8b59713" xml:space="preserve">
+    <value>時刻</value>
+  </data>
+  <data name="Menu_TimeWeather_30ffec9a" xml:space="preserve">
+    <value>時刻と天候</value>
+  </data>
+  <data name="Menu_ToggleMenu_a5ccd1b0" xml:space="preserve">
+    <value>メニュー切替</value>
+  </data>
+  <data name="Menu_TRACK_267a0edc" xml:space="preserve">
+    <value>追跡</value>
+  </data>
+  <data name="Menu_TrackAutoWishlist_8167c3ae" xml:space="preserve">
+    <value>自動ウィッシュリストを追跡</value>
+  </data>
+  <data name="Menu_Tracked_752f538d" xml:space="preserve">
+    <value>追跡中</value>
+  </data>
+  <data name="Menu_TrackedItems_83085779" xml:space="preserve">
+    <value>追跡中のアイテム</value>
+  </data>
+  <data name="Menu_TrackWishlist_f8c05d2b" xml:space="preserve">
+    <value>ウィッシュリストを追跡</value>
+  </data>
+  <data name="Menu_Tuning_d4667194" xml:space="preserve">
+    <value>チューニング</value>
+  </data>
+  <data name="Menu_Type_d155d06d" xml:space="preserve">
+    <value>種類</value>
+  </data>
+  <data name="Menu_UnlimitedAmmo_e211496e" xml:space="preserve">
+    <value>弾薬無限</value>
+  </data>
+  <data name="Menu_UnlimitedStamina_c26b6c25" xml:space="preserve">
+    <value>スタミナ無限</value>
+  </data>
+  <data name="Menu_UNTRACK_876ec349" xml:space="preserve">
+    <value>追跡解除</value>
+  </data>
+  <data name="Menu_VaultSpeed_7ac55468" xml:space="preserve">
+    <value>乗り越え速度</value>
+  </data>
+  <data name="Menu_Visuals_3391c15e" xml:space="preserve">
+    <value>表示</value>
+  </data>
+  <data name="Menu_VitalsOnly_edfc16d4" xml:space="preserve">
+    <value>急所のみ</value>
+  </data>
+  <data name="Menu_WalkSpeed_5da7e5bb" xml:space="preserve">
+    <value>歩行速度</value>
+  </data>
+  <data name="Menu_WallShoot_5467f0fa" xml:space="preserve">
+    <value>壁抜き射撃</value>
+  </data>
+  <data name="Menu_Weapon_b7c10361" xml:space="preserve">
+    <value>武器</value>
+  </data>
+  <data name="Menu_Weightless_96866f0c" xml:space="preserve">
+    <value>重量なし</value>
+  </data>
+  <data name="Menu_Wind_94413d27" xml:space="preserve">
+    <value>風</value>
+  </data>
+  <data name="Menu_World_dd60ed33" xml:space="preserve">
+    <value>ワールド</value>
+  </data>
+  <data name="Menu_WritesSceneAndObjectDumpsForAnalysis_95df331b" xml:space="preserve">
+    <value>解析用にシーンとオブジェクトの情報を書き出します。</value>
+  </data>
+  <data name="Menu_ZeroAllowsTargetsAtAnyDistanceTheLimitAl_1c21eefb" xml:space="preserve">
+    <value>0 で距離制限なしになります。
+この上限は「マジックバレット」にも適用されます。</value>
+  </data>
 </root>

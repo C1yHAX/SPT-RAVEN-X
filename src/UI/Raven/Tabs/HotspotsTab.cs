@@ -10,7 +10,7 @@ namespace RavenX.UI.Raven.Tabs;
 
 internal class HotspotsTab : IRavenTab
 {
-	public string Title => "Hotspots";
+	public string Title => RavenText.L("Hotspots");
 
 	private string _nameInput = string.Empty;
 	private string _status = string.Empty;
@@ -32,7 +32,7 @@ internal class HotspotsTab : IRavenTab
 
 	private void DrawSaveCard()
 	{
-		using (RavenMenu.Card("Save Position"))
+		using (RavenMenu.Card(RavenText.L("Save Position")))
 		{
 			var hotspots = FeatureFactory.GetFeature<Hotspots>();
 			var player = GameState.Current?.LocalPlayer;
@@ -40,7 +40,7 @@ internal class HotspotsTab : IRavenTab
 
 			if (hotspots == null || !player.IsValid() || map.Length == 0)
 			{
-				GUILayout.Label("Not in a raid.", RavenTheme.MutedLabel);
+				GUILayout.Label(RavenText.L("Not in a raid."), RavenTheme.MutedLabel);
 				return;
 			}
 
@@ -52,7 +52,7 @@ internal class HotspotsTab : IRavenTab
 			_nameInput = RavenWidgets.TextField(_nameInput, "name for this spot");
 			RavenWidgets.Spacer(6f);
 
-			if (!RavenWidgets.OutlineButton("SAVE HERE", 120f))
+			if (!RavenWidgets.OutlineButton(RavenText.L("SAVE HERE"), 120f))
 				return;
 
 			if (hotspots.Add(_nameInput))
@@ -62,19 +62,19 @@ internal class HotspotsTab : IRavenTab
 			}
 			else
 			{
-				_status = hotspots.LastError ?? "Give the spot a name first.";
+				_status = hotspots.LastError ?? RavenText.L("Give the spot a name first.");
 			}
 		}
 	}
 
 	private void DrawListCard()
 	{
-		using (RavenMenu.Card("Saved Spots"))
+		using (RavenMenu.Card(RavenText.L("Saved Spots")))
 		{
 			var hotspots = FeatureFactory.GetFeature<Hotspots>();
 			if (hotspots == null)
 			{
-				GUILayout.Label("Feature unavailable", RavenTheme.MutedLabel);
+				GUILayout.Label(RavenText.L("Feature unavailable"), RavenTheme.MutedLabel);
 				return;
 			}
 
@@ -97,7 +97,7 @@ internal class HotspotsTab : IRavenTab
 
 			if (entries.Length == 0)
 			{
-				GUILayout.Label("Nothing saved on this map yet.", RavenTheme.MutedLabel);
+				GUILayout.Label(RavenText.L("Nothing saved on this map yet."), RavenTheme.MutedLabel);
 				return;
 			}
 
@@ -113,7 +113,7 @@ internal class HotspotsTab : IRavenTab
 				GUILayout.EndVertical();
 
 				if (RavenWidgets.SmallButton("teleport", 68f))
-					_status = Hotspots.TeleportTo(hotspot) ? $"Teleported to {hotspot.Name}." : "Teleport failed.";
+					_status = Hotspots.TeleportTo(hotspot) ? $"Teleported to {hotspot.Name}." : RavenText.L("Teleport failed.");
 
 				if (RavenWidgets.SmallButton("delete", 58f))
 				{

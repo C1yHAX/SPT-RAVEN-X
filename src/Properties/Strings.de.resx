@@ -121,13 +121,13 @@
     <value>dump</value>
   </data>
   <data name="CommandDumpGameObjects" xml:space="preserve">
-    <value>Dumping game objects...</value>
+    <value>Spielobjekte werden ausgegeben...</value>
   </data>
   <data name="CommandDumpScenes" xml:space="preserve">
-    <value>Dumping Scenes...</value>
+    <value>Szenen werden ausgegeben...</value>
   </data>
   <data name="CommandDumpSuccessFormat" xml:space="preserve">
-    <value>Dump created in {0}</value>
+    <value>Ausgabe erstellt in {0}</value>
     <comment>Filename</comment>
   </data>
   <data name="CommandList" xml:space="preserve">
@@ -145,38 +145,38 @@
     <comment>Rarity</comment>
   </data>
   <data name="CommandListSuccessFormat" xml:space="preserve">
-    <value>Found {0} item(s)</value>
+    <value>{0} Gegenstand/Gegenstände gefunden</value>
     <comment>Item count</comment>
   </data>
   <data name="CommandListSuperRare" xml:space="preserve">
     <value>listsr</value>
   </data>
   <data name="CommandLoadDescription" xml:space="preserve">
-    <value>Load settings</value>
+    <value>Einstellungen laden</value>
   </data>
   <data name="CommandLoadName" xml:space="preserve">
     <value>load</value>
   </data>
   <data name="CommandLoadSuccessFormat" xml:space="preserve">
-    <value>Loaded {0}</value>
+    <value>{0} geladen</value>
     <comment>Filename</comment>
   </data>
   <data name="CommandLoadTrackList" xml:space="preserve">
     <value>loadtl</value>
   </data>
   <data name="CommandSaveDescription" xml:space="preserve">
-    <value>Save settings</value>
+    <value>Einstellungen speichern</value>
   </data>
   <data name="CommandSaveHeader" xml:space="preserve">
-    <value>Be careful when updating this file :)
-For keys, use https://docs.unity3d.com/ScriptReference/KeyCode.html
-Colors are stored as an array of 'RGBA' floats</value>
+    <value>Sei vorsichtig beim Bearbeiten dieser Datei :)
+Tastennamen findest du unter https://docs.unity3d.com/ScriptReference/KeyCode.html
+Farben werden als Array aus 'RGBA'-Gleitkommazahlen gespeichert</value>
   </data>
   <data name="CommandSaveName" xml:space="preserve">
     <value>save</value>
   </data>
   <data name="CommandSaveSuccessFormat" xml:space="preserve">
-    <value>Saved {0}</value>
+    <value>{0} gespeichert</value>
     <comment>Filename</comment>
   </data>
   <data name="CommandSaveTrackList" xml:space="preserve">
@@ -189,11 +189,11 @@ Colors are stored as an array of 'RGBA' floats</value>
     <value>status</value>
   </data>
   <data name="CommandStatusTextFormat" xml:space="preserve">
-    <value>{0} is {1} {2}</value>
+    <value>{0} ist {1} {2}</value>
     <comment>Feature name, status, optional toggle text if a key is set</comment>
   </data>
   <data name="CommandStatusTextToggleFormat" xml:space="preserve">
-    <value>({0} to toggle)</value>
+    <value>({0} zum Umschalten)</value>
     <comment>Key</comment>
   </data>
   <data name="CommandTemplate" xml:space="preserve">
@@ -204,7 +204,7 @@ Colors are stored as an array of 'RGBA' floats</value>
     <comment>Template id, short-name, name</comment>
   </data>
   <data name="CommandTemplateSuccessFormat" xml:space="preserve">
-    <value>Found {0} template(s)</value>
+    <value>{0} Vorlage(n) gefunden</value>
     <comment>Template count</comment>
   </data>
   <data name="CommandTrack" xml:space="preserve">
@@ -214,7 +214,7 @@ Colors are stored as an array of 'RGBA' floats</value>
     <value>tracklist</value>
   </data>
   <data name="CommandTrackListEnumerateFormat" xml:space="preserve">
-    <value>Tracking: {0} {1}</value>
+    <value>Verfolgt: {0} {1}</value>
     <comment>Item short-name, optional rarity</comment>
   </data>
   <data name="CommandTrackListRarityFormat" xml:space="preserve">
@@ -222,10 +222,10 @@ Colors are stored as an array of 'RGBA' floats</value>
     <comment>Rarity</comment>
   </data>
   <data name="CommandTrackListUpdated" xml:space="preserve">
-    <value>Tracking list updated...</value>
+    <value>Verfolgungsliste aktualisiert...</value>
   </data>
   <data name="CommandTrackListWishListEnumerateFormat" xml:space="preserve">
-    <value>Tracking: {0} (Wishlist)</value>
+    <value>Verfolgt: {0} (Wunschliste)</value>
     <comment>Item short-name</comment>
   </data>
   <data name="CommandTrackRare" xml:space="preserve">
@@ -238,19 +238,19 @@ Colors are stored as an array of 'RGBA' floats</value>
     <value>untrack</value>
   </data>
   <data name="DebugPatchedMethodFormat" xml:space="preserve">
-    <value>Patched {0} with {1}</value>
+    <value>{0} mit {1} gepatcht</value>
     <comment>Method names</comment>
   </data>
   <data name="DebugPerformanceRefreshedFormat" xml:space="preserve">
-    <value>Refreshed {0} in {1}ms</value>
+    <value>{0} in {1} ms aktualisiert</value>
     <comment>Type name, elapsed milliseconds</comment>
   </data>
   <data name="DebugRegisteringCommandFormat" xml:space="preserve">
-    <value>Registering {0} command...</value>
+    <value>Befehl {0} wird registriert...</value>
     <comment>Command name</comment>
   </data>
   <data name="DebugRegisteringCommandWithArgumentsFormat" xml:space="preserve">
-    <value>Registering {0} command with arguments...</value>
+    <value>Befehl {0} mit Argumenten wird registriert...</value>
     <comment>Command name</comment>
   </data>
   <data name="DirectionEast" xml:space="preserve">
@@ -278,87 +278,87 @@ Colors are stored as an array of 'RGBA' floats</value>
     <value>W</value>
   </data>
   <data name="ErrorCannotFindField" xml:space="preserve">
-    <value>Unable to find {0} on {1}</value>
+    <value>{0} konnte auf {1} nicht gefunden werden</value>
     <comment>Field name, type name</comment>
   </data>
   <data name="ErrorCannotFindOriginalMethodFormat" xml:space="preserve">
-    <value>Cannot find original method {0}</value>
+    <value>Ursprüngliche Methode {0} nicht gefunden</value>
     <comment>Method name</comment>
   </data>
   <data name="ErrorCannotFindPostfixMethodFormat" xml:space="preserve">
-    <value>Cannot find postfix method {0}</value>
+    <value>Postfix-Methode {0} nicht gefunden</value>
     <comment>Method name</comment>
   </data>
   <data name="ErrorCannotFindPrefixMethodFormat" xml:space="preserve">
-    <value>Cannot find prefix method {0}</value>
+    <value>Prefix-Methode {0} nicht gefunden</value>
     <comment>Method name</comment>
   </data>
   <data name="ErrorCannotLoadFormat" xml:space="preserve">
-    <value>Unable to load {0}. {1}</value>
+    <value>{0} konnte nicht geladen werden. {1}</value>
     <comment>Filename, error message</comment>
   </data>
   <data name="ErrorCannotSaveFormat" xml:space="preserve">
-    <value>Unable to save {0}. {1}</value>
+    <value>{0} konnte nicht gespeichert werden. {1}</value>
     <comment>Filename, error message</comment>
   </data>
   <data name="ErrorCorruptedFileFormat" xml:space="preserve">
-    <value>{0} seems corrupted. Please fix</value>
+    <value>{0} scheint beschädigt zu sein. Bitte korrigieren</value>
     <comment>Filename</comment>
   </data>
   <data name="ErrorCorruptedPropertyFormat" xml:space="preserve">
-    <value>{0} seems corrupted in {1}. Please fix</value>
+    <value>{0} scheint in {1} beschädigt zu sein. Bitte korrigieren</value>
     <comment>Key, filename</comment>
   </data>
   <data name="ErrorFailedToCreateItem" xml:space="preserve">
-    <value>Failed to create item!</value>
+    <value>Gegenstand konnte nicht erstellt werden!</value>
   </data>
   <data name="ErrorFailedToLoadItemBundle" xml:space="preserve">
-    <value>Failed to load item bundle!</value>
+    <value>Gegenstandspaket konnte nicht geladen werden!</value>
   </data>
   <data name="ErrorFileNotFoundFormat" xml:space="preserve">
-    <value>{0} not found!</value>
+    <value>{0} nicht gefunden!</value>
     <comment>Filename</comment>
   </data>
   <data name="ErrorInvalidArguments" xml:space="preserve">
-    <value>Invalid arguments</value>
+    <value>Ungültige Argumente</value>
   </data>
   <data name="ErrorNoTemplateFound" xml:space="preserve">
-    <value>No template found!</value>
+    <value>Keine Vorlage gefunden!</value>
   </data>
   <data name="ErrorTooManyTemplatesFormat" xml:space="preserve">
-    <value>Found {0} templates, be more specific</value>
+    <value>{0} Vorlagen gefunden, bitte genauer eingrenzen</value>
     <comment>Template count &gt; 1</comment>
   </data>
   <data name="ErrorUnsupportedTypeFormat" xml:space="preserve">
-    <value>Unsupported type: {0}</value>
+    <value>Nicht unterstützter Typ: {0}</value>
     <comment>Property type-name</comment>
   </data>
   <data name="FeatureAimbotDescription" xml:space="preserve">
-    <value>Aimbot. Automatic aiming and/or shooting (SilentAim).</value>
+    <value>Aimbot. Automatisches Zielen und/oder Schießen (Silent Aim).</value>
   </data>
   <data name="FeatureAimbotName" xml:space="preserve">
     <value>aimbot</value>
   </data>
   <data name="FeatureAmmunitionDescription" xml:space="preserve">
-    <value>Unlimited ammo.</value>
+    <value>Unbegrenzte Munition.</value>
   </data>
   <data name="FeatureAmmunitionName" xml:space="preserve">
     <value>ammo</value>
   </data>
   <data name="FeatureAutomaticGunDescription" xml:space="preserve">
-    <value>Force all guns (even bolt action guns) to use automatic firing mode with customizable fire rate.</value>
+    <value>Zwingt alle Waffen (auch Repetierer) in den Automatikmodus mit einstellbarer Feuerrate.</value>
   </data>
   <data name="FeatureAutomaticGunName" xml:space="preserve">
     <value>autogun</value>
   </data>
   <data name="FeatureCameraDescription" xml:space="preserve">
-    <value>Free camera with fast mode and teleportation.</value>
+    <value>Freie Kamera mit Schnellmodus und Teleportation.</value>
   </data>
   <data name="FeatureCameraName" xml:space="preserve">
     <value>camera</value>
   </data>
   <data name="FeatureCommandsDescription" xml:space="preserve">
-    <value>This main popup window.</value>
+    <value>Dieses Hauptfenster.</value>
   </data>
   <data name="FeatureCommandsName" xml:space="preserve">
     <value>commands</value>
@@ -367,25 +367,25 @@ Colors are stored as an array of 'RGBA' floats</value>
     <value>RavenX</value>
   </data>
   <data name="FeatureCrosshairDescription" xml:space="preserve">
-    <value>Crosshair with customizable size, color, thickness and auto-hide feature when aiming.</value>
+    <value>Fadenkreuz mit einstellbarer Größe, Farbe und Stärke, das sich beim Zielen automatisch ausblendet.</value>
   </data>
   <data name="FeatureCrosshairName" xml:space="preserve">
     <value>crosshair</value>
   </data>
   <data name="FeatureDurabilityDescription" xml:space="preserve">
-    <value>Maximum durability of items.</value>
+    <value>Maximale Haltbarkeit von Gegenständen.</value>
   </data>
   <data name="FeatureDurabilityName" xml:space="preserve">
     <value>durability</value>
   </data>
   <data name="FeatureExamineDescription" xml:space="preserve">
-    <value>All items already examined. Instant search.</value>
+    <value>Alle Gegenstände bereits untersucht. Sofortige Suche.</value>
   </data>
   <data name="FeatureExamineName" xml:space="preserve">
     <value>examine</value>
   </data>
   <data name="FeatureExfiltrationPointsDescription" xml:space="preserve">
-    <value>Exfiltration points with customizable colors given eligibility, status filter, distance.</value>
+    <value>Extraktionspunkte mit einstellbaren Farben je nach Verfügbarkeit, Statusfilter und Entfernung.</value>
   </data>
   <data name="FeatureExfiltrationPointsEligibleFormat" xml:space="preserve">
     <value>{0} ({1})</value>
@@ -413,40 +413,40 @@ Colors are stored as an array of 'RGBA' floats</value>
     <value>Timer</value>
   </data>
   <data name="FeatureFeatureWallShootDescription" xml:space="preserve">
-    <value>Shoot through wall/helmet/vest/material with maximum penetration and minimal deviation/ricochet.</value>
+    <value>Durch Wand, Helm, Weste und Material schießen, mit maximaler Durchschlagskraft und minimaler Abweichung oder Abprallern.</value>
   </data>
   <data name="FeatureFovChangerDescription" xml:space="preserve">
-    <value>Change Field Of View (FOV).</value>
+    <value>Sichtfeld (FOV) ändern.</value>
   </data>
   <data name="FeatureFovChangerName" xml:space="preserve">
     <value>fovchanger</value>
   </data>
   <data name="FeatureGameStateDescription" xml:space="preserve">
-    <value>Refresh all game information for other features.</value>
+    <value>Aktualisiert alle Spielinformationen für die übrigen Funktionen.</value>
   </data>
   <data name="FeatureGameStateName" xml:space="preserve">
     <value>gamestate</value>
   </data>
   <data name="FeatureGhostDescription" xml:space="preserve">
-    <value>Stop bots from seeing you.</value>
+    <value>Verhindert, dass Bots dich sehen.</value>
   </data>
   <data name="FeatureGhostName" xml:space="preserve">
     <value>ghost</value>
   </data>
   <data name="FeatureGrenadesDescription" xml:space="preserve">
-    <value>Grenades outline.</value>
+    <value>Umrandung von Granaten.</value>
   </data>
   <data name="FeatureGrenadesName" xml:space="preserve">
     <value>grenade</value>
   </data>
   <data name="FeatureHealthDescription" xml:space="preserve">
-    <value>Full health, prevent any damage (so even when falling), keep energy and hydration at maximum.</value>
+    <value>Volle Gesundheit, verhindert jeden Schaden (auch beim Sturz) und hält Energie und Flüssigkeit auf dem Maximum.</value>
   </data>
   <data name="FeatureHealthName" xml:space="preserve">
     <value>health</value>
   </data>
   <data name="FeatureHitsDescription" xml:space="preserve">
-    <value>Hit markers (hit, armor, health with configurable colors).</value>
+    <value>Treffermarkierungen (Treffer, Panzerung, Gesundheit mit einstellbaren Farben).</value>
   </data>
   <data name="FeatureHitsName" xml:space="preserve">
     <value>hits</value>
@@ -456,7 +456,7 @@ Colors are stored as an array of 'RGBA' floats</value>
     <comment>X, y</comment>
   </data>
   <data name="FeatureHudDescription" xml:space="preserve">
-    <value>HUD (compass, ammo left in chamber / magazine, fire mode, coordinates).</value>
+    <value>HUD (Kompass, verbleibende Munition in Patronenlager und Magazin, Feuermodus, Koordinaten).</value>
   </data>
   <data name="FeatureHudName" xml:space="preserve">
     <value>hud</value>
@@ -469,61 +469,61 @@ Colors are stored as an array of 'RGBA' floats</value>
     <comment>Magazine count, chamber count, magazine capacity, fire-mode</comment>
   </data>
   <data name="FeatureInteractDescription" xml:space="preserve">
-    <value>Change distance for loot/door interaction.</value>
+    <value>Ändert die Reichweite für Loot- und Türinteraktionen.</value>
   </data>
   <data name="FeatureInteractName" xml:space="preserve">
     <value>interact</value>
   </data>
   <data name="FeatureLootItemsDescription" xml:space="preserve">
-    <value>List all lootable items and track any item by name or rarity or in-game wishlist in raid (even in containers and corpses). Use track and tracklist commands to control display.</value>
+    <value>Listet alle aufnehmbaren Gegenstände auf und verfolgt beliebige Gegenstände nach Name, Seltenheit oder Wunschliste im Raid (auch in Behältern und Leichen). Steuerung über die Befehle track und tracklist.</value>
   </data>
   <data name="FeatureLootItemsName" xml:space="preserve">
     <value>loot</value>
   </data>
   <data name="FeatureMapDescription" xml:space="preserve">
-    <value>Full screen map with radar esp.</value>
+    <value>Vollbildkarte mit Radar-ESP.</value>
   </data>
   <data name="FeatureMapName" xml:space="preserve">
     <value>map</value>
   </data>
   <data name="FeatureNightVisionDescription" xml:space="preserve">
-    <value>Night vision.</value>
+    <value>Nachtsicht.</value>
   </data>
   <data name="FeatureNightVisionName" xml:space="preserve">
     <value>night</value>
   </data>
   <data name="FeatureNoCollisionDescription" xml:space="preserve">
-    <value>No physical collisions, making you immune to bullets, grenades and barbed wires.</value>
+    <value>Keine physischen Kollisionen, dadurch immun gegen Kugeln, Granaten und Stacheldraht.</value>
   </data>
   <data name="FeatureNoCollisionName" xml:space="preserve">
     <value>nocoll</value>
   </data>
   <data name="FeatureNoMalfunctionsDescription" xml:space="preserve">
-    <value>No weapon malfunctions: no misfires or failures to eject or feed. No jammed bolts or overheating.</value>
+    <value>Keine Waffenstörungen: keine Zündversager, keine Auswurf- oder Zuführfehler, kein klemmender Verschluss und keine Überhitzung.</value>
   </data>
   <data name="FeatureNoMalfunctionsName" xml:space="preserve">
     <value>nomal</value>
   </data>
   <data name="FeatureNoRecoilDescription" xml:space="preserve">
-    <value>No recoil.</value>
+    <value>Kein Rückstoß.</value>
   </data>
   <data name="FeatureNoRecoilName" xml:space="preserve">
     <value>norecoil</value>
   </data>
   <data name="FeatureNoSwayDescription" xml:space="preserve">
-    <value>No sway.</value>
+    <value>Kein Schwanken.</value>
   </data>
   <data name="FeatureNoSwayName" xml:space="preserve">
     <value>nosway</value>
   </data>
   <data name="FeatureNoVisorDescription" xml:space="preserve">
-    <value>No visor, so even when using a face shield-visor you won't see it.</value>
+    <value>Kein Visier, du siehst es selbst bei getragenem Gesichtsschutz nicht.</value>
   </data>
   <data name="FeatureNoVisorName" xml:space="preserve">
     <value>novisor</value>
   </data>
   <data name="FeaturePlayersDescription" xml:space="preserve">
-    <value>Players (you'll see Bear/Boss/Cultist/Scav/Usec with configurable colors through walls). Charms, boxes, info (weapon and health), skeletons and distance.</value>
+    <value>Spieler (BEAR, Bosse, Kultisten, Scavs und USEC mit einstellbaren Farben durch Wände). Chams, Kästen, Infos (Waffe und Gesundheit), Skelette und Entfernung.</value>
   </data>
   <data name="FeaturePlayersFormat" xml:space="preserve">
     <value>{0} {1}% {2}</value>
@@ -549,7 +549,7 @@ Colors are stored as an array of 'RGBA' floats</value>
     <comment>Owner</comment>
   </data>
   <data name="FeatureQuestsDescription" xml:space="preserve">
-    <value>Locations for taking/placing quest items. Only items related to your started quests are displayed.</value>
+    <value>Orte zum Aufnehmen und Ablegen von Questgegenständen. Es werden nur Gegenstände deiner begonnenen Quests angezeigt.</value>
   </data>
   <data name="FeatureQuestsFormat" xml:space="preserve">
     <value>{0} ({1})</value>
@@ -559,55 +559,55 @@ Colors are stored as an array of 'RGBA' floats</value>
     <value>quest</value>
   </data>
   <data name="FeatureQuickTrowDescription" xml:space="preserve">
-    <value>Quick-throw grenades.</value>
+    <value>Granaten schnell werfen.</value>
   </data>
   <data name="FeatureQuickTrowName" xml:space="preserve">
     <value>quickthrow</value>
   </data>
   <data name="FeatureRadarDescription" xml:space="preserve">
-    <value>2D radar.</value>
+    <value>2D-Radar.</value>
   </data>
   <data name="FeatureRadarName" xml:space="preserve">
     <value>radar</value>
   </data>
   <data name="FeatureRendererSummary" xml:space="preserve">
-    <value>[summary]</value>
+    <value>[Übersicht]</value>
   </data>
   <data name="FeatureRendererWelcome" xml:space="preserve">
-    <value>Welcome to RavenX !</value>
+    <value>Willkommen bei RavenX!</value>
   </data>
   <data name="FeatureSkillsDescription" xml:space="preserve">
-    <value>All skills to Elite level (51) and all weapons mastering to level 3.</value>
+    <value>Alle Fertigkeiten auf Elite-Stufe (51) und alle Waffenbeherrschungen auf Stufe 3.</value>
   </data>
   <data name="FeatureSkillsName" xml:space="preserve">
     <value>skills</value>
   </data>
   <data name="FeatureSpeedDescription" xml:space="preserve">
-    <value>Speed boost to be able to go through walls/objects, or to move faster. Be careful to not kill yourself.</value>
+    <value>Geschwindigkeitsschub, um durch Wände und Objekte zu gelangen oder sich schneller zu bewegen. Vorsicht, damit bringst du dich leicht selbst um.</value>
   </data>
   <data name="FeatureSpeedName" xml:space="preserve">
     <value>speed</value>
   </data>
   <data name="FeatureStaminaDescription" xml:space="preserve">
-    <value>Unlimited stamina.</value>
+    <value>Unbegrenzte Ausdauer.</value>
   </data>
   <data name="FeatureStaminaName" xml:space="preserve">
     <value>stamina</value>
   </data>
   <data name="FeatureStashDescription" xml:space="preserve">
-    <value>Hidden/special stashes like buried barrels, ground caches, air drops or corpses.</value>
+    <value>Versteckte und besondere Verstecke wie vergrabene Fässer, Bodenverstecke, Abwürfe oder Leichen.</value>
   </data>
   <data name="FeatureStashName" xml:space="preserve">
     <value>stash</value>
   </data>
   <data name="FeatureThermalVisionDescription" xml:space="preserve">
-    <value>Thermal vision.</value>
+    <value>Wärmebild.</value>
   </data>
   <data name="FeatureThermalVisionName" xml:space="preserve">
     <value>thermal</value>
   </data>
   <data name="FeatureTrainDescription" xml:space="preserve">
-    <value>Summon train on compatible maps like Reserve or Lighthouse.</value>
+    <value>Ruft den Zug auf passenden Karten wie Reserve oder Lighthouse.</value>
   </data>
   <data name="FeatureTrainName" xml:space="preserve">
     <value>train</value>
@@ -616,289 +616,289 @@ Colors are stored as an array of 'RGBA' floats</value>
     <value>wallshoot</value>
   </data>
   <data name="FeatureWeatherDescription" xml:space="preserve">
-    <value>Clear weather.</value>
+    <value>Klares Wetter.</value>
   </data>
   <data name="FeatureWeatherName" xml:space="preserve">
     <value>weather</value>
   </data>
   <data name="FeatureWorldInteractiveObjectsDescription" xml:space="preserve">
-    <value>Door/Keycard reader/Car unlocker.</value>
+    <value>Tür, Kartenleser und Fahrzeugentriegelung.</value>
   </data>
   <data name="FeatureWorldInteractiveObjectsName" xml:space="preserve">
     <value>opener</value>
   </data>
   <data name="PropertyArmorDamageColor" xml:space="preserve">
-    <value>Armor-damage color</value>
+    <value>Farbe für Panzerungsschaden</value>
   </data>
   <data name="PropertyBackward" xml:space="preserve">
-    <value>Backward</value>
+    <value>Rückwärts</value>
   </data>
   <data name="PropertyBearColors" xml:space="preserve">
-    <value>Bear colors</value>
+    <value>BEAR-Farben</value>
   </data>
   <data name="PropertyBorderColor" xml:space="preserve">
-    <value>Border color</value>
+    <value>Rahmenfarbe</value>
   </data>
   <data name="PropertyBossColors" xml:space="preserve">
-    <value>Boss colors</value>
+    <value>Boss-Farben</value>
   </data>
   <data name="PropertyBoxThickness" xml:space="preserve">
-    <value>Box thickness</value>
+    <value>Kastenstärke</value>
   </data>
   <data name="PropertyCacheTimeInSec" xml:space="preserve">
-    <value>Cache time (sec)</value>
+    <value>Zwischenspeicherdauer (Sek.)</value>
   </data>
   <data name="PropertyCameraOffset" xml:space="preserve">
-    <value>Camera offset</value>
+    <value>Kameraversatz</value>
   </data>
   <data name="PropertyChangeTime" xml:space="preserve">
-    <value>Change time</value>
+    <value>Zeit ändern</value>
   </data>
   <data name="PropertyColor" xml:space="preserve">
-    <value>Color</value>
+    <value>Farbe</value>
   </data>
   <data name="PropertyCultistColors" xml:space="preserve">
-    <value>Cultist colors</value>
+    <value>Kultisten-Farben</value>
   </data>
   <data name="PropertyDisplayTime" xml:space="preserve">
-    <value>Display time</value>
+    <value>Anzeigedauer</value>
   </data>
   <data name="PropertyDistance" xml:space="preserve">
     <value>Distance</value>
   </data>
   <data name="PropertyEligibleColor" xml:space="preserve">
-    <value>Eligible color</value>
+    <value>Farbe für verfügbar</value>
   </data>
   <data name="PropertyEnabled" xml:space="preserve">
-    <value>Enabled</value>
+    <value>Aktiviert</value>
   </data>
   <data name="PropertyFadeOutTime" xml:space="preserve">
-    <value>Fade-out time</value>
+    <value>Ausblenddauer</value>
   </data>
   <data name="PropertyFastMode" xml:space="preserve">
-    <value>Fast mode</value>
+    <value>Schnellmodus</value>
   </data>
   <data name="PropertyFastMovementSpeed" xml:space="preserve">
-    <value>Fast movement speed</value>
+    <value>Schnelle Bewegungsgeschwindigkeit</value>
   </data>
   <data name="PropertyFoodWater" xml:space="preserve">
-    <value>Food / water</value>
+    <value>Nahrung / Wasser</value>
   </data>
   <data name="PropertyForward" xml:space="preserve">
-    <value>Forward</value>
+    <value>Vorwärts</value>
   </data>
   <data name="PropertyFov" xml:space="preserve">
     <value>FOV</value>
   </data>
   <data name="PropertyFovCircleColor" xml:space="preserve">
-    <value>FOV circle color</value>
+    <value>Farbe des FOV-Kreises</value>
   </data>
   <data name="PropertyFovCircleThickness" xml:space="preserve">
-    <value>FOV circle thickness</value>
+    <value>Stärke des FOV-Kreises</value>
   </data>
   <data name="PropertyFovRadius" xml:space="preserve">
-    <value>FOV radius</value>
+    <value>FOV-Radius</value>
   </data>
   <data name="PropertyFreeLookSensitivity" xml:space="preserve">
-    <value>Free look sensitivity</value>
+    <value>Empfindlichkeit der freien Sicht</value>
   </data>
   <data name="PropertyGroupingColor" xml:space="preserve">
-    <value>Grouping Color</value>
+    <value>Gruppierungsfarbe</value>
   </data>
   <data name="PropertyHealthDamageColor" xml:space="preserve">
-    <value>Health-damage color</value>
+    <value>Farbe für Gesundheitsschaden</value>
   </data>
   <data name="PropertyHideWhenAiming" xml:space="preserve">
-    <value>Hide when aiming</value>
+    <value>Beim Zielen ausblenden</value>
   </data>
   <data name="PropertyHitMarkerColor" xml:space="preserve">
-    <value>Hit-marker color</value>
+    <value>Farbe der Treffermarkierung</value>
   </data>
   <data name="PropertyInfoColor" xml:space="preserve">
-    <value>Info color</value>
+    <value>Infofarbe</value>
   </data>
   <data name="PropertyIntensity" xml:space="preserve">
-    <value>Intensity</value>
+    <value>Intensität</value>
   </data>
   <data name="PropertyKey" xml:space="preserve">
-    <value>Key</value>
+    <value>Taste</value>
   </data>
   <data name="PropertyLeft" xml:space="preserve">
-    <value>Left</value>
+    <value>Links</value>
   </data>
   <data name="PropertyMarksmanColors" xml:space="preserve">
-    <value>Marksman colors</value>
+    <value>Scharfschützen-Farben</value>
   </data>
   <data name="PropertyMaximumDistance" xml:space="preserve">
-    <value>Maximum distance</value>
+    <value>Maximale Entfernung</value>
   </data>
   <data name="PropertyMovementSpeed" xml:space="preserve">
-    <value>Movement speed</value>
+    <value>Bewegungsgeschwindigkeit</value>
   </data>
   <data name="PropertyNotEligibleColor" xml:space="preserve">
-    <value>Not eligible color</value>
+    <value>Farbe für nicht verfügbar</value>
   </data>
   <data name="PropertyNotShootableColors" xml:space="preserve">
-    <value>Not shootable colors</value>
+    <value>Farben für nicht beschießbar</value>
   </data>
   <data name="PropertyRadarBackground" xml:space="preserve">
-    <value>Radar background</value>
+    <value>Radarhintergrund</value>
   </data>
   <data name="PropertyRadarCrosshair" xml:space="preserve">
-    <value>Radar crosshair</value>
+    <value>Radar-Fadenkreuz</value>
   </data>
   <data name="PropertyRadarPercentage" xml:space="preserve">
-    <value>Radar percentage</value>
+    <value>Radargröße in Prozent</value>
   </data>
   <data name="PropertyRadarRange" xml:space="preserve">
-    <value>Radar range</value>
+    <value>Radarreichweite</value>
   </data>
   <data name="PropertyRange" xml:space="preserve">
-    <value>Range</value>
+    <value>Reichweite</value>
   </data>
   <data name="PropertyRate" xml:space="preserve">
     <value>Rate</value>
   </data>
   <data name="PropertyRemoveNegativeEffects" xml:space="preserve">
-    <value>Remove negative effects</value>
+    <value>Negative Effekte entfernen</value>
   </data>
   <data name="PropertyRight" xml:space="preserve">
-    <value>Right</value>
+    <value>Rechts</value>
   </data>
   <data name="PropertyRogueUsecColors" xml:space="preserve">
-    <value>Rogue-Usec colors</value>
+    <value>Rogue-USEC-Farben</value>
   </data>
   <data name="PropertyScavAssaultColors" xml:space="preserve">
-    <value>Scav-assault colors</value>
+    <value>Scav-Sturmsoldaten-Farben</value>
   </data>
   <data name="PropertyScavColors" xml:space="preserve">
-    <value>Scav colors</value>
+    <value>Scav-Farben</value>
   </data>
   <data name="PropertyScavRaiderColors" xml:space="preserve">
-    <value>Scav-raider colors</value>
+    <value>Scav-Raider-Farben</value>
   </data>
   <data name="PropertySearchInsideContainers" xml:space="preserve">
-    <value>Search inside containers</value>
+    <value>In Behältern suchen</value>
   </data>
   <data name="PropertySearchInsideCorpses" xml:space="preserve">
-    <value>Search inside corpses</value>
+    <value>In Leichen suchen</value>
   </data>
   <data name="PropertyShootableColors" xml:space="preserve">
-    <value>Shootable colors</value>
+    <value>Farben für beschießbar</value>
   </data>
   <data name="PropertyShowArmorDamage" xml:space="preserve">
-    <value>Show armor damage</value>
+    <value>Panzerungsschaden anzeigen</value>
   </data>
   <data name="PropertyShowBosses" xml:space="preserve">
-    <value>Show Bosses</value>
+    <value>Bosse anzeigen</value>
   </data>
   <data name="PropertyShowBoxes" xml:space="preserve">
-    <value>Show boxes</value>
+    <value>Kästen anzeigen</value>
   </data>
   <data name="PropertyShowCompass" xml:space="preserve">
-    <value>Show compass</value>
+    <value>Kompass anzeigen</value>
   </data>
   <data name="PropertyShowContainers" xml:space="preserve">
-    <value>Show containers</value>
+    <value>Behälter anzeigen</value>
   </data>
   <data name="PropertyShowCoordinates" xml:space="preserve">
-    <value>Show coordinates</value>
+    <value>Koordinaten anzeigen</value>
   </data>
   <data name="PropertyShowCorpses" xml:space="preserve">
-    <value>Show corpses</value>
+    <value>Leichen anzeigen</value>
   </data>
   <data name="PropertyShowCultists" xml:space="preserve">
-    <value>Show Cultists</value>
+    <value>Kultisten anzeigen</value>
   </data>
   <data name="PropertyShowEligible" xml:space="preserve">
-    <value>Show eligible</value>
+    <value>Verfügbare anzeigen</value>
   </data>
   <data name="PropertyShowFovCircle" xml:space="preserve">
-    <value>Show fov circle</value>
+    <value>FOV-Kreis anzeigen</value>
   </data>
   <data name="PropertyShowHealthDamage" xml:space="preserve">
-    <value>Show health-damage</value>
+    <value>Gesundheitsschaden anzeigen</value>
   </data>
   <data name="PropertyShowHitMarker" xml:space="preserve">
-    <value>Show Hit-marker</value>
+    <value>Treffermarkierung anzeigen</value>
   </data>
   <data name="PropertyShowInfos" xml:space="preserve">
-    <value>Show infos</value>
+    <value>Infos anzeigen</value>
   </data>
   <data name="PropertyShowMap" xml:space="preserve">
-    <value>Show map</value>
+    <value>Karte anzeigen</value>
   </data>
   <data name="PropertyShowMarksmen" xml:space="preserve">
-    <value>Show Marksmen</value>
+    <value>Scharfschützen anzeigen</value>
   </data>
   <data name="PropertyShowNotEligible" xml:space="preserve">
-    <value>Show not eligible</value>
+    <value>Nicht verfügbare anzeigen</value>
   </data>
   <data name="PropertyShowNotShootable" xml:space="preserve">
-    <value>Show not shootable</value>
+    <value>Nicht beschießbare anzeigen</value>
   </data>
   <data name="PropertyShowPlayers" xml:space="preserve">
-    <value>Show players</value>
+    <value>Spieler anzeigen</value>
   </data>
   <data name="PropertyShowPrices" xml:space="preserve">
-    <value>Show prices</value>
+    <value>Preise anzeigen</value>
   </data>
   <data name="PropertyShowRogues" xml:space="preserve">
-    <value>Show Rogues</value>
+    <value>Rogues anzeigen</value>
   </data>
   <data name="PropertyShowScavAssaults" xml:space="preserve">
-    <value>Show Scav-assaults</value>
+    <value>Scav-Sturmsoldaten anzeigen</value>
   </data>
   <data name="PropertyShowScavRaiders" xml:space="preserve">
-    <value>Show Scav-raiders</value>
+    <value>Scav-Raider anzeigen</value>
   </data>
   <data name="PropertyShowScavs" xml:space="preserve">
-    <value>Show Scavs</value>
+    <value>Scavs anzeigen</value>
   </data>
   <data name="PropertyShowShootable" xml:space="preserve">
-    <value>Show shootable</value>
+    <value>Beschießbare anzeigen</value>
   </data>
   <data name="PropertyShowSkeletons" xml:space="preserve">
-    <value>Show skeletons</value>
+    <value>Skelette anzeigen</value>
   </data>
   <data name="PropertySilentAim" xml:space="preserve">
-    <value>Silent aim</value>
+    <value>Silent Aim</value>
   </data>
   <data name="PropertySilentAimNextShotDelay" xml:space="preserve">
-    <value>Silent aim next-shot-delay</value>
+    <value>Silent Aim: Verzögerung bis zum nächsten Schuss</value>
   </data>
   <data name="PropertySilentAimSpeedFactor" xml:space="preserve">
-    <value>Silent aim speed-factor</value>
+    <value>Silent Aim: Geschwindigkeitsfaktor</value>
   </data>
   <data name="PropertySize" xml:space="preserve">
-    <value>Size</value>
+    <value>Größe</value>
   </data>
   <data name="PropertySkeletonThickness" xml:space="preserve">
-    <value>Skeleton thickness</value>
+    <value>Skelettstärke</value>
   </data>
   <data name="PropertySmoothness" xml:space="preserve">
-    <value>Smoothness</value>
+    <value>Weichheit</value>
   </data>
   <data name="PropertyStatusFilter" xml:space="preserve">
-    <value>Status filter</value>
+    <value>Statusfilter</value>
   </data>
   <data name="PropertyTeleport" xml:space="preserve">
-    <value>Teleport</value>
+    <value>Teleportieren</value>
   </data>
   <data name="PropertyThickness" xml:space="preserve">
-    <value>Thickness</value>
+    <value>Stärke</value>
   </data>
   <data name="PropertyTrackedNamesComment" xml:space="preserve">
-    <value>Example: ["foo", "bar"] or with extended properties: [{"Name":"foo","Color":[1.0,0.0,0.0,1.0]},{"Name":"bar","Color":[1.0,1.0,1.0,0.8],"Rarity":"Rare"}]</value>
+    <value>Beispiel: ["foo", "bar"] oder mit erweiterten Eigenschaften: [{"Name":"foo","Color":[1.0,0.0,0.0,1.0]},{"Name":"bar","Color":[1.0,1.0,1.0,0.8],"Rarity":"Rare"}]</value>
   </data>
   <data name="PropertyTrackWishlist" xml:space="preserve">
-    <value>Track Wishlist</value>
+    <value>Wunschliste verfolgen</value>
   </data>
   <data name="PropertyUsecColors" xml:space="preserve">
-    <value>Usec colors</value>
+    <value>USEC-Farben</value>
   </data>
   <data name="PropertyVitalsOnly" xml:space="preserve">
-    <value>Vitals only</value>
+    <value>Nur Vitalwerte</value>
   </data>
   <data name="PropertyX" xml:space="preserve">
     <value>X</value>
@@ -916,13 +916,13 @@ Colors are stored as an array of 'RGBA' floats</value>
     <value>------</value>
   </data>
   <data name="ErrorNoBotFound" xml:space="preserve">
-    <value>No bot found!</value>
+    <value>Kein Bot gefunden!</value>
   </data>
   <data name="CommandSpawnBot" xml:space="preserve">
     <value>spawnbot</value>
   </data>
   <data name="ErrorTooManyBotsFormat" xml:space="preserve">
-    <value>Found {0} bots, be more specific</value>
+    <value>{0} Bots gefunden, bitte genauer eingrenzen</value>
     <comment>Bot count &gt; 1</comment>
   </data>
   <data name="CommandSpawnBotEnumerateFormat" xml:space="preserve">
@@ -932,7 +932,7 @@ Colors are stored as an array of 'RGBA' floats</value>
     <value>spawnqi</value>
   </data>
   <data name="PropertyTrackAutoWishlist" xml:space="preserve">
-    <value>Track Auto Wishlist</value>
+    <value>Automatische Wunschliste verfolgen</value>
   </data>
   <data name="CommandSpawnHideoutItems" xml:space="preserve">
     <value>spawnhi</value>
@@ -941,893 +941,893 @@ Colors are stored as an array of 'RGBA' floats</value>
     <value>noflash</value>
   </data>
   <data name="FeatureNoFlashDescription" xml:space="preserve">
-    <value>No persistent flash or eye-burn effect after a flash grenade.</value>
+    <value>Kein anhaltender Blend- oder Nachleuchteffekt nach einer Blendgranate.</value>
   </data>
   <data name="FeatureMortarName" xml:space="preserve">
     <value>mortar</value>
   </data>
   <data name="FeatureMortarDescription" xml:space="preserve">
-    <value>Triggers a mortar strike at the player's location.</value>
+    <value>Löst einen Mörserangriff an der Position des Spielers aus.</value>
   </data>
   <data name="FeatureAirDropName" xml:space="preserve">
     <value>airdrop</value>
   </data>
   <data name="FeatureAirDropDescription" xml:space="preserve">
-    <value>Triggers an airdrop at the player's location.</value>
+    <value>Löst einen Abwurf an der Position des Spielers aus.</value>
   </data>
   <data name="PropertyElevationAdjustment" xml:space="preserve">
-    <value>Elevation adjustment</value>
+    <value>Höhenkorrektur</value>
   </data>
   <data name="Menu_Actions_e65fb504" xml:space="preserve">
-    <value>Actions</value>
+    <value>Aktionen</value>
   </data>
   <data name="Menu_ActiveFeatures_86fb6a62" xml:space="preserve">
-    <value>Active Features</value>
+    <value>Aktive Funktionen</value>
   </data>
   <data name="Menu_ADD_7d7558d4" xml:space="preserve">
-    <value>ADD</value>
+    <value>HINZUFÜGEN</value>
   </data>
   <data name="Menu_Aim_9abce996" xml:space="preserve">
-    <value>Aim</value>
+    <value>Zielen</value>
   </data>
   <data name="Menu_Aimbot_14fe76c7" xml:space="preserve">
     <value>Aimbot</value>
   </data>
   <data name="Menu_AirDrop_0f31f85c" xml:space="preserve">
-    <value>Air Drop</value>
+    <value>Abwurf</value>
   </data>
   <data name="Menu_All_75afe364" xml:space="preserve">
-    <value>All</value>
+    <value>Alle</value>
   </data>
   <data name="Menu_AllItems_787d6ff0" xml:space="preserve">
-    <value>All items</value>
+    <value>Alle Gegenstände</value>
   </data>
   <data name="Menu_ALLITEMS_e1812cd0" xml:space="preserve">
-    <value>ALL ITEMS</value>
+    <value>ALLE GEGENSTÄNDE</value>
   </data>
   <data name="Menu_ALLOFF_39fd9eb1" xml:space="preserve">
-    <value>ALL OFF</value>
+    <value>ALLE AUS</value>
   </data>
   <data name="Menu_ALLON_cb920cd5" xml:space="preserve">
-    <value>ALL ON</value>
+    <value>ALLE AN</value>
   </data>
   <data name="Menu_AlsoListWhatIsInside_a4fe5780" xml:space="preserve">
-    <value>Also list what is inside</value>
+    <value>Auch den Inhalt auflisten</value>
   </data>
   <data name="Menu_AnyHitYouLandIsLethalNeverAppliesToYours_7a161720" xml:space="preserve">
-    <value>Any hit you land is lethal.
-Never applies to yourself.</value>
+    <value>Jeder deiner Treffer ist tödlich.
+Gilt nie für dich selbst.</value>
   </data>
   <data name="Menu_APPLY_760e025b" xml:space="preserve">
-    <value>APPLY</value>
+    <value>ÜBERNEHMEN</value>
   </data>
   <data name="Menu_Apply_ca77bbdb" xml:space="preserve">
-    <value>Apply</value>
+    <value>Übernehmen</value>
   </data>
   <data name="Menu_BendOwnShots_dd59f9bb" xml:space="preserve">
-    <value>Bend Own Shots</value>
+    <value>Eigene Schüsse lenken</value>
   </data>
   <data name="Menu_Bodies_db4d0409" xml:space="preserve">
-    <value>Bodies</value>
+    <value>Leichen</value>
   </data>
   <data name="Menu_BoostMuzzleSpeed_3a2139c6" xml:space="preserve">
-    <value>Boost Muzzle Speed</value>
+    <value>Mündungsgeschwindigkeit erhöhen</value>
   </data>
   <data name="Menu_BoostSpeed_69094ecf" xml:space="preserve">
-    <value>Boost Speed</value>
+    <value>Geschwindigkeit erhöhen</value>
   </data>
   <data name="Menu_Bots_48630a97" xml:space="preserve">
     <value>Bots</value>
   </data>
   <data name="Menu_BotsAlreadyHuntingYouKeepTheirTargetUnti_3b8dc3e1" xml:space="preserve">
-    <value>Bots already hunting you keep their target
-until they lose it.</value>
+    <value>Bots, die dich bereits jagen, behalten ihr Ziel,
+bis sie dich verlieren.</value>
   </data>
   <data name="Menu_BotSpawn_8d202a81" xml:space="preserve">
-    <value>Bot Spawn</value>
+    <value>Bot erzeugen</value>
   </data>
   <data name="Menu_BoxThickness_4dfa8b60" xml:space="preserve">
-    <value>Box Thickness</value>
+    <value>Kastenstärke</value>
   </data>
   <data name="Menu_Call_341dd0c9" xml:space="preserve">
-    <value>Call</value>
+    <value>Rufen</value>
   </data>
   <data name="Menu_Camera_e74c7b6e" xml:space="preserve">
-    <value>Camera</value>
+    <value>Kamera</value>
   </data>
   <data name="Menu_CameraOffset_ef51137d" xml:space="preserve">
-    <value>Camera Offset</value>
+    <value>Kameraversatz</value>
   </data>
   <data name="Menu_CameraPositionNotAvailableYet_81d5ece5" xml:space="preserve">
-    <value>Camera position not available yet.</value>
+    <value>Kameraposition noch nicht verfügbar.</value>
   </data>
   <data name="Menu_Catalogue_90a12396" xml:space="preserve">
-    <value>Catalogue</value>
+    <value>Katalog</value>
   </data>
   <data name="Menu_Categories_f075e98d" xml:space="preserve">
-    <value>Categories</value>
+    <value>Kategorien</value>
   </data>
   <data name="Menu_Chams_ede15999" xml:space="preserve">
     <value>Chams</value>
   </data>
   <data name="Menu_CircleThickness_1925b673" xml:space="preserve">
-    <value>Circle Thickness</value>
+    <value>Kreisstärke</value>
   </data>
   <data name="Menu_CLEAR_06b44bc2" xml:space="preserve">
-    <value>CLEAR</value>
+    <value>LEEREN</value>
   </data>
   <data name="Menu_ClearWeather_d8aad08e" xml:space="preserve">
-    <value>Clear Weather</value>
+    <value>Klares Wetter</value>
   </data>
   <data name="Menu_ClickABindThenPressAKeyEscapeClearsItRig_8cdda327" xml:space="preserve">
-    <value>Click a bind, then press a key. Escape clears it, right-click cancels.</value>
+    <value>Belegung anklicken, dann Taste drücken. Escape löscht, Rechtsklick bricht ab.</value>
   </data>
   <data name="Menu_Clouds_79d12c97" xml:space="preserve">
-    <value>Clouds</value>
+    <value>Wolken</value>
   </data>
   <data name="Menu_ColourMarksTheRoleBlockedLimbsUseADimmed_c8291f86" xml:space="preserve">
-    <value>Colour marks the role. Blocked limbs
-use a dimmed shade of it.</value>
+    <value>Die Farbe kennzeichnet die Rolle. Verdeckte
+Gliedmaßen erscheinen in einem dunkleren Ton.</value>
   </data>
   <data name="Menu_CompensateDrop_038dbfa3" xml:space="preserve">
-    <value>Compensate Drop</value>
+    <value>Geschossabfall ausgleichen</value>
   </data>
   <data name="Menu_Config_6a12e0e7" xml:space="preserve">
-    <value>Config</value>
+    <value>Konfiguration</value>
   </data>
   <data name="Menu_Containers_01776d71" xml:space="preserve">
-    <value>Containers</value>
+    <value>Behälter</value>
   </data>
   <data name="Menu_Corpse_55c5accd" xml:space="preserve">
-    <value>Corpse</value>
+    <value>Leiche</value>
   </data>
   <data name="Menu_Crosshair_49f3f003" xml:space="preserve">
-    <value>Crosshair</value>
+    <value>Fadenkreuz</value>
   </data>
   <data name="Menu_CustomFireRate_2e29c358" xml:space="preserve">
-    <value>Custom Fire Rate</value>
+    <value>Eigene Feuerrate</value>
   </data>
   <data name="Menu_CustomReach_23679ba1" xml:space="preserve">
-    <value>Custom Reach</value>
+    <value>Eigene Reichweite</value>
   </data>
   <data name="Menu_Details_0ec24245" xml:space="preserve">
     <value>Details</value>
   </data>
   <data name="Menu_Diagnostics_e9a81397" xml:space="preserve">
-    <value>Diagnostics</value>
+    <value>Diagnose</value>
   </data>
   <data name="Menu_Difficulty_8520a210" xml:space="preserve">
-    <value>Difficulty</value>
+    <value>Schwierigkeit</value>
   </data>
   <data name="Menu_Distance_d3d96082" xml:space="preserve">
-    <value>Distance</value>
+    <value>Entfernung</value>
   </data>
   <data name="Menu_DUMP_c6897287" xml:space="preserve">
-    <value>DUMP</value>
+    <value>AUSGEBEN</value>
   </data>
   <data name="Menu_Easy_6c33113b" xml:space="preserve">
-    <value>Easy</value>
+    <value>Leicht</value>
   </data>
   <data name="Menu_ElevationAdjustment_8e414e37" xml:space="preserve">
-    <value>Elevation Adjustment</value>
+    <value>Höhenkorrektur</value>
   </data>
   <data name="Menu_Enable_8614a9ee" xml:space="preserve">
-    <value>Enable</value>
+    <value>Aktivieren</value>
   </data>
   <data name="Menu_EnableShowInfoToSeeThese_d1082e70" xml:space="preserve">
-    <value>Enable Show Info to see these.</value>
+    <value>Aktiviere „Infos anzeigen“, um dies zu sehen.</value>
   </data>
   <data name="Menu_EnergyDrain_1f6e3307" xml:space="preserve">
-    <value>Energy Drain</value>
+    <value>Energieverbrauch</value>
   </data>
   <data name="Menu_Ergonomics_86bcdf07" xml:space="preserve">
-    <value>Ergonomics</value>
+    <value>Ergonomie</value>
   </data>
   <data name="Menu_ErgonomicsDrivesAimSpeedAndSwayWeightFee_169d63af" xml:space="preserve">
-    <value>Ergonomics drives aim speed and sway.
-Weight feeds stamina drain.</value>
+    <value>Die Ergonomie bestimmt Zielgeschwindigkeit und Schwanken.
+Das Gewicht wirkt auf den Ausdauerverbrauch.</value>
   </data>
   <data name="Menu_ESPRoles_7f47ad5a" xml:space="preserve">
-    <value>ESP Roles</value>
+    <value>ESP-Rollen</value>
   </data>
   <data name="Menu_Events_003420a4" xml:space="preserve">
-    <value>Events</value>
+    <value>Ereignisse</value>
   </data>
   <data name="Menu_EverythingExamined_c40ad921" xml:space="preserve">
-    <value>Everything Examined</value>
+    <value>Alles untersucht</value>
   </data>
   <data name="Menu_ExaminedMarksItemsAsInspectedInstantRese_f9aafdac" xml:space="preserve">
-    <value>Examined marks items as inspected.
-Instant Research removes the search wait.</value>
+    <value>„Untersucht“ markiert Gegenstände als geprüft.
+„Sofortige Recherche“ entfernt die Wartezeit.</value>
   </data>
   <data name="Menu_ExfilESP_a2234a03" xml:space="preserve">
-    <value>Exfil ESP</value>
+    <value>Ausgangs-ESP</value>
   </data>
   <data name="Menu_Exfils_9e01c494" xml:space="preserve">
-    <value>Exfils</value>
+    <value>Ausgänge</value>
   </data>
   <data name="Menu_ExtendFlightTime_5fb1acfa" xml:space="preserve">
-    <value>Extend Flight Time</value>
+    <value>Flugzeit verlängern</value>
   </data>
   <data name="Menu_ExtractionPoints_4ad3e4ff" xml:space="preserve">
-    <value>Extraction Points</value>
+    <value>Extraktionspunkte</value>
   </data>
   <data name="Menu_Faction_08aebcfb" xml:space="preserve">
-    <value>Faction</value>
+    <value>Fraktion</value>
   </data>
   <data name="Menu_FastSpeed_515846e8" xml:space="preserve">
-    <value>Fast Speed</value>
+    <value>Schnelle Geschwindigkeit</value>
   </data>
   <data name="Menu_FeatureUnavailable_c1f568b3" xml:space="preserve">
-    <value>Feature unavailable</value>
+    <value>Funktion nicht verfügbar</value>
   </data>
   <data name="Menu_FieldOfView_7ffdacb9" xml:space="preserve">
-    <value>Field Of View</value>
+    <value>Sichtfeld</value>
   </data>
   <data name="Menu_FilePresent_786fd968" xml:space="preserve">
-    <value>File present</value>
+    <value>Datei vorhanden</value>
   </data>
   <data name="Menu_Filters_0b3aa6ec" xml:space="preserve">
-    <value>Filters</value>
+    <value>Filter</value>
   </data>
   <data name="Menu_FireRate_d3b00101" xml:space="preserve">
-    <value>Fire Rate</value>
+    <value>Feuerrate</value>
   </data>
   <data name="Menu_FiresOnceAtYourCurrentPosition_37cc48b1" xml:space="preserve">
-    <value>Fires once at your current position.</value>
+    <value>Feuert einmal auf deine aktuelle Position.</value>
   </data>
   <data name="Menu_Firing_12dc69ea" xml:space="preserve">
-    <value>Firing</value>
+    <value>Schießen</value>
   </data>
   <data name="Menu_FlightTime_05899410" xml:space="preserve">
-    <value>Flight Time</value>
+    <value>Flugzeit</value>
   </data>
   <data name="Menu_Fly_227bfa82" xml:space="preserve">
-    <value>Fly</value>
+    <value>Fliegen</value>
   </data>
   <data name="Menu_FlySpeed_a020da59" xml:space="preserve">
-    <value>Fly Speed</value>
+    <value>Fluggeschwindigkeit</value>
   </data>
   <data name="Menu_Fog_047e09df" xml:space="preserve">
-    <value>Fog</value>
+    <value>Nebel</value>
   </data>
   <data name="Menu_ForceFullAuto_d269c518" xml:space="preserve">
-    <value>Force Full Auto</value>
+    <value>Vollautomatik erzwingen</value>
   </data>
   <data name="Menu_FOVChanger_58fa29c2" xml:space="preserve">
-    <value>FOV Changer</value>
+    <value>Sichtfeld ändern</value>
   </data>
   <data name="Menu_FOVRadius_304b59ea" xml:space="preserve">
-    <value>FOV Radius</value>
+    <value>FOV-Radius</value>
   </data>
   <data name="Menu_FreeCamera_e9aca0ea" xml:space="preserve">
-    <value>Free Camera</value>
+    <value>Freie Kamera</value>
   </data>
   <data name="Menu_FreezeAI_cbd96824" xml:space="preserve">
-    <value>Freeze AI</value>
+    <value>KI einfrieren</value>
   </data>
   <data name="Menu_Friendly_1d9e429e" xml:space="preserve">
-    <value>Friendly</value>
+    <value>Verbündet</value>
   </data>
   <data name="Menu_FullScreen_08c844c0" xml:space="preserve">
-    <value>Full Screen</value>
+    <value>Vollbild</value>
   </data>
   <data name="Menu_Gain_9b80731e" xml:space="preserve">
-    <value>Gain</value>
+    <value>Verstärkung</value>
   </data>
   <data name="Menu_Gather_2614cfaa" xml:space="preserve">
-    <value>Gather</value>
+    <value>Sammeln</value>
   </data>
   <data name="Menu_Gear_fb334b4e" xml:space="preserve">
-    <value>Gear</value>
+    <value>Ausrüstung</value>
   </data>
   <data name="Menu_GhostMode_0d35eaa3" xml:space="preserve">
-    <value>Ghost Mode</value>
+    <value>Geistmodus</value>
   </data>
   <data name="Menu_GiveTheSpotANameFirst_4296bb7f" xml:space="preserve">
-    <value>Give the spot a name first.</value>
+    <value>Gib dem Punkt zuerst einen Namen.</value>
   </data>
   <data name="Menu_GodMode_1f294500" xml:space="preserve">
-    <value>God Mode</value>
+    <value>Gottmodus</value>
   </data>
   <data name="Menu_Grain_3b1d78ec" xml:space="preserve">
-    <value>Grain</value>
+    <value>Körnung</value>
   </data>
   <data name="Menu_GrenadesESP_9f46da52" xml:space="preserve">
-    <value>Grenades ESP</value>
+    <value>Granaten-ESP</value>
   </data>
   <data name="Menu_Group_0574902c" xml:space="preserve">
-    <value>Group</value>
+    <value>Gruppe</value>
   </data>
   <data name="Menu_HandbookNotLoadedYetOpenItOnceInTheMainM_699cde73" xml:space="preserve">
-    <value>Handbook not loaded yet.
-Open it once in the main menu.</value>
+    <value>Handbuch noch nicht geladen.
+Öffne es einmal im Hauptmenü.</value>
   </data>
   <data name="Menu_Handling_3d29c1d4" xml:space="preserve">
-    <value>Handling</value>
+    <value>Handhabung</value>
   </data>
   <data name="Menu_HandlingOverride_dae5f164" xml:space="preserve">
-    <value>Handling Override</value>
+    <value>Handhabung überschreiben</value>
   </data>
   <data name="Menu_Hard_64efa7fc" xml:space="preserve">
-    <value>Hard</value>
+    <value>Schwer</value>
   </data>
   <data name="Menu_Heal_ba97377b" xml:space="preserve">
-    <value>Heal</value>
+    <value>Heilen</value>
   </data>
   <data name="Menu_HealthRegen_58455632" xml:space="preserve">
-    <value>Health Regen</value>
+    <value>Gesundheitsregeneration</value>
   </data>
   <data name="Menu_HealthValue_c58c8a42" xml:space="preserve">
-    <value>Health Value</value>
+    <value>Gesundheitswert</value>
   </data>
   <data name="Menu_HideWorldMarkersInScopes_ccc7b28e" xml:space="preserve">
-    <value>Hide World Markers In Scopes</value>
+    <value>Weltmarkierungen im Zielfernrohr ausblenden</value>
   </data>
   <data name="Menu_HitMarkers_fb10a8f5" xml:space="preserve">
-    <value>Hit Markers</value>
+    <value>Treffermarkierungen</value>
   </data>
   <data name="Menu_HoldKey_de6b2837" xml:space="preserve">
-    <value>Hold Key</value>
+    <value>Haltetaste</value>
   </data>
   <data name="Menu_Hotspots_25356efd" xml:space="preserve">
-    <value>Hotspots</value>
+    <value>Merkpunkte</value>
   </data>
   <data name="Menu_HPBar_95c95100" xml:space="preserve">
-    <value>HP Bar</value>
+    <value>Lebensbalken</value>
   </data>
   <data name="Menu_HydrationDrain_4f865627" xml:space="preserve">
-    <value>Hydration Drain</value>
+    <value>Flüssigkeitsverbrauch</value>
   </data>
   <data name="Menu_Impossible_30593af8" xml:space="preserve">
-    <value>Impossible</value>
+    <value>Unmöglich</value>
   </data>
   <data name="Menu_InRaid_1e8e1056" xml:space="preserve">
-    <value>In Raid</value>
+    <value>Im Raid</value>
   </data>
   <data name="Menu_InstantKill_57445cfa" xml:space="preserve">
-    <value>Instant Kill</value>
+    <value>Sofortiger Tod</value>
   </data>
   <data name="Menu_InstantResearch_b3ade7f3" xml:space="preserve">
-    <value>Instant Research</value>
+    <value>Sofortige Recherche</value>
   </data>
   <data name="Menu_Intensity_53b4f9aa" xml:space="preserve">
-    <value>Intensity</value>
+    <value>Intensität</value>
   </data>
   <data name="Menu_Interaction_28fa9ceb" xml:space="preserve">
-    <value>Interaction</value>
+    <value>Interaktion</value>
   </data>
   <data name="Menu_ItemDatabaseNotLoadedYet_4bb2ff41" xml:space="preserve">
-    <value>Item database not loaded yet.</value>
+    <value>Gegenstandsdatenbank noch nicht geladen.</value>
   </data>
   <data name="Menu_Items_e036382f" xml:space="preserve">
-    <value>Items</value>
+    <value>Gegenstände</value>
   </data>
   <data name="Menu_JumpHeight_31b15dc8" xml:space="preserve">
-    <value>Jump Height</value>
+    <value>Sprunghöhe</value>
   </data>
   <data name="Menu_KeepFoodWater_c8bc3a7d" xml:space="preserve">
-    <value>Keep Food &amp; Water</value>
+    <value>Nahrung und Wasser halten</value>
   </data>
   <data name="Menu_KeepsTheRoundAlivePastTheAmmoSOwnExpiryR_e33e62b1" xml:space="preserve">
-    <value>Keeps the round alive past the
-ammo's own expiry. Raises range.</value>
+    <value>Hält das Geschoss über die eigene
+Lebensdauer der Munition hinaus aktiv. Erhöht die Reichweite.</value>
   </data>
   <data name="Menu_KeyBindings_c967ae0a" xml:space="preserve">
-    <value>Key Bindings</value>
+    <value>Tastenbelegung</value>
   </data>
   <data name="Menu_Kill_2beedcb9" xml:space="preserve">
-    <value>Kill</value>
+    <value>Töten</value>
   </data>
   <data name="Menu_KillAll_8fd35b7e" xml:space="preserve">
-    <value>Kill All</value>
+    <value>Alle töten</value>
   </data>
   <data name="Menu_LandWhenDisabled_ba7a2124" xml:space="preserve">
-    <value>Land When Disabled</value>
+    <value>Beim Ausschalten landen</value>
   </data>
   <data name="Menu_LeadMovingTargets_9c2d3f99" xml:space="preserve">
-    <value>Lead Moving Targets</value>
+    <value>Bewegte Ziele vorhalten</value>
   </data>
   <data name="Menu_LeaveAt1xHigherSpeedsBleedOffToDragAndCu_c2968a47" xml:space="preserve">
-    <value>Leave at 1x. Higher speeds bleed
-off to drag and cut range.</value>
+    <value>Bei 1x belassen. Höhere Geschwindigkeiten gehen
+durch Luftwiderstand verloren und verkürzen die Reichweite.</value>
   </data>
   <data name="Menu_LiveEntities_77e521f2" xml:space="preserve">
-    <value>Live Entities</value>
+    <value>Aktive Einheiten</value>
   </data>
   <data name="Menu_LiveItems_8ce879b7" xml:space="preserve">
-    <value>Live Items</value>
+    <value>Vorhandene Gegenstände</value>
   </data>
   <data name="Menu_LivingAI_990b52e6" xml:space="preserve">
-    <value>Living AI</value>
+    <value>Lebende KI</value>
   </data>
   <data name="Menu_LOAD_e3f88de9" xml:space="preserve">
-    <value>LOAD</value>
+    <value>LADEN</value>
   </data>
   <data name="Menu_Loaded_25f1fb0a" xml:space="preserve">
-    <value>Loaded.</value>
+    <value>Geladen.</value>
   </data>
   <data name="Menu_LoadFailed_56c297d8" xml:space="preserve">
-    <value>Load failed.</value>
+    <value>Laden fehlgeschlagen.</value>
   </data>
   <data name="Menu_LookSensitivity_5c813329" xml:space="preserve">
-    <value>Look Sensitivity</value>
+    <value>Blickempfindlichkeit</value>
   </data>
   <data name="Menu_Loot_649603d7" xml:space="preserve">
     <value>Loot</value>
   </data>
   <data name="Menu_LootESP_c5b39e2b" xml:space="preserve">
-    <value>Loot ESP</value>
+    <value>Loot-ESP</value>
   </data>
   <data name="Menu_LootInRaid_8ea2ffe6" xml:space="preserve">
-    <value>Loot In Raid</value>
+    <value>Loot im Raid</value>
   </data>
   <data name="Menu_LootWorldESP_3ae34ec9" xml:space="preserve">
-    <value>Loot &amp; World ESP</value>
+    <value>Loot- und Welt-ESP</value>
   </data>
   <data name="Menu_MagicBullets_e1c8aa1d" xml:space="preserve">
-    <value>Magic Bullets</value>
+    <value>Magische Geschosse</value>
   </data>
   <data name="Menu_Map_44a7f051" xml:space="preserve">
-    <value>Map</value>
+    <value>Karte</value>
   </data>
   <data name="Menu_MarkersDrawThroughWalls_02634180" xml:space="preserve">
-    <value>Markers draw through walls.</value>
+    <value>Markierungen werden durch Wände gezeichnet.</value>
   </data>
   <data name="Menu_MaxAllSkills_3bbc2ba8" xml:space="preserve">
-    <value>Max All Skills</value>
+    <value>Alle Fertigkeiten maximieren</value>
   </data>
   <data name="Menu_MaxDistance_375c8074" xml:space="preserve">
-    <value>Max Distance</value>
+    <value>Max. Entfernung</value>
   </data>
   <data name="Menu_MaximumDistance_b5d33acc" xml:space="preserve">
-    <value>Maximum distance</value>
+    <value>Maximale Entfernung</value>
   </data>
   <data name="Menu_MaximumDurability_9afc0154" xml:space="preserve">
-    <value>Maximum Durability</value>
+    <value>Maximale Haltbarkeit</value>
   </data>
   <data name="Menu_Misc_df71ca29" xml:space="preserve">
-    <value>Misc</value>
+    <value>Sonstiges</value>
   </data>
   <data name="Menu_MortarStrike_bc555bde" xml:space="preserve">
-    <value>Mortar Strike</value>
+    <value>Mörserangriff</value>
   </data>
   <data name="Menu_Movement_e27f8f78" xml:space="preserve">
-    <value>Movement</value>
+    <value>Bewegung</value>
   </data>
   <data name="Menu_MoveSpeed_842a6757" xml:space="preserve">
-    <value>Move Speed</value>
+    <value>Bewegungsgeschwindigkeit</value>
   </data>
   <data name="Menu_MuzzleBoost_f11dfc9f" xml:space="preserve">
-    <value>Muzzle Boost</value>
+    <value>Mündungsverstärkung</value>
   </data>
   <data name="Menu_Names_7355c12f" xml:space="preserve">
-    <value>Names</value>
+    <value>Namen</value>
   </data>
   <data name="Menu_NeedsShowSkeletonToBeVisible_c302b580" xml:space="preserve">
-    <value>Needs Show Skeleton to be visible.</value>
+    <value>Benötigt „Skelett anzeigen“, um sichtbar zu sein.</value>
   </data>
   <data name="Menu_NightVision_8e473df7" xml:space="preserve">
-    <value>Night Vision</value>
+    <value>Nachtsicht</value>
   </data>
   <data name="Menu_NobodyElseAlive_1f94d470" xml:space="preserve">
-    <value>Nobody else alive.</value>
+    <value>Niemand sonst am Leben.</value>
   </data>
   <data name="Menu_NoBotTypeMatches_14811886" xml:space="preserve">
-    <value>No bot type matches.</value>
+    <value>Kein passender Bot-Typ.</value>
   </data>
   <data name="Menu_NoCollision_5e5d8fae" xml:space="preserve">
-    <value>No Collision</value>
+    <value>Keine Kollision</value>
   </data>
   <data name="Menu_NoFallDamage_2d56112c" xml:space="preserve">
-    <value>No Fall Damage</value>
+    <value>Kein Fallschaden</value>
   </data>
   <data name="Menu_NoFlash_759ea1dc" xml:space="preserve">
-    <value>No Flash</value>
+    <value>Keine Blendung</value>
   </data>
   <data name="Menu_NoGroundDetail_29afa9e2" xml:space="preserve">
-    <value>No Ground Detail</value>
+    <value>Keine Bodendetails</value>
   </data>
   <data name="Menu_NoInertia_e34447f8" xml:space="preserve">
-    <value>No Inertia</value>
+    <value>Keine Trägheit</value>
   </data>
   <data name="Menu_NoItemMatches_83c946ae" xml:space="preserve">
-    <value>No item matches.</value>
+    <value>Kein passender Gegenstand.</value>
   </data>
   <data name="Menu_NoMalfunctions_58fa8d85" xml:space="preserve">
-    <value>No Malfunctions</value>
+    <value>Keine Störungen</value>
   </data>
   <data name="Menu_NoOverheat_2d97a6b6" xml:space="preserve">
-    <value>No Overheat</value>
+    <value>Keine Überhitzung</value>
   </data>
   <data name="Menu_NoRecoil_fffa76f0" xml:space="preserve">
-    <value>No Recoil</value>
+    <value>Kein Rückstoß</value>
   </data>
   <data name="Menu_Normal_58de2772" xml:space="preserve">
     <value>Normal</value>
   </data>
   <data name="Menu_NoRoleMatches_f4775007" xml:space="preserve">
-    <value>No role matches.</value>
+    <value>Keine passende Rolle.</value>
   </data>
   <data name="Menu_NoSway_1bea25ce" xml:space="preserve">
-    <value>No Sway</value>
+    <value>Kein Schwanken</value>
   </data>
   <data name="Menu_NothingEnabled_66e5adcf" xml:space="preserve">
-    <value>Nothing enabled.</value>
+    <value>Nichts aktiviert.</value>
   </data>
   <data name="Menu_NothingLootableFound_e87302ce" xml:space="preserve">
-    <value>Nothing lootable found.</value>
+    <value>Nichts Aufnehmbares gefunden.</value>
   </data>
   <data name="Menu_NothingMatches_f8e003c3" xml:space="preserve">
-    <value>Nothing matches.</value>
+    <value>Keine Treffer.</value>
   </data>
   <data name="Menu_NothingSavedOnThisMapYet_fa70b850" xml:space="preserve">
-    <value>Nothing saved on this map yet.</value>
+    <value>Auf dieser Karte noch nichts gespeichert.</value>
   </data>
   <data name="Menu_NothingTracked_bad570ce" xml:space="preserve">
-    <value>Nothing tracked.</value>
+    <value>Nichts verfolgt.</value>
   </data>
   <data name="Menu_NotInARaid_81d66b80" xml:space="preserve">
-    <value>Not in a raid.</value>
+    <value>Nicht im Raid.</value>
   </data>
   <data name="Menu_NotSavedYet_8662a2eb" xml:space="preserve">
-    <value>Not saved yet</value>
+    <value>Noch nicht gespeichert</value>
   </data>
   <data name="Menu_NoVisor_49a4e2dd" xml:space="preserve">
-    <value>No Visor</value>
+    <value>Kein Visier</value>
   </data>
   <data name="Menu_ObjectMarkers_5231af65" xml:space="preserve">
-    <value>Object Markers</value>
+    <value>Objektmarkierungen</value>
   </data>
   <data name="Menu_OffBendsShotsThroughCoverPairItWithWallP_107f03db" xml:space="preserve">
-    <value>Off bends shots through cover.
-Pair it with Wall Penetration.</value>
+    <value>Ausgeschaltet lenkt es Schüsse durch Deckung.
+Am besten mit „Durch Wände schießen“ kombinieren.</value>
   </data>
   <data name="Menu_OffDropsThemAheadOfYou_b6081beb" xml:space="preserve">
-    <value>Off drops them ahead of you.</value>
+    <value>Ausgeschaltet wirft es sie vor dir ab.</value>
   </data>
   <data name="Menu_OffLetsTheMapDecideWhichCanBeHundredsOfM_923b659d" xml:space="preserve">
-    <value>Off lets the map decide, which can be
-hundreds of metres away.</value>
+    <value>Ausgeschaltet entscheidet die Karte, was
+hunderte Meter entfernt sein kann.</value>
   </data>
   <data name="Menu_OnlyShow_6049fb8c" xml:space="preserve">
-    <value>Only show</value>
+    <value>Nur anzeigen</value>
   </data>
   <data name="Menu_Opacity_de1f0406" xml:space="preserve">
-    <value>Opacity</value>
+    <value>Deckkraft</value>
   </data>
   <data name="Menu_Open_538b10e9" xml:space="preserve">
-    <value>Open</value>
+    <value>Öffnen</value>
   </data>
   <data name="Menu_OpenDoorsReaders_7249de26" xml:space="preserve">
-    <value>Open Doors &amp; Readers</value>
+    <value>Türen und Kartenleser öffnen</value>
   </data>
   <data name="Menu_Other_6e38ff95" xml:space="preserve">
-    <value>Other</value>
+    <value>Sonstiges</value>
   </data>
   <data name="Menu_OtherESP_1218f7a5" xml:space="preserve">
-    <value>Other ESP</value>
+    <value>Weiteres ESP</value>
   </data>
   <data name="Menu_Penetration_5dea1dd2" xml:space="preserve">
-    <value>Penetration</value>
+    <value>Durchschlag</value>
   </data>
   <data name="Menu_PerLimbVisibility_a0371c19" xml:space="preserve">
-    <value>Per-Limb Visibility</value>
+    <value>Sichtbarkeit je Gliedmaße</value>
   </data>
   <data name="Menu_PlaceAtDistance_8755910c" xml:space="preserve">
-    <value>Place At Distance</value>
+    <value>In Entfernung platzieren</value>
   </data>
   <data name="Menu_Player_1c70fc20" xml:space="preserve">
-    <value>Player</value>
+    <value>Spieler</value>
   </data>
   <data name="Menu_PlayersESP_27cc8b31" xml:space="preserve">
-    <value>Players ESP</value>
+    <value>Spieler-ESP</value>
   </data>
   <data name="Menu_PriceFrom_7596ca1a" xml:space="preserve">
-    <value>Price from</value>
+    <value>Preis ab</value>
   </data>
   <data name="Menu_PricesAreLoadingItemsWithoutAPriceStayHi_12daca62" xml:space="preserve">
-    <value>Prices are loading. Items without a price stay hidden.</value>
+    <value>Preise werden geladen. Gegenstände ohne Preis bleiben ausgeblendet.</value>
   </data>
   <data name="Menu_PriceTo_99e8d4e3" xml:space="preserve">
-    <value>Price to</value>
+    <value>Preis bis</value>
   </data>
   <data name="Menu_QuestESP_7e6084ed" xml:space="preserve">
-    <value>Quest ESP</value>
+    <value>Quest-ESP</value>
   </data>
   <data name="Menu_QuickThrow_754ad5fc" xml:space="preserve">
-    <value>Quick Throw</value>
+    <value>Schnellwurf</value>
   </data>
   <data name="Menu_Radar_4b896fbb" xml:space="preserve">
     <value>Radar</value>
   </data>
   <data name="Menu_RadarRange_0014a1ee" xml:space="preserve">
-    <value>Radar Range</value>
+    <value>Radarreichweite</value>
   </data>
   <data name="Menu_Rain_09d001f3" xml:space="preserve">
-    <value>Rain</value>
+    <value>Regen</value>
   </data>
   <data name="Menu_RandomDirection_662d727b" xml:space="preserve">
-    <value>Random Direction</value>
+    <value>Zufällige Richtung</value>
   </data>
   <data name="Menu_Rarity_940e7baa" xml:space="preserve">
-    <value>Rarity</value>
+    <value>Seltenheit</value>
   </data>
   <data name="Menu_Readout_651966ff" xml:space="preserve">
-    <value>Readout</value>
+    <value>Anzeige</value>
   </data>
   <data name="Menu_RedirectsTheRoundsYouFireNeverPullsTheTr_a8e8ac22" xml:space="preserve">
-    <value>Redirects the rounds you fire.
-Never pulls the trigger for you.</value>
+    <value>Lenkt die von dir abgefeuerten Geschosse um.
+Drückt niemals für dich ab.</value>
   </data>
   <data name="Menu_Reduction_941d9ab2" xml:space="preserve">
-    <value>Reduction</value>
+    <value>Verringerung</value>
   </data>
   <data name="Menu_RemoveNegativeEffects_81954ce6" xml:space="preserve">
-    <value>Remove Negative Effects</value>
+    <value>Negative Effekte entfernen</value>
   </data>
   <data name="Menu_Render_350cf42d" xml:space="preserve">
-    <value>Render</value>
+    <value>Darstellung</value>
   </data>
   <data name="Menu_RequireLineOfSight_d621b662" xml:space="preserve">
-    <value>Require Line Of Sight</value>
+    <value>Sichtlinie erforderlich</value>
   </data>
   <data name="Menu_Results_9cf82695" xml:space="preserve">
-    <value>Results</value>
+    <value>Ergebnisse</value>
   </data>
   <data name="Menu_Run_8d57e66a" xml:space="preserve">
-    <value>Run</value>
+    <value>Ausführen</value>
   </data>
   <data name="Menu_SAVE_ca52e188" xml:space="preserve">
-    <value>SAVE</value>
+    <value>SPEICHERN</value>
   </data>
   <data name="Menu_Saved_ae0ab8fe" xml:space="preserve">
-    <value>Saved.</value>
+    <value>Gespeichert.</value>
   </data>
   <data name="Menu_SavedSpots_cac393b5" xml:space="preserve">
-    <value>Saved Spots</value>
+    <value>Gespeicherte Punkte</value>
   </data>
   <data name="Menu_SaveFailed_e6b82899" xml:space="preserve">
-    <value>Save failed.</value>
+    <value>Speichern fehlgeschlagen.</value>
   </data>
   <data name="Menu_SAVEHERE_749085c6" xml:space="preserve">
-    <value>SAVE HERE</value>
+    <value>HIER SPEICHERN</value>
   </data>
   <data name="Menu_SavePosition_b502890b" xml:space="preserve">
-    <value>Save Position</value>
+    <value>Position speichern</value>
   </data>
   <data name="Menu_SecondColourMarksThePartsThatAreBehindCo_e08d587e" xml:space="preserve">
-    <value>Second colour marks the parts
-that are behind cover.</value>
+    <value>Die zweite Farbe kennzeichnet die Teile,
+die hinter Deckung liegen.</value>
   </data>
   <data name="Menu_SelectAnItemOnTheLeft_8d63cc52" xml:space="preserve">
-    <value>Select an item on the left.</value>
+    <value>Wähle links einen Gegenstand aus.</value>
   </data>
   <data name="Menu_SelfHeal_65d72b0b" xml:space="preserve">
-    <value>Self Heal</value>
+    <value>Selbstheilung</value>
   </data>
   <data name="Menu_SetErgonomics_11e45e3b" xml:space="preserve">
-    <value>Set Ergonomics</value>
+    <value>Ergonomie festlegen</value>
   </data>
   <data name="Menu_SETTIME_a1b5c930" xml:space="preserve">
-    <value>SET TIME</value>
+    <value>ZEIT SETZEN</value>
   </data>
   <data name="Menu_Settings_4b058728" xml:space="preserve">
-    <value>Settings</value>
+    <value>Einstellungen</value>
   </data>
   <data name="Menu_ShootThroughWallsWithMaximumPenetrationA_06d8e17c" xml:space="preserve">
-    <value>Shoot through walls with maximum penetration
-and no ricochet or deviation.</value>
+    <value>Durch Wände schießen mit maximalem Durchschlag,
+ohne Abpraller oder Abweichung.</value>
   </data>
   <data name="Menu_ShotDelay_7ebf07ce" xml:space="preserve">
-    <value>Shot Delay</value>
+    <value>Schussverzögerung</value>
   </data>
   <data name="Menu_ShowBlocked_527ee214" xml:space="preserve">
-    <value>Show Blocked</value>
+    <value>Verdeckte anzeigen</value>
   </data>
   <data name="Menu_ShowBoxes_ad7fcae1" xml:space="preserve">
-    <value>Show Boxes</value>
+    <value>Kästen anzeigen</value>
   </data>
   <data name="Menu_ShowEligible_44c95059" xml:space="preserve">
-    <value>Show Eligible</value>
+    <value>Verfügbare anzeigen</value>
   </data>
   <data name="Menu_ShowFOVCircle_8a194899" xml:space="preserve">
-    <value>Show FOV Circle</value>
+    <value>FOV-Kreis anzeigen</value>
   </data>
   <data name="Menu_ShowInfo_72d03a68" xml:space="preserve">
-    <value>Show Info</value>
+    <value>Infos anzeigen</value>
   </data>
   <data name="Menu_ShowNotEligible_2e3d064a" xml:space="preserve">
-    <value>Show Not Eligible</value>
+    <value>Nicht verfügbare anzeigen</value>
   </data>
   <data name="Menu_ShowPrices_7c0b6576" xml:space="preserve">
-    <value>Show Prices</value>
+    <value>Preise anzeigen</value>
   </data>
   <data name="Menu_ShowShootable_90678a3f" xml:space="preserve">
-    <value>Show Shootable</value>
+    <value>Beschießbare anzeigen</value>
   </data>
   <data name="Menu_ShowSkeleton_7a9623cb" xml:space="preserve">
-    <value>Show Skeleton</value>
+    <value>Skelett anzeigen</value>
   </data>
   <data name="Menu_SilentAim_ac9467f5" xml:space="preserve">
     <value>Silent Aim</value>
   </data>
   <data name="Menu_SilentMovement_b6c51fc1" xml:space="preserve">
-    <value>Silent Movement</value>
+    <value>Lautlose Bewegung</value>
   </data>
   <data name="Menu_SkeletonThickness_93188ed4" xml:space="preserve">
-    <value>Skeleton Thickness</value>
+    <value>Skelettstärke</value>
   </data>
   <data name="Menu_SliderNeedsCustomFireRateOn_59ace707" xml:space="preserve">
-    <value>Slider needs Custom Fire Rate on.</value>
+    <value>Regler benötigt aktivierte „Eigene Feuerrate“.</value>
   </data>
   <data name="Menu_Smoothness_e3111550" xml:space="preserve">
-    <value>Smoothness</value>
+    <value>Weichheit</value>
   </data>
   <data name="Menu_SnapLines_27f18d12" xml:space="preserve">
-    <value>Snap Lines</value>
+    <value>Verbindungslinien</value>
   </data>
   <data name="Menu_SnapLineThickness_ec441167" xml:space="preserve">
-    <value>Snap Line Thickness</value>
+    <value>Stärke der Verbindungslinien</value>
   </data>
   <data name="Menu_SPAWN_1cd75bf8" xml:space="preserve">
-    <value>SPAWN</value>
+    <value>ERZEUGEN</value>
   </data>
   <data name="Menu_Spawn_c6929d38" xml:space="preserve">
-    <value>Spawn</value>
+    <value>Erzeugen</value>
   </data>
   <data name="Menu_SpawnBot_ced5b6d5" xml:space="preserve">
-    <value>Spawn Bot</value>
+    <value>Bot erzeugen</value>
   </data>
   <data name="Menu_SpawnDistance_dea991c3" xml:space="preserve">
-    <value>Spawn Distance</value>
+    <value>Erzeugungsentfernung</value>
   </data>
   <data name="Menu_SpawningNeedsAnActiveRaid_dea89a60" xml:space="preserve">
-    <value>Spawning needs an active raid.</value>
+    <value>Zum Erzeugen muss ein Raid laufen.</value>
   </data>
   <data name="Menu_SpeedBoostHold_0cac99f9" xml:space="preserve">
-    <value>Speed Boost (hold)</value>
+    <value>Geschwindigkeitsschub (halten)</value>
   </data>
   <data name="Menu_SpeedFactor_89d33463" xml:space="preserve">
-    <value>Speed Factor</value>
+    <value>Geschwindigkeitsfaktor</value>
   </data>
   <data name="Menu_SprintSpeed_ee6ff56a" xml:space="preserve">
-    <value>Sprint Speed</value>
+    <value>Sprintgeschwindigkeit</value>
   </data>
   <data name="Menu_StanceSpeed_b94a5d3a" xml:space="preserve">
-    <value>Stance Speed</value>
+    <value>Haltungswechselgeschwindigkeit</value>
   </data>
   <data name="Menu_StashesAirdrops_3411c8f6" xml:space="preserve">
-    <value>Stashes &amp; Airdrops</value>
+    <value>Verstecke und Abwürfe</value>
   </data>
   <data name="Menu_Status_005ef20f" xml:space="preserve">
     <value>Status</value>
   </data>
   <data name="Menu_SummonTrain_fd5877b4" xml:space="preserve">
-    <value>Summon Train</value>
+    <value>Zug rufen</value>
   </data>
   <data name="Menu_Survival_c06582cf" xml:space="preserve">
-    <value>Survival</value>
+    <value>Überleben</value>
   </data>
   <data name="Menu_TACTICALSYSTEM_7abdb895" xml:space="preserve">
-    <value>TACTICAL SYSTEM</value>
+    <value>TAKTISCHES SYSTEM</value>
   </data>
   <data name="Menu_TagsTheIndividualItems_09ee6e04" xml:space="preserve">
-    <value>Tags the individual items.</value>
+    <value>Kennzeichnet die einzelnen Gegenstände.</value>
   </data>
   <data name="Menu_TagsTheObjectItselfNotItsContents_8f1d1ccc" xml:space="preserve">
-    <value>Tags the object itself, not its contents.</value>
+    <value>Kennzeichnet das Objekt selbst, nicht seinen Inhalt.</value>
   </data>
   <data name="Menu_TeleportAllToMe_bcba7d30" xml:space="preserve">
-    <value>Teleport All To Me</value>
+    <value>Alle zu mir teleportieren</value>
   </data>
   <data name="Menu_TeleportFailed_fefddb1f" xml:space="preserve">
-    <value>Teleport failed.</value>
+    <value>Teleportieren fehlgeschlagen.</value>
   </data>
   <data name="Menu_TELEPORTHERE_a60106cc" xml:space="preserve">
-    <value>TELEPORT HERE</value>
+    <value>HIERHER TELEPORTIEREN</value>
   </data>
   <data name="Menu_TeleportKey_6f798591" xml:space="preserve">
-    <value>Teleport key</value>
+    <value>Teleport-Taste</value>
   </data>
   <data name="Menu_Text_3e142d5e" xml:space="preserve">
     <value>Text</value>
   </data>
   <data name="Menu_TextOutline_397bcee4" xml:space="preserve">
-    <value>Text Outline</value>
+    <value>Textumrandung</value>
   </data>
   <data name="Menu_TextSize_ac31f063" xml:space="preserve">
-    <value>Text Size</value>
+    <value>Textgröße</value>
   </data>
   <data name="Menu_ThermalVision_8ae367a8" xml:space="preserve">
-    <value>Thermal Vision</value>
+    <value>Wärmebild</value>
   </data>
   <data name="Menu_TheTwoPriceLimitsAreAppliedFromLowToHigh_2b77078b" xml:space="preserve">
-    <value>The two price limits are applied from low to high.</value>
+    <value>Die beiden Preisgrenzen werden von niedrig nach hoch angewendet.</value>
   </data>
   <data name="Menu_ThisMapReportsNoExtractionPoints_136ce51f" xml:space="preserve">
-    <value>This map reports no extraction points.</value>
+    <value>Diese Karte meldet keine Extraktionspunkte.</value>
   </data>
   <data name="Menu_Throw_2033e7cf" xml:space="preserve">
-    <value>Throw</value>
+    <value>Werfen</value>
   </data>
   <data name="Menu_Throwables_e92ac918" xml:space="preserve">
-    <value>Throwables</value>
+    <value>Wurfgegenstände</value>
   </data>
   <data name="Menu_Thunder_f280d631" xml:space="preserve">
-    <value>Thunder</value>
+    <value>Gewitter</value>
   </data>
   <data name="Menu_TimeOfDay_c8b59713" xml:space="preserve">
-    <value>Time Of Day</value>
+    <value>Tageszeit</value>
   </data>
   <data name="Menu_TimeWeather_30ffec9a" xml:space="preserve">
-    <value>Time &amp; Weather</value>
+    <value>Zeit und Wetter</value>
   </data>
   <data name="Menu_ToggleMenu_a5ccd1b0" xml:space="preserve">
-    <value>Toggle Menu</value>
+    <value>Menü umschalten</value>
   </data>
   <data name="Menu_TRACK_267a0edc" xml:space="preserve">
-    <value>TRACK</value>
+    <value>VERFOLGEN</value>
   </data>
   <data name="Menu_TrackAutoWishlist_8167c3ae" xml:space="preserve">
-    <value>Track Auto Wishlist</value>
+    <value>Automatische Wunschliste verfolgen</value>
   </data>
   <data name="Menu_Tracked_752f538d" xml:space="preserve">
-    <value>Tracked</value>
+    <value>Verfolgt</value>
   </data>
   <data name="Menu_TrackedItems_83085779" xml:space="preserve">
-    <value>Tracked Items</value>
+    <value>Verfolgte Gegenstände</value>
   </data>
   <data name="Menu_TrackWishlist_f8c05d2b" xml:space="preserve">
-    <value>Track Wishlist</value>
+    <value>Wunschliste verfolgen</value>
   </data>
   <data name="Menu_Tuning_d4667194" xml:space="preserve">
-    <value>Tuning</value>
+    <value>Abstimmung</value>
   </data>
   <data name="Menu_Type_d155d06d" xml:space="preserve">
-    <value>Type</value>
+    <value>Typ</value>
   </data>
   <data name="Menu_UnlimitedAmmo_e211496e" xml:space="preserve">
-    <value>Unlimited Ammo</value>
+    <value>Unbegrenzte Munition</value>
   </data>
   <data name="Menu_UnlimitedStamina_c26b6c25" xml:space="preserve">
-    <value>Unlimited Stamina</value>
+    <value>Unbegrenzte Ausdauer</value>
   </data>
   <data name="Menu_UNTRACK_876ec349" xml:space="preserve">
-    <value>UNTRACK</value>
+    <value>NICHT MEHR VERFOLGEN</value>
   </data>
   <data name="Menu_VaultSpeed_7ac55468" xml:space="preserve">
-    <value>Vault Speed</value>
+    <value>Überstieggeschwindigkeit</value>
   </data>
   <data name="Menu_Visuals_3391c15e" xml:space="preserve">
-    <value>Visuals</value>
+    <value>Optik</value>
   </data>
   <data name="Menu_VitalsOnly_edfc16d4" xml:space="preserve">
-    <value>Vitals Only</value>
+    <value>Nur Vitalwerte</value>
   </data>
   <data name="Menu_WalkSpeed_5da7e5bb" xml:space="preserve">
-    <value>Walk Speed</value>
+    <value>Gehgeschwindigkeit</value>
   </data>
   <data name="Menu_WallShoot_5467f0fa" xml:space="preserve">
-    <value>Wall Shoot</value>
+    <value>Durch Wände schießen</value>
   </data>
   <data name="Menu_Weapon_b7c10361" xml:space="preserve">
-    <value>Weapon</value>
+    <value>Waffe</value>
   </data>
   <data name="Menu_Weightless_96866f0c" xml:space="preserve">
-    <value>Weightless</value>
+    <value>Schwerelos</value>
   </data>
   <data name="Menu_Wind_94413d27" xml:space="preserve">
     <value>Wind</value>
   </data>
   <data name="Menu_World_dd60ed33" xml:space="preserve">
-    <value>World</value>
+    <value>Welt</value>
   </data>
   <data name="Menu_WritesSceneAndObjectDumpsForAnalysis_95df331b" xml:space="preserve">
-    <value>Writes scene and object dumps for analysis.</value>
+    <value>Schreibt Szenen- und Objektausgaben zur Analyse.</value>
   </data>
   <data name="Menu_ZeroAllowsTargetsAtAnyDistanceTheLimitAl_1c21eefb" xml:space="preserve">
-    <value>Zero allows targets at any distance.
-The limit also applies to Magic Bullets.</value>
+    <value>Null erlaubt Ziele in jeder Entfernung.
+Die Grenze gilt auch für magische Geschosse.</value>
   </data>
 </root>

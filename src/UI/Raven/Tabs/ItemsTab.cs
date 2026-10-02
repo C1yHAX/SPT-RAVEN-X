@@ -14,7 +14,7 @@ namespace RavenX.UI.Raven.Tabs;
 
 internal class ItemsTab : IRavenTab
 {
-	public string Title => "Items";
+	public string Title => RavenText.L("Items");
 
 	private string _trackInput = string.Empty;
 	private string _searchInput = string.Empty;
@@ -38,14 +38,14 @@ internal class ItemsTab : IRavenTab
 
 		public string Description => _description ??= Template?.DescriptionLocalizationKey.Localized() ?? string.Empty;
 
-		public string Category => _category ??= Template != null ? TemplateHelper.GetCategory(Template) : "Other";
+		public string Category => _category ??= Template != null ? TemplateHelper.GetCategory(Template) : RavenText.L("Other");
 
 		private string? _subcategory;
 
 		public string Subcategory => _subcategory ??= Template != null ? TemplateHelper.GetSubcategory(Template) : string.Empty;
 	}
 
-	private string[] _categories = ["All"];
+	private string[] _categories = [RavenText.L("All")];
 	private int _category;
 	private int _sub;
 
@@ -54,7 +54,7 @@ internal class ItemsTab : IRavenTab
 
 	public void Draw()
 	{
-		_sub = RavenWidgets.SubTabBar(["Catalogue", "Live Items", "Tracked"], _sub);
+		_sub = RavenWidgets.SubTabBar([RavenText.L("Catalogue"), RavenText.L("Live Items"), RavenText.L("Tracked")], _sub);
 
 		switch (_sub)
 		{
@@ -80,14 +80,14 @@ internal class ItemsTab : IRavenTab
 
 	private void DrawLiveItemsCard()
 	{
-		using (RavenMenu.Card("Loot In Raid"))
+		using (RavenMenu.Card(RavenText.L("Loot In Raid")))
 		{
 			var player = GameState.Current?.LocalPlayer;
 			var world = Comfort.Common.Singleton<GameWorld>.Instance;
 
 			if (!player.IsValid() || world?.LootItems == null)
 			{
-				GUILayout.Label("Not in a raid.", RavenTheme.MutedLabel);
+				GUILayout.Label(RavenText.L("Not in a raid."), RavenTheme.MutedLabel);
 				return;
 			}
 
@@ -110,7 +110,7 @@ internal class ItemsTab : IRavenTab
 
 				if (lootItem is Corpse corpse)
 				{
-					name = corpse.ItemOwner?.RootItem?.ShortName.Localized() ?? "Corpse";
+					name = corpse.ItemOwner?.RootItem?.ShortName.Localized() ?? RavenText.L("Corpse");
 					kind = "corpse";
 				}
 				else
@@ -133,7 +133,7 @@ internal class ItemsTab : IRavenTab
 
 			if (found.Count == 0)
 			{
-				GUILayout.Label(needle.Length == 0 ? "Nothing lootable found." : "Nothing matches.", RavenTheme.MutedLabel);
+				GUILayout.Label(needle.Length == 0 ? RavenText.L("Nothing lootable found.") : RavenText.L("Nothing matches."), RavenTheme.MutedLabel);
 				return;
 			}
 
@@ -165,19 +165,19 @@ internal class ItemsTab : IRavenTab
 
 	private void DrawTrackedCard()
 	{
-		using (RavenMenu.Card("Tracked Items"))
+		using (RavenMenu.Card(RavenText.L("Tracked Items")))
 		{
 			var loot = FeatureFactory.GetFeature<LootItems>();
 			if (loot == null)
 			{
-				GUILayout.Label("Feature unavailable", RavenTheme.MutedLabel);
+				GUILayout.Label(RavenText.L("Feature unavailable"), RavenTheme.MutedLabel);
 				return;
 			}
 
 			GUILayout.BeginHorizontal();
 			_trackInput = RavenWidgets.TextField(_trackInput, "name or * for everything");
 			GUILayout.Space(6f);
-			var add = RavenWidgets.OutlineButton("ADD", 62f);
+			var add = RavenWidgets.OutlineButton(RavenText.L("ADD"), 62f);
 			GUILayout.EndHorizontal();
 
 			if (add && _trackInput.Trim().Length > 0)
@@ -193,7 +193,7 @@ internal class ItemsTab : IRavenTab
 
 			if (loot.TrackedNames.Count == 0)
 			{
-				GUILayout.Label("Nothing tracked.", RavenTheme.MutedLabel);
+				GUILayout.Label(RavenText.L("Nothing tracked."), RavenTheme.MutedLabel);
 				return;
 			}
 
@@ -251,17 +251,17 @@ internal class ItemsTab : IRavenTab
 
 	private void DrawCategoryTree()
 	{
-		using (RavenMenu.Card("Categories"))
+		using (RavenMenu.Card(RavenText.L("Categories")))
 		{
 			HandbookCatalog.Refresh();
 
 			if (!HandbookCatalog.Ready)
 			{
-				GUILayout.Label("Handbook not loaded yet.\nOpen it once in the main menu.", RavenTheme.MutedLabel);
+				GUILayout.Label(RavenText.L("Handbook not loaded yet.\nOpen it once in the main menu."), RavenTheme.MutedLabel);
 				return;
 			}
 
-			if (RavenWidgets.OutlineButton("ALL ITEMS", 120f))
+			if (RavenWidgets.OutlineButton(RavenText.L("ALL ITEMS"), 120f))
 			{
 				_categoryId = string.Empty;
 				_categoryName = string.Empty;
@@ -308,19 +308,19 @@ internal class ItemsTab : IRavenTab
 			GUILayout.EndScrollView();
 
 			RavenWidgets.Spacer(4f);
-			GUILayout.Label(_categoryName.Length > 0 ? _categoryName : "All items", RavenTheme.MutedLabel);
+			GUILayout.Label(_categoryName.Length > 0 ? _categoryName : RavenText.L("All items"), RavenTheme.MutedLabel);
 		}
 	}
 
 	private void DrawResultList()
 	{
-		using (RavenMenu.Card("Results"))
+		using (RavenMenu.Card(RavenText.L("Results")))
 		{
 			if (_results.Length == 0)
 			{
 				GUILayout.Label(_searchInput.Trim().Length == 0
-					? "Item database not loaded yet."
-					: "No item matches.", RavenTheme.MutedLabel);
+					? RavenText.L("Item database not loaded yet.")
+					: RavenText.L("No item matches."), RavenTheme.MutedLabel);
 				return;
 			}
 
@@ -359,11 +359,11 @@ internal class ItemsTab : IRavenTab
 
 	private void DrawDetail()
 	{
-		using (RavenMenu.Card("Details"))
+		using (RavenMenu.Card(RavenText.L("Details")))
 		{
 			if (_selected == null)
 			{
-				GUILayout.Label("Select an item on the left.", RavenTheme.MutedLabel);
+				GUILayout.Label(RavenText.L("Select an item on the left."), RavenTheme.MutedLabel);
 				return;
 			}
 
@@ -399,7 +399,7 @@ internal class ItemsTab : IRavenTab
 
 			GUILayout.BeginHorizontal();
 
-			if (loot != null && RavenWidgets.OutlineButton(tracked ? "UNTRACK" : "TRACK", 90f))
+			if (loot != null && RavenWidgets.OutlineButton(tracked ? RavenText.L("UNTRACK") : RavenText.L("TRACK"), 90f))
 			{
 				if (tracked)
 					loot.TrackedNames.RemoveAll(t => t.Name.Equals(trackName, System.StringComparison.OrdinalIgnoreCase));
@@ -409,7 +409,7 @@ internal class ItemsTab : IRavenTab
 
 			GUILayout.Space(8f);
 
-			if (inRaid && RavenWidgets.OutlineButton("SPAWN", 90f))
+			if (inRaid && RavenWidgets.OutlineButton(RavenText.L("SPAWN"), 90f))
 			{
 				ConsoleCommands.Spawn.SpawnTemplate(_selected.Id, player!, new ConsoleCommands.Spawn(), _ => true);
 				_status = $"Spawned {_selected.Name}.";
@@ -420,7 +420,7 @@ internal class ItemsTab : IRavenTab
 			if (!inRaid)
 			{
 				RavenWidgets.Spacer(6f);
-				GUILayout.Label("Spawning needs an active raid.", RavenTheme.MutedLabel);
+				GUILayout.Label(RavenText.L("Spawning needs an active raid."), RavenTheme.MutedLabel);
 			}
 
 			if (_status.Length > 0)
@@ -475,7 +475,7 @@ internal class ItemsTab : IRavenTab
 	{
 		var previous = _category > 0 && _category < _categories.Length ? _categories[_category] : null;
 
-		_categories = ["All", .. _results
+		_categories = [RavenText.L("All"), .. _results
 			.Select(e => e.Category)
 			.Where(c => c.Length > 0)
 			.Distinct(System.StringComparer.OrdinalIgnoreCase)

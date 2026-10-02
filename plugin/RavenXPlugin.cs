@@ -6,7 +6,7 @@ using RavenX;
 using JetBrains.Annotations;
 using UnityEngine.SceneManagement;
 
-[BepInPlugin(PluginId, "RavenX", "1.3.0")]
+[BepInPlugin(PluginId, "RavenX", "1.4.0")]
 [UsedImplicitly]
 public class RavenXPlugin : BaseUnityPlugin
 {

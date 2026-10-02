@@ -13,7 +13,7 @@ namespace RavenX.UI.Raven.Tabs;
 
 internal class BotsTab : IRavenTab
 {
-	public string Title => "Bots";
+	public string Title => RavenText.L("Bots");
 
 	private string _filter = string.Empty;
 	private string _filterApplied = string.Empty;
@@ -23,11 +23,11 @@ internal class BotsTab : IRavenTab
 	private string _requestedType = string.Empty;
 
 	private static readonly BotDifficulty[] _difficulties = [BotDifficulty.easy, BotDifficulty.normal, BotDifficulty.hard, BotDifficulty.impossible];
-	private static readonly string[] _difficultyNames = ["Easy", "Normal", "Hard", "Impossible"];
+	private static readonly string[] _difficultyNames = [RavenText.L("Easy"), RavenText.L("Normal"), RavenText.L("Hard"), RavenText.L("Impossible")];
 
 	public void Draw()
 	{
-		_sub = RavenWidgets.SubTabBar(["Live Entities", "Spawn"], _sub);
+		_sub = RavenWidgets.SubTabBar([RavenText.L("Live Entities"), RavenText.L("Spawn")], _sub);
 
 		RavenTabHelper.BeginColumns(3);
 
@@ -56,7 +56,7 @@ internal class BotsTab : IRavenTab
 
 	private void DrawSpawnCard()
 	{
-		using (RavenMenu.Card("Spawn Bot"))
+		using (RavenMenu.Card(RavenText.L("Spawn Bot")))
 		{
 			var inRaid = GameState.Current?.LocalPlayer.IsValid() == true;
 
@@ -65,7 +65,7 @@ internal class BotsTab : IRavenTab
 
 			if (!inRaid)
 			{
-				GUILayout.Label("Spawning needs an active raid.", RavenTheme.MutedLabel);
+				GUILayout.Label(RavenText.L("Spawning needs an active raid."), RavenTheme.MutedLabel);
 				return;
 			}
 
@@ -81,7 +81,7 @@ internal class BotsTab : IRavenTab
 
 			if (names.Length == 0)
 			{
-				GUILayout.Label("No bot type matches.", RavenTheme.MutedLabel);
+				GUILayout.Label(RavenText.L("No bot type matches."), RavenTheme.MutedLabel);
 				return;
 			}
 
@@ -116,26 +116,26 @@ internal class BotsTab : IRavenTab
 		if (spawning == null)
 			return;
 
-		using (RavenMenu.Card("Bot Spawn"))
+		using (RavenMenu.Card(RavenText.L("Bot Spawn")))
 		{
-			spawning.Enabled = RavenWidgets.SwitchRow(spawning.Enabled, "Place At Distance");
+			spawning.Enabled = RavenWidgets.SwitchRow(spawning.Enabled, RavenText.L("Place At Distance"));
 			RavenWidgets.Spacer(4f);
 
 			if (spawning.Enabled)
 			{
-				spawning.Distance = RavenWidgets.Slider("Spawn Distance", spawning.Distance, 5f, 200f, $"{spawning.Distance:0}m");
+				spawning.Distance = RavenWidgets.Slider(RavenText.L("Spawn Distance"), spawning.Distance, 5f, 200f, $"{spawning.Distance:0}m");
 				RavenWidgets.Spacer(6f);
-				spawning.RandomDirection = RavenWidgets.Checkbox(spawning.RandomDirection, "Random Direction");
-				GUILayout.Label("Off drops them ahead of you.", RavenTheme.MutedLabel);
+				spawning.RandomDirection = RavenWidgets.Checkbox(spawning.RandomDirection, RavenText.L("Random Direction"));
+				GUILayout.Label(RavenText.L("Off drops them ahead of you."), RavenTheme.MutedLabel);
 			}
 			else
 			{
-				GUILayout.Label("Off lets the map decide, which can be\nhundreds of metres away.", RavenTheme.MutedLabel);
+				GUILayout.Label(RavenText.L("Off lets the map decide, which can be\nhundreds of metres away."), RavenTheme.MutedLabel);
 			}
 
 			RavenWidgets.Spacer(6f);
 
-			var difficulty = RavenWidgets.Dropdown("Difficulty", Array.IndexOf(_difficulties, spawning.Difficulty), _difficultyNames, spawning);
+			var difficulty = RavenWidgets.Dropdown(RavenText.L("Difficulty"), Array.IndexOf(_difficulties, spawning.Difficulty), _difficultyNames, spawning);
 			if (difficulty >= 0 && difficulty < _difficulties.Length)
 				spawning.Difficulty = _difficulties[difficulty];
 
@@ -143,11 +143,11 @@ internal class BotsTab : IRavenTab
 				return;
 
 			RavenWidgets.Spacer(10f);
-			Row("Type", _requestedType);
-			Row("Status", spawning.Status);
+			Row(RavenText.L("Type"), _requestedType);
+			Row(RavenText.L("Status"), spawning.Status);
 
 			if (spawning.LastDistance > 0f)
-				Row("Distance", $"{spawning.LastDistance:0}m");
+				Row(RavenText.L("Distance"), $"{spawning.LastDistance:0}m");
 		}
 	}
 
@@ -166,12 +166,12 @@ internal class BotsTab : IRavenTab
 
 	private static void DrawActionsCard()
 	{
-		using (RavenMenu.Card("Actions"))
+		using (RavenMenu.Card(RavenText.L("Actions")))
 		{
 			var freeze = FeatureFactory.GetFeature<FreezeBots>();
 			if (freeze != null)
 			{
-				freeze.Enabled = RavenWidgets.SwitchRow(freeze.Enabled, "Freeze AI");
+				freeze.Enabled = RavenWidgets.SwitchRow(freeze.Enabled, RavenText.L("Freeze AI"));
 
 				if (freeze.Enabled && freeze.SuspendedCount > 0)
 					GUILayout.Label($"{freeze.SuspendedCount} bot(s) suspended.", RavenTheme.MutedLabel);
@@ -182,17 +182,17 @@ internal class BotsTab : IRavenTab
 			var friendly = FeatureFactory.GetFeature<FriendlyBots>();
 			if (friendly != null)
 			{
-				friendly.Enabled = RavenWidgets.SwitchRow(friendly.Enabled, "Friendly");
+				friendly.Enabled = RavenWidgets.SwitchRow(friendly.Enabled, RavenText.L("Friendly"));
 
 				if (friendly.Enabled && friendly.GroupCount > 0)
 					GUILayout.Label($"Allied with {friendly.GroupCount} group(s).", RavenTheme.MutedLabel);
 
-				GUILayout.Label("Bots already hunting you keep their target\nuntil they lose it.", RavenTheme.MutedLabel);
+				GUILayout.Label(RavenText.L("Bots already hunting you keep their target\nuntil they lose it."), RavenTheme.MutedLabel);
 				RavenWidgets.Spacer(8f);
 			}
 
-			RavenTabHelper.FeatureTrigger<GatherBots>("Teleport All To Me", "Gather");
-			RavenTabHelper.FeatureTrigger<KillAllBots>("Kill All", "Kill");
+			RavenTabHelper.FeatureTrigger<GatherBots>(RavenText.L("Teleport All To Me"), RavenText.L("Gather"));
+			RavenTabHelper.FeatureTrigger<KillAllBots>(RavenText.L("Kill All"), RavenText.L("Kill"));
 
 			var killed = FeatureFactory.GetFeature<KillAllBots>();
 			if (killed is { LastKilledCount: > 0 })
@@ -206,14 +206,14 @@ internal class BotsTab : IRavenTab
 
 	private void DrawLiveCard()
 	{
-		using (RavenMenu.Card("In Raid"))
+		using (RavenMenu.Card(RavenText.L("In Raid")))
 		{
 			var state = GameState.Current;
 			var player = state?.LocalPlayer;
 
 			if (state == null || !player.IsValid())
 			{
-				GUILayout.Label("Not in a raid.", RavenTheme.MutedLabel);
+				GUILayout.Label(RavenText.L("Not in a raid."), RavenTheme.MutedLabel);
 				return;
 			}
 
@@ -232,7 +232,7 @@ internal class BotsTab : IRavenTab
 
 			if (hostiles.Length == 0)
 			{
-				GUILayout.Label(needle.Length == 0 ? "Nobody else alive." : "No role matches.", RavenTheme.MutedLabel);
+				GUILayout.Label(needle.Length == 0 ? RavenText.L("Nobody else alive.") : RavenText.L("No role matches."), RavenTheme.MutedLabel);
 				return;
 			}
 

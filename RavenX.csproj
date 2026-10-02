@@ -242,6 +242,11 @@
     <Compile Include="src\Features\QuickThrow.cs" />
     <Compile Include="src\Features\WorldInteractiveObjects.cs" />
     <Compile Include="src\Properties\AssemblyInfo.cs" />
+    <Compile Include="src\Properties\Strings.de.Designer.cs">
+      <DependentUpon>Strings.de.resx</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
     <Compile Include="src\Properties\Strings.fr.Designer.cs">
       <DependentUpon>Strings.fr.resx</DependentUpon>
       <AutoGen>True</AutoGen>
@@ -263,6 +268,7 @@
       <DependentUpon>Strings.ja.resx</DependentUpon>
     </Compile>
     <Compile Include="src\Features\RavenUI.cs" />
+    <Compile Include="src\UI\Raven\RavenText.cs" />
     <Compile Include="src\UI\Raven\Tabs\RavenTabHelper.cs" />
     <Compile Include="src\UI\Raven\Tabs\VisualsTab.cs" />
     <Compile Include="src\UI\Raven\Tabs\AimbotTab.cs" />
@@ -292,6 +298,12 @@
     <PackageReference Include="Microsoft.Unity.Analyzers" Version="1.25.0" PrivateAssets="all" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="src\Properties\Strings.de.resx">
+      <LogicalName>RavenX.Properties.Strings.de.resources</LogicalName>
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Strings.de.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
     <EmbeddedResource Include="src\Properties\Strings.fr.resx">
       <LogicalName>RavenX.Properties.Strings.fr.resources</LogicalName>
       <Generator>ResXFileCodeGenerator</Generator>

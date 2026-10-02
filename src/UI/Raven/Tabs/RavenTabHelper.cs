@@ -35,8 +35,10 @@ internal static class RavenTabHelper
 		feature.Enabled = RavenWidgets.Checkbox(feature.Enabled, label);
 	}
 
-	public static void FeatureTrigger<T>(string label, string caption = "Run") where T : TriggerFeature
+	public static void FeatureTrigger<T>(string label, string? caption = null) where T : TriggerFeature
 	{
+		caption ??= RavenText.L("Run");
+
 		var feature = FeatureFactory.GetFeature<T>();
 
 		GUILayout.BeginHorizontal(GUILayout.Height(RavenTheme.RowHeight + 6f));
